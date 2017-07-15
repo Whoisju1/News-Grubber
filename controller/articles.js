@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Article = require('./../models/Article');
-// const bodyParser = require('body-parser');
 
+// route to display an individual article 
 router.get('/article/:id', (req, res) => {
     let id = req.params.id;
 
@@ -13,17 +13,17 @@ router.get('/article/:id', (req, res) => {
     });
 });
 
+// route to post comments
 router.post('/comment/:id', (req, res) => {
             let id = req.params.id;
-            // let comment = req.body.newComment;
-            console.log(req.body);
-            Article.findById(id, (err, doc) => {
-                if (err) return console.error('error', err);
-                // console.log('doc found: ', doc.title);
-                res.send(req.body);
-            });
-            // res.redirect(`/article/${id}`);
-        });
+            let comment = req.body.newComment;
 
+            Article.findById(id)
+            .then((article) => {
+                article.comment.push({body: comment});
+                article.save()
+                .then(res.redirect(`/article/${id}`));
+            });
+});
     
 module.exports = router;
