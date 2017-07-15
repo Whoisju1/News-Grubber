@@ -1,0 +1,17 @@
+<section class="article-container">
+
+    <article class="article-body">
+        <h1 class="article-title">
+            {{title}}
+        </h1>
+        <h2 class="sub-title">
+            {{subTitle}}
+        </h2>
+        {{{content}}}
+    </article>
+    <time>Date Published: {{datePublished}}</time> 
+    <form action="/comment/{{_id}}" method="POST">
+        <input placeholder="What are your thoughts?" name='newComment' id="newComment" required/>
+        <input type="submit" value="Post Comment" /> 
+    </form>
+</section>

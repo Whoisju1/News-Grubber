@@ -1,0 +1,1 @@
+alert('this is from the js file in the public folder.');

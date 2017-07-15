@@ -5,6 +5,7 @@ const cheerio = require('cheerio');
 const exphbs  = require('express-handlebars');
 const fs = require('fs');
 const logger = require('logger');
+const bodyParser = require('body-parser');
 
 // import article schema
 const Article = require('./models/Article');
@@ -17,7 +18,7 @@ app.use((req, res, next) => {
     let log = `${now} | ${req.method} : ${req.url}`;
     console.log(log);
     fs.appendFile('server.log', log + '\n', (err) => {
-        console.log('Unable to append to server.log');
+        // console.log('Unable to append to server.log');
     });
     next();
 });
@@ -33,6 +34,18 @@ var hbs = exphbs.create({
     partialsDir:'views/partials/'
     
 });
+
+// parse application/x-www-form-urlencoded 
+app.use(bodyParser.urlencoded({ extended: false }));
+ 
+// parse application/json 
+app.use(bodyParser.json());
+ 
+// app.use(function (req, res) {
+//   res.setHeader('Content-Type', 'text/plain');
+//   res.write('you posted:\n');
+//   res.end(JSON.stringify(req.body, null, 2));
+// });
 
 //connect to mongoose server
 mongoose.Promise = global.Promise;
@@ -112,7 +125,7 @@ request("https://www.cnet.com/news/", function (error, response, html) {
             }
 
             // turn array of strings into a single string and place a space after each one to differentiate paragraphs
-            let content = articleBodyArray.join("<br> <br>");
+            let content = articleBodyArray.join("<br>");
 
             // put put content from each page into an object
             let stuffToDisplay = {
