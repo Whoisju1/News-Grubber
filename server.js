@@ -6,12 +6,18 @@ const exphbs  = require('express-handlebars');
 const fs = require('fs');
 const logger = require('logger');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
+
+
 
 // import article schema
 const Article = require('./models/Article');
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Use method override
+app.use(methodOverride('_method'));
 
 app.use((req, res, next) => {
     let now = Date().toString();

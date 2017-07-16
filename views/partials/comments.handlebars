@@ -1,0 +1,19 @@
+  <div class="comment-display">
+        <h3>Comments</h3>
+        {{#each comment}}
+        {{@index}}
+        <div class="comment">
+            <div class="comment-body">
+                {{body}}
+            </div>
+            <div class="comment-date">
+                comment posted on <span>{{dateCreated}}</span>
+            </div>
+            <form action="/comment/{{_id}}?_method=DELETE" method="POST" class="dlt-form-btn">
+                <button class="delete-btn" type="submit">
+                  Delete Comment
+                </button>
+            </form>
+        </div>
+        {{/each}}
+    </div>
