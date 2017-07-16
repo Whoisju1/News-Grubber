@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const Article = require('./../models/Article');
 
+let articleId = {id:null};
 
 // route to display an individual article 
 router.get('/article/:id', (req, res) => {
     let id = req.params.id;
+    articleId.id = id;
 
     Article.find({_id:id}, (err, doc) => {
         if (err) return console.error('Something went wrong', err);
@@ -39,7 +41,8 @@ router.delete('/comment/:id', (req, res) => {
         // console.log(comment);
         comment.remove();
         art.save()
-        // .then(res.redirect(`/article/${id}`));
+        .then(res.redirect(`/article/${articleId.id}`));
+        console.log('***********************************\n******************************',articleId.id);
         
     });
 });

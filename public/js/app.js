@@ -1,1 +1,5 @@
-alert('this is from the js file in the public folder.');
+// let deleteBtn = $(".delete-btn");
+// deleteBtn.on("click", e => {
+//   sendContactForm();
+//   return false;
+// });

@@ -7,12 +7,19 @@
         <h2 class="sub-title">
             {{subTitle}}
         </h2>
+        <div class="article-info">
+            <p>{{author}}</p>
+            <time>{{datePublished}}</time>
+        </div>
         {{{content}}}
+
+        <a href="{{url}}" target="_blank">Go to the original article</a>
     </article>
-    <time>Date Published: {{datePublished}}</time>
-    <form action="/comment/{{_id}}" method="POST">
-        <input placeholder="What are your thoughts?" name='newComment' id="newComment" required/>
-        <input type="submit" value="Post Comment" />
+    <form action="/comment/{{_id}}" method="POST" class="comment-form">
+        <textarea placeholder="What are your thoughts?" cols="30" rows="10" name='newComment' class="comment-input" id="newComment" required/>
+       </textarea> <button type="submit" class="ui button">
+            Post Comment
+        </button>
     </form>
     {{> comments}}
 </section>

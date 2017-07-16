@@ -1,19 +1,21 @@
-  <div class="comment-display">
-        <h3>Comments</h3>
-        {{#each comment}}
-        {{@index}}
-        <div class="comment">
-            <div class="comment-body">
-                {{body}}
-            </div>
-            <div class="comment-date">
-                comment posted on <span>{{dateCreated}}</span>
-            </div>
-            <form action="/comment/{{_id}}?_method=DELETE" method="POST" class="dlt-form-btn">
-                <button class="delete-btn" type="submit">
-                  Delete Comment
-                </button>
-            </form>
+<div class="comment-display">
+    <h3 class="comment-header">Comments Section</h3>
+    {{#if comment}} {{#each comment}}
+    <div class="comment">
+        <div class="comment-body">
+            {{body}}
         </div>
-        {{/each}}
+        <form action="/comment/{{_id}}?_method=DELETE" method="POST" class="dlt-form-btn">
+            <button class="delete-btn ui button" type="submit">
+                Delete Comment <i class="fa fa-trash-o" aria-hidden="true"></i>
+            </button>
+        </form>
+        <div class="comment-date">
+            {{dateCreated}}
+        </div>
     </div>
+    {{/each}} {{else}}
+    <p>Post First Comment</p>
+    {{/if}}
+
+</div>
