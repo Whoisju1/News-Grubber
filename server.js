@@ -53,14 +53,22 @@ app.use(bodyParser.json());
 //   res.end(JSON.stringify(req.body, null, 2));
 // });
 
-//connect to mongoose server
+//connect to mongoose server --- PRODUCTION MODE
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost:27017/News-Grubber", {
+mongoose.connect("mongodb://heroku_kz3klbvm:136v7ks0jj93i39t9cbkllrger@ds157641.mlab.com:57641/heroku_kz3klbvm", {
     useMongoClient: true
 });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => console.log("Mongoose connected successfully"));
+
+//connect to mongoose server --- DEV MODE
+// mongoose.connect("mongodb://localhost:27017/News-Grubber", {
+//     useMongoClient: true
+// });
+// const db = mongoose.connection;
+// db.on("error", console.error.bind(console, "connection error:"));
+// db.once("open", () => console.log("Mongoose connected successfully"));
 
 // import routes 
 app.use(require('./controller'));
