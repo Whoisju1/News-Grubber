@@ -54,8 +54,16 @@ app.use(bodyParser.json());
 // });
 
 //connect to mongoose server --- PRODUCTION MODE
+// mongoose.Promise = global.Promise;
+// mongoose.connect("mongodb://heroku_kz3klbvm:136v7ks0jj93i39t9cbkllrger@ds157641.mlab.com:57641/heroku_kz3klbvm", {
+//     useMongoClient: true
+// });
+// const db = mongoose.connection;
+// db.on("error", console.error.bind(console, "connection error:"));
+// db.once("open", () => console.log("Mongoose connected successfully"));
+
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://heroku_kz3klbvm:136v7ks0jj93i39t9cbkllrger@ds157641.mlab.com:57641/heroku_kz3klbvm", {
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/News-Grubber", {
     useMongoClient: true
 });
 const db = mongoose.connection;
