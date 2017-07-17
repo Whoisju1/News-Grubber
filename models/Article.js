@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const mongooseUniqueValidator = require("mongoose-unique-validator");
 const Schema = mongoose.Schema;
-const commentSchema = require('./comment');
+const commentSchema = require('./Comment');
 
 const articleSchema = new Schema({
     title: {
