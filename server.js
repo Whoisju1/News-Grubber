@@ -42,9 +42,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/News-Grubber', {
-  useMongoClient: true,
-});
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/News-Grubber');
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => console.log('Mongoose connected successfully'));
