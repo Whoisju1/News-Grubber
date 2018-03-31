@@ -1,7 +1,3 @@
 {
-    "extends": "airbnb-base",
-    "rules": {
-        "linebreak-style": ["off"],
-        "consistent-return":"off"
-    }
+    "extends": "airbnb-base"
 }
