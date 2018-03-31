@@ -39,7 +39,7 @@ module.exports = new Promise((resolve, reject) => {
           const authorAndDate = { author, publicationDate };
 
           // if there is still call the addData function with remaining data
-          finalList.push({ ...first, authorAndDate });
+          finalList.push({ ...first, ...authorAndDate });
           if (remaining) addNewData(remaining);
         });
       };
