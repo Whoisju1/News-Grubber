@@ -39,7 +39,6 @@ app.set('view engine', 'handlebars');
 // register partials
 handleBars.create({
   partialsDir: 'views/partials/',
-
 });
 
 // parse application/x-www-form-urlencoded
