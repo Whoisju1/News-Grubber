@@ -9,11 +9,13 @@
   "author": "Juan John-Charles",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "cheerio": "^1.0.0-rc.2",
     "eslint-config-standard": "^11.0.0",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
+    "jsonwebtoken": "^8.2.0",
     "method-override": "^2.3.10",
     "moment": "^2.22.0",
     "mongoose": "^5.0.12",
