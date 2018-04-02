@@ -4,6 +4,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const handleBars = require('express-handlebars');
+// load environment variables
+require('dotenv').config();
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
