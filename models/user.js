@@ -20,6 +20,10 @@ const userSchema = new Schema({
   profileImageURL: {
     type: String,
   },
+  article: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Article',
+  },
 });
 
 userSchema.pre('save', async function (next) {
