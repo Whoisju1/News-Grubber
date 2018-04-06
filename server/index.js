@@ -14,6 +14,8 @@ const errorHandler = require('../handlers/error');
 const authRoutes = require('../routes/auth');
 const articleRoutes = require('../routes/articles');
 require('../models');
+const { loginRequired, ensureCorrectUser } = require('../middleware/auth');
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -56,7 +58,7 @@ app.use(bodyParser.json());
 
 // import routes
 app.use('/api/auth', authRoutes);
-app.use('/api/users/:id/articles', articleRoutes);
+app.use('/api/users/:id/articles', loginRequired, ensureCorrectUser, articleRoutes);
 
 // app.use(require('../controller'));
 app.use((req, res, next) => {
