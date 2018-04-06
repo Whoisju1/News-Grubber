@@ -12,6 +12,7 @@ require('dotenv').config();
 
 const errorHandler = require('../handlers/error');
 const authRoutes = require('../routes/auth');
+const articleRoutes = require('../routes/articles');
 require('../models');
 
 const app = express();
@@ -55,6 +56,7 @@ app.use(bodyParser.json());
 
 // import routes
 app.use('/api/auth', authRoutes);
+app.use('/api/users/:id/articles', articleRoutes);
 
 // app.use(require('../controller'));
 app.use((req, res, next) => {
