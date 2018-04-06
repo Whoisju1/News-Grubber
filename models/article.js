@@ -7,7 +7,6 @@ const articleSchema = new Schema({
   url: {
     type: String,
     required: true,
-    unique: true,
     trim: true,
   },
   title: {
@@ -35,10 +34,10 @@ const articleSchema = new Schema({
     time: String,
   },
   notes: [{ type: String }],
-  user: {
+  user: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-  },
+  }],
 });
 
 articleSchema.pre('remove', async function (next) { // eslint-disable-line consistent-return
