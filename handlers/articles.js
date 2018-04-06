@@ -28,6 +28,9 @@ exports.saveArticle = async (req, res, next) => {
       publicationDate,
     });
 
+    article.user.push(userID);
+    article.save();
+
     // find user and push push article id into it's reference
     const foundUser = await db.User.findById(userID);
     foundUser.articles.push(article._id);
@@ -42,7 +45,15 @@ exports.saveArticle = async (req, res, next) => {
     return next(error);
   }
 };
-exports.getArticle = async (req, res, next) => {}; // eslint-disable-line no-unused-vars
+exports.getArticles = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const articles = await db.Article.find({}).where({ user: id });
+    res.status(200).json(articles);
+  } catch (e) {
+    next(e);
+  }
+};
 exports.deleteArticle = async (req, res, next) => {}; // eslint-disable-line no-unused-vars
 exports.addNote = async (req, res, next) => {}; // eslint-disable-line no-unused-vars
 exports.deleteNote = async (req, res, next) => {}; // eslint-disable-line no-unused-vars
