@@ -28,7 +28,7 @@ exports.saveArticle = async (req, res, next) => {
       publicationDate,
     });
 
-    article.user.push(userID);
+    article.user = userID;
     article.save();
 
     // find user and push push article id into it's reference
