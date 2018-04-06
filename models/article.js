@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require('./user');
 
 const { Schema } = mongoose;
 
@@ -38,6 +39,16 @@ const articleSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
+});
+
+articleSchema.pre('remove', async function (next) { // eslint-disable-line consistent-return
+  try {
+    const user = await User.findById(this.user);
+    user.article.remove(this.id);
+    await user.save();
+  } catch (err) {
+    return next(err);
+  }
 });
 
 const Article = mongoose.model('Article', articleSchema);
