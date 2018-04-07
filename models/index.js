@@ -10,3 +10,4 @@ mongoose.connect(mongoURI, {
 
 module.exports.User = require('./user');
 module.exports.Article = require('./article');
+module.exports.Note = require('./note');

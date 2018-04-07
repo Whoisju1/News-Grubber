@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const User = require('./user');
+const noteSchema = require('./note');
 
 const { Schema } = mongoose;
 
@@ -33,7 +34,7 @@ const articleSchema = new Schema({
     date: String,
     time: String,
   },
-  notes: [{ type: String }],
+  notes: [noteSchema],
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
