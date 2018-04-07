@@ -49,11 +49,22 @@ exports.getArticles = async (req, res, next) => {
   try {
     const { id } = req.params;
     const articles = await db.Article.find({}).where({ user: id });
-    res.status(200).json(articles);
+    return res.status(200).json(articles);
   } catch (e) {
-    next(e);
+    return next(e);
   }
 };
-exports.deleteArticle = async (req, res, next) => {}; // eslint-disable-line no-unused-vars
+exports.deleteArticle = async (req, res, next) => {
+  try {
+    // get article id from the request body
+    const { id } = req.body;
+    // find the article and then remove it
+    const foundArticle = await db.Article.findById(id);
+    await foundArticle.remove();
+    return res.status(200).json('Article deleted');
+  } catch (e) {
+    return next(e);
+  }
+};
 exports.addNote = async (req, res, next) => {}; // eslint-disable-line no-unused-vars
 exports.deleteNote = async (req, res, next) => {}; // eslint-disable-line no-unused-vars

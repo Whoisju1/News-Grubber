@@ -43,7 +43,7 @@ const articleSchema = new Schema({
 articleSchema.pre('remove', async function (next) { // eslint-disable-line consistent-return
   try {
     const user = await User.findById(this.user);
-    user.article.remove(this.id);
+    user.articles.remove(this.id);
     await user.save();
   } catch (err) {
     return next(err);

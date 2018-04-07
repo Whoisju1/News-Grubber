@@ -2,10 +2,11 @@ const express = require('express');
 
 const router = express.Router({ mergeParams: true });
 
-const { saveArticle, getArticles } = require('../handlers/articles');
+const { saveArticle, getArticles, deleteArticle } = require('../handlers/articles');
 
 router.route('/')
   .post(saveArticle)
-  .get(getArticles);
+  .get(getArticles)
+  .delete(deleteArticle);
 
 module.exports = router;
