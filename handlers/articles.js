@@ -66,3 +66,12 @@ exports.deleteArticle = async (req, res, next) => {
     return next(e);
   }
 };
+
+exports.getOneArticle = async (req, res, next) => {
+  try {
+    const foundArticle = await db.Article.findById(req.body.id).where({ user: req.params.id });
+    return res.status(200).json(foundArticle);
+  } catch (e) {
+    return next(e);
+  }
+};
