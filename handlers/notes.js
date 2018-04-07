@@ -24,4 +24,20 @@ exports.deleteNote = async (req, res, next) => {
     return next(e);
   }
 };
-exports.editNote = async (req, res, next) => {}; // eslint-disable-line no-unused-vars
+exports.editNote = async (req, res, next) => {
+  try {
+    const { id: userID } = req.params;
+    const { articleID, noteID, noteBody } = req.body;
+    const foundArticle = await db.Article
+      .findById(articleID)
+      .where({ user: userID });
+    foundArticle.notes.id(noteID).set({ note: noteBody });
+
+    const updatedArticle = await foundArticle.save();
+
+    // foundArticle.notes.id(noteID) =
+    return res.status(200).json(updatedArticle);
+  } catch (e) {
+    return next(e);
+  }
+};
