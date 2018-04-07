@@ -10,9 +10,11 @@ const methodOverride = require('method-override');
 // load environment variables
 require('dotenv').config();
 
+// import routes
 const errorHandler = require('../handlers/error');
 const authRoutes = require('../routes/auth');
 const articleRoutes = require('../routes/articles');
+const noteRoutes = require('../routes/notes');
 require('../models');
 const { loginRequired, ensureCorrectUser } = require('../middleware/auth');
 
@@ -59,6 +61,7 @@ app.use(bodyParser.json());
 // import routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users/:id/articles', loginRequired, ensureCorrectUser, articleRoutes);
+app.use('/api/users/:id/notes', loginRequired, ensureCorrectUser, noteRoutes);
 
 // app.use(require('../controller'));
 app.use((req, res, next) => {
