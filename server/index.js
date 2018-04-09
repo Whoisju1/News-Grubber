@@ -4,6 +4,7 @@
 const express = require('express');
 const fs = require('fs');
 const bodyParser = require('body-parser');
+const exphbs = require('express-handlebars');
 
 // load environment variables
 require('dotenv').config();
@@ -13,12 +14,18 @@ const errorHandler = require('../handlers/error');
 const authRoutes = require('../routes/auth');
 const articleRoutes = require('../routes/articles');
 const noteRoutes = require('../routes/notes');
+const home = require('../routes/home');
 require('../models');
 const { loginRequired, ensureCorrectUser } = require('../middleware/auth');
 
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// set up handlebars
+const hbs = exphbs.create();
+app.engine('hbs', hbs.engine);
+app.set('view engine', 'hbs');
 
 app.use((req, res, next) => {
   const now = Date().toString();
@@ -37,6 +44,7 @@ app.use(bodyParser.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/users/:id/articles', loginRequired, ensureCorrectUser, articleRoutes);
 app.use('/api/users/:id/notes', loginRequired, ensureCorrectUser, noteRoutes);
+app.use(home);
 
 // make middleware to handle routes without handlers
 app.use((req, res, next) => {
