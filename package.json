@@ -15,12 +15,8 @@
     "dotenv": "^5.0.1",
     "eslint-config-standard": "^11.0.0",
     "express": "^4.16.3",
-    "express-handlebars": "^3.0.0",
     "jsonwebtoken": "^8.2.0",
-    "method-override": "^2.3.10",
-    "moment": "^2.22.0",
     "mongoose": "^5.0.12",
-    "mongoose-unique-validator": "^2.0.0",
     "request": "^2.85.0"
   },
   "devDependencies": {
