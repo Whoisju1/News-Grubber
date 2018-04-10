@@ -13,7 +13,7 @@
       </a>
       {{#if this.author.name}}
       <a href={{this.author.authorInfo}} class="article__author">
-        By <span>Author</span> {{this.author.name}}
+        By {{this.author.name}}
       </a>
       {{/if}}
       <div class="article__date">
@@ -25,7 +25,19 @@
         </span>
       </div>
     </div>
-    <button class="article__btn--save">Save</button>
+    <button
+      class="article__btn--save"
+      data-date="{{this.publicationDate.date}}"
+      data-time="{{this.publicationDate.time}}"
+      data-author-name="{{this.author.name}}"
+      data-author-info="{{this.author.authorInfo}}"
+      data-title="{{this.title}}"
+      data-subtitle="{{this.subTitle}}"
+      data-url="{{this.url}}"
+      data-image="{{this.image}}"
+    >
+      Save
+    </button>
   </div>
   {{/each}}
 </section>
