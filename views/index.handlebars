@@ -1,26 +1,4 @@
-<section class="article">
-  {{#each article}}
-    <div class="article__details">
-      <a class="article__detail--title" href={{this.url}}>
-        <img src={{this.image}} alt="Article Image" class="article__img">
-        <h2 class="article__title article__title--main">
-          {{this.title}}
-        </h2>
-        <h3 class="article__title article__title--sub">
-          {{this.subTitle}}
-        </h3>
-      </a>
-    <a href={{this.author.authorInfo}} class="article__author">
-      <span>Author</span> {{this.author.name}}
-    </a>
-    <div class="article__date">
-      <span class="article__date--date">
-        {{this.publicationDate.date}}
-      </div>
-      <span class="article__date--time">
-        {{this.publicationDate.time}}
-      </span>
-    </div>
-    </div>
-  {{/each}}
-</section>
+{{> header}}
+{{> articles}}
+{{> saved}}
+{{> footer}}

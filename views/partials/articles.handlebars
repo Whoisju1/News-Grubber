@@ -1,0 +1,31 @@
+<section class="article-list">
+  {{#each article}}
+  <div class="article">
+    <img src={{this.image}} alt="Article Image" class="article__img">
+    <div class="article__detail">
+      <a class="article__detail--title" href={{this.url}}>
+        <h2 class="article__title article__title--main">
+          {{this.title}}
+        </h2>
+        <h3 class="article__title article__title--sub">
+          {{this.subTitle}}
+        </h3>
+      </a>
+      {{#if this.author.name}}
+      <a href={{this.author.authorInfo}} class="article__author">
+        By <span>Author</span> {{this.author.name}}
+      </a>
+      {{/if}}
+      <div class="article__date">
+        <span class="article__date--date">
+          {{this.publicationDate.date}}
+        </span>
+        <span class="article__date--time">
+          {{this.publicationDate.time}}
+        </span>
+      </div>
+    </div>
+    <button class="article__btn--save">Save</button>
+  </div>
+  {{/each}}
+</section>
