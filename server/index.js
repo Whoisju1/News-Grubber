@@ -22,10 +22,11 @@ const { loginRequired, ensureCorrectUser } = require('../middleware/auth');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// set up handlebars
-const hbs = exphbs.create();
-app.engine('hbs', hbs.engine);
-app.set('view engine', 'hbs');
+app.use(express.static(`${__dirname}/../public`));
+
+// set view engine
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+app.set('view engine', 'handlebars');
 
 app.use((req, res, next) => {
   const now = Date().toString();
