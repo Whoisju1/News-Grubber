@@ -67,19 +67,28 @@ body {
 }
 
 /* LOGIN FORM */
-.login__backdrop {
+.login__backdrop,
+.signup__backdrop {
   background-color: rgba(0, 0, 0, .4);
   width: 100vw;
   height: 100vh;
   position: fixed;
   top: 0;
   right: 0;
-  display: none;
   justify-content: center;
   align-items: center;
 }
 
-.login__form {
+.login__backdrop {
+  display: none;
+}
+
+.signup__backdrop {
+  display: flex;
+}
+
+.login__form,
+.signup__form {
   background: white;
   display: grid;
   justify-content: center;
