@@ -1,4 +1,5 @@
 const saveButtons = Array.from(document.querySelectorAll('.article__btn--save')); // eslint-disable-line no-undef
+const loginForm = document.querySelector('.login__form');
 
 // create function for logging in
 const login = async ({ username, password }) => {
@@ -104,3 +105,15 @@ saveButtons.forEach((btn) => {
   };
 });
 
+// login
+loginForm.onsubmit = async function (event) {
+  event.preventDefault();
+  const formData = new FormData(this); // eslint-disable-line no-undef
+  const username = formData.get('username');
+  const password = formData.get('password');
+  const userData = await login({
+    username,
+    password,
+  });
+  return userData;
+};
