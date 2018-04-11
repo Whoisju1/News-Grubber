@@ -1,6 +1,7 @@
 const saveButtons = Array.from(document.querySelectorAll('.article__btn--save')); // eslint-disable-line no-undef
 const loginForm = document.querySelector('.login__form');
 const signUpForm = document.querySelector('.signup__form');
+const hideFormBtn = document.querySelector('.close-form');
 
 // create function for logging in
 const login = async ({ username, password }) => {
@@ -130,4 +131,9 @@ signUpForm.onsubmit = async function (event) {
     password,
   });
   return userData;
+};
+
+// hide form
+hideFormBtn.onclick = function (e) {
+  e.preventDefault();
 };
