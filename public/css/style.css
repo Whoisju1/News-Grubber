@@ -65,3 +65,26 @@ body {
 .saved-articles {
   border: .5px solid gray;
 }
+
+/* LOGIN FORM */
+.login__backdrop {
+  background-color: rgba(0, 0, 0, .4);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.login__form {
+  background: white;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  height: 200px;
+  min-width: 30%;
+  grid-gap: 10px;
+}
