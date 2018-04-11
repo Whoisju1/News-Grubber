@@ -5,7 +5,7 @@ const signUpForm = document.querySelector('.signup__form');
 // create function for logging in
 const login = async ({ username, password }) => {
   try {
-    const userInfo = await axios({ // eslint-disable-line no-undef
+    const { data: userInfo } = await axios({ // eslint-disable-line no-undef
       url: '/api/auth/signin',
       data: {
         username,
@@ -29,7 +29,7 @@ const login = async ({ username, password }) => {
 // create function for singing up
 const signUp = async ({ username, password }) => {
   try {
-    const userInfo = await axios({ // eslint-disable-line no-undef
+    const { data: userInfo } = await axios({ // eslint-disable-line no-undef
       url: '/api/auth/signup',
       data: {
         username,
@@ -38,7 +38,7 @@ const signUp = async ({ username, password }) => {
       method: 'post',
     });
 
-    const { token, id } = userInfo.data;
+    const { token, id } = userInfo;
 
     // store token and user id in local storage
     localStorage.setItem('token', token); // eslint-disable-line no-undef
@@ -59,7 +59,7 @@ const signOut = () => {
 const storeData = async ({ url, data }) => { // eslint-disable-line no-shadow
   try {
     const token = localStorage.getItem('token'); // eslint-disable-line no-undef
-    const response = await axios({ // eslint-disable-line no-undef
+    const { data: response } = await axios({ // eslint-disable-line no-undef
       url,
       method: 'post',
       headers: { Authorization: `Bearer ${token}` },
