@@ -1,7 +1,7 @@
 const saveButtons = Array.from(document.querySelectorAll('.article__btn--save')); // eslint-disable-line no-undef
-const loginForm = document.querySelector('.login__form');
-const signUpForm = document.querySelector('.signup__form');
-const hideFormBtn = document.querySelector('.close-form');
+const loginForm = document.querySelector('.login__form'); // eslint-disable-line no-undef
+const signUpForm = document.querySelector('.signup__form'); // eslint-disable-line no-undef
+const hideFormBtn = document.querySelector('.close-form'); // eslint-disable-line no-undef
 
 // create function for logging in
 const login = async ({ username, password }) => {
@@ -136,4 +136,8 @@ signUpForm.onsubmit = async function (event) {
 // hide form
 hideFormBtn.onclick = function (e) {
   e.preventDefault();
+  const backdrop = this.parentNode.parentNode;
+  // hide backdrop by switching classes
+  backdrop.classList.remove('show-form');
+  backdrop.classList.add('hide-form');
 };
