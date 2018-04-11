@@ -48,16 +48,15 @@ const signUp = async ({ username, password }) => {
 };
 
 const signOut = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('id');
+  localStorage.removeItem('token'); // eslint-disable-line no-undef
+  localStorage.removeItem('id'); // eslint-disable-line no-undef
 };
 
-const token = localStorage.getItem('token'); // eslint-disable-line no-undef
-const id = localStorage.getItem('id'); // eslint-disable-line no-undef
 
 // create function for storing data
-const storeData = async ({ url, data, token }) => { // eslint-disable-line no-shadow
+const storeData = async ({ url, data }) => { // eslint-disable-line no-shadow
   try {
+    const token = localStorage.getItem('token'); // eslint-disable-line no-undef
     const response = await axios({ // eslint-disable-line no-undef
       url,
       method: 'post',
@@ -72,6 +71,8 @@ const storeData = async ({ url, data, token }) => { // eslint-disable-line no-sh
 };
 
 saveButtons.forEach((btn) => {
+  const token = localStorage.getItem('token'); // eslint-disable-line no-undef
+  const id = localStorage.getItem('id'); // eslint-disable-line no-undef
   btn.onclick = async function () { // eslint-disable-line no-param-reassign
     const getAttrValue = dataName => this.attributes.getNamedItem(`data-${dataName}`).nodeValue;
     // get values from the DOM
