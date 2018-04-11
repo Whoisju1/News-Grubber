@@ -1,7 +1,16 @@
 const saveButtons = Array.from(document.querySelectorAll('.article__btn--save')); // eslint-disable-line no-undef
 const loginForm = document.querySelector('.login__form'); // eslint-disable-line no-undef
 const signUpForm = document.querySelector('.signup__form'); // eslint-disable-line no-undef
-const hideFormBtn = document.querySelector('.close-form'); // eslint-disable-line no-undef
+const hideFormButtons = Array.from(document.querySelectorAll('.close-form')); // eslint-disable-line no-undef
+
+const showBackdrop = (elem) => {
+  elem.parentElement.classList.add('show-form');
+  elem.parentElement.classList.remove('hide-form');
+};
+
+// make functions that hide forms
+const showLoginForm = () => showBackdrop(loginForm);
+const showSignUpForm = () => showBackdrop(signUpForm);
 
 // create function for logging in
 const login = async ({ username, password }) => {
@@ -134,10 +143,13 @@ signUpForm.onsubmit = async function (event) {
 };
 
 // hide form
-hideFormBtn.onclick = function (e) {
-  e.preventDefault();
-  const backdrop = this.parentNode.parentNode;
-  // hide backdrop by switching classes
-  backdrop.classList.remove('show-form');
-  backdrop.classList.add('hide-form');
-};
+hideFormButtons.forEach((btn) => {
+  btn.onclick = function (e) {
+    e.preventDefault();
+    const backdrop = this.parentNode.parentNode;
+    // hide backdrop by switching classes
+    backdrop.classList.remove('show-form');
+    backdrop.classList.add('hide-form');
+  };
+});
+
