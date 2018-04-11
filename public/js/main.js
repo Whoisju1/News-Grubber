@@ -20,7 +20,6 @@ const login = async ({ username, password }) => {
 
     return userInfo;
   } catch (e) {
-    console.dir(e);
     return e.message;
   }
 };
@@ -46,6 +45,11 @@ const signUp = async ({ username, password }) => {
   } catch (e) {
     return e;
   }
+};
+
+const signOut = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('id');
 };
 
 const token = localStorage.getItem('token'); // eslint-disable-line no-undef
