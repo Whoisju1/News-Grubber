@@ -77,13 +77,6 @@ body {
   right: 0;
   justify-content: center;
   align-items: center;
-}
-
-.login__backdrop {
-  display: none;
-}
-
-.signup__backdrop {
   display: flex;
 }
 
@@ -98,15 +91,23 @@ body {
   position: relative;
 }
 
-/* Form = close button */
+/* Form - close icon */
 .close-form {
   position: absolute;
   top: 3%;
   right: 3%;
   cursor: pointer;
-  transform: all .5s ease;
+  transition: all .5s ease;
 }
 
 .close-form:hover {
   transform: scale(1.2);
+}
+
+.show-form {
+  display: flex;
+}
+
+.hide-form {
+  display: none;
 }
