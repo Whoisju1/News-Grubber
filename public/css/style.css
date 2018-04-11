@@ -104,4 +104,9 @@ body {
   top: 3%;
   right: 3%;
   cursor: pointer;
+  transform: all .5s ease;
+}
+
+.close-form:hover {
+  transform: scale(1.2);
 }
