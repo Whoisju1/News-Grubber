@@ -3,6 +3,9 @@ const loginForm = document.querySelector('.login__form'); // eslint-disable-line
 const signUpForm = document.querySelector('.signup__form'); // eslint-disable-line no-undef
 const hideFormButtons = Array.from(document.querySelectorAll('.close-form')); // eslint-disable-line no-undef
 
+// create function to check if user's signed in
+const isSignedIn = () => !!localStorage.getItem('token'); // eslint-disable-line no-undef
+
 // create class that that operates the alert modal
 class AlertModal {
   constructor() {
@@ -41,10 +44,11 @@ class AlertModal {
 
 // create error alert for error messages using AlertModal class
 const handleFetchError = (ErrClass => (err) => {
-  const { message } = err.response.data.error;
   const fetchErr = new ErrClass();
+  if (err.message === 'Network Error') return fetchErr.open({ message: 'Network Error! Please check your Internet connection' });
+  if (!err.response) return fetchErr.open({ message: 'Oops! Something went wrong. :(' });
+  const { message } = err.response.data.error;
   if (err.response.data) fetchErr.open({ message });
-  else return fetchErr.open({ message: 'Oops! Something went wrong. :(' });
 })(AlertModal);
 
 const showBackdrop = (elem) => {
@@ -55,6 +59,8 @@ const showBackdrop = (elem) => {
 // make functions that hide forms
 const showLoginForm = () => showBackdrop(loginForm);
 const showSignUpForm = () => showBackdrop(signUpForm);
+
+showLoginForm();
 
 // create function for logging in
 const login = async ({ username, password }) => {
@@ -68,7 +74,7 @@ const login = async ({ username, password }) => {
       method: 'post',
     });
 
-    const { token, id } = userInfo.data;
+    const { token, id } = userInfo;
 
     // store token and user id in local storage
     localStorage.setItem('token', token); // eslint-disable-line no-undef
