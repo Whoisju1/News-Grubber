@@ -39,6 +39,14 @@ class AlertModal {
   }
 }
 
+// create error alert for error messages using AlertModal class
+const handleFetchError = (ErrClass => (err) => {
+  const { message } = err.response.data.error;
+  const fetchErr = new ErrClass();
+  if (err.response.data) fetchErr.open({ message });
+  else return fetchErr.open({ message: 'Oops! Something went wrong. :(' });
+})(AlertModal);
+
 const showBackdrop = (elem) => {
   elem.parentElement.classList.add('show-form');
   elem.parentElement.classList.remove('hide-form');
@@ -68,7 +76,7 @@ const login = async ({ username, password }) => {
 
     return userInfo;
   } catch (e) {
-    return e.message;
+    return handleFetchError(e);
   }
 };
 
@@ -91,7 +99,7 @@ const signUp = async ({ username, password }) => {
     localStorage.setItem('id', id); // eslint-disable-line no-undef
     return userInfo;
   } catch (e) {
-    return e;
+    return handleFetchError(e);
   }
 };
 
@@ -114,10 +122,7 @@ const storeData = async ({ url, data }) => { // eslint-disable-line no-shadow
 
     return response;
   } catch (e) {
-    const { message } = e.response.data.error;
-    const storeErr = new AlertModal();
-    if (e.response.status === 401) storeErr.open({ message });
-    else return storeErr.open({ message: 'Oops! Something went wrong. :(' });
+    return handleFetchError(e);
   }
 };
 
