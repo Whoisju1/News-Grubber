@@ -3,6 +3,8 @@
     "parser": "babel-eslint",
     "rules": {
         "linebreak-style": "off",
-        "func-names": "off"
+        "func-names": "off",
+        "no-underscore-dangle": "off",
+        "no-param-reassign": "off"
     }
 }
