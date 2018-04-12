@@ -32,6 +32,27 @@ body {
   font-size: 2rem;
 }
 
+.header__auth {
+  grid-column: 10/span 2;
+  display: grid;
+  grid-auto-flow: column;
+  text-transform: uppercase;
+  font-weight: 400;
+  align-items: center;
+  grid-gap: 3px;
+}
+
+.header__auth--signin,
+.header__auth--signup
+ {
+  display: grid;
+  justify-content: space-around;
+  align-items: center;
+  height: 55%;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
 .article-list {
   border: .5px solid gray;
   display: grid;
