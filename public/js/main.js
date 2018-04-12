@@ -3,6 +3,42 @@ const loginForm = document.querySelector('.login__form'); // eslint-disable-line
 const signUpForm = document.querySelector('.signup__form'); // eslint-disable-line no-undef
 const hideFormButtons = Array.from(document.querySelectorAll('.close-form')); // eslint-disable-line no-undef
 
+// create class that that operates the alert modal
+class AlertModal {
+  constructor() {
+    this._modal = document.querySelector('.alert'); // eslint-disable-line no-undef
+
+    // create font-awesome icon
+    this.closeBtn = document.createElement('i'); // eslint-disable-line no-undef
+    this.closeBtn.classList.add('fa');
+    this.closeBtn.classList.add('fa-window-close-o');
+    this.closeBtn.classList.add('alert__btn--close');
+    this.closeBtn.setAttribute('aria-hidden', 'true');
+    this.open = this.open.bind(this);
+    this.close = this.close.bind(this);
+  }
+  // create method for opening modal
+  open({ message, alertContentArea = document.createElement('div') }) { // eslint-disable-line no-undef
+    if (!message) throw new Error('Please supply a message to the open method');
+    // if the backdrop element has a child element, remove it
+    if (this._modal.firstChild) this._modal.removeChild(this._modal.firstChild);
+    this.closeBtn.onclick = this.close;
+    const messageText = document.createTextNode(message); // eslint-disable-line no-undef
+    alertContentArea.classList.add('alert__content');
+    alertContentArea.appendChild(this.closeBtn);
+    alertContentArea.appendChild(messageText);
+    this._modal.appendChild(alertContentArea);
+    this._modal.classList.remove('alert-close');
+    this._modal.classList.add('alert-open');
+  }
+  // create method for closing modal
+  close() {
+    this._modal.classList.remove('alert-open');
+    this._modal.classList.add('alert-close');
+    this._modal.removeChild(this._modal.firstChild);
+  }
+}
+
 const showBackdrop = (elem) => {
   elem.parentElement.classList.add('show-form');
   elem.parentElement.classList.remove('hide-form');
@@ -78,7 +114,10 @@ const storeData = async ({ url, data }) => { // eslint-disable-line no-shadow
 
     return response;
   } catch (e) {
-    return e;
+    const { message } = e.response.data.error;
+    const storeErr = new AlertModal();
+    if (e.response.status === 401) storeErr.open({ message });
+    else return storeErr.open({ message: 'Oops! Something went wrong. :(' });
   }
 };
 
