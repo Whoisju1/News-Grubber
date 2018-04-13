@@ -5,15 +5,6 @@ const hideFormButtons = Array.from(document.querySelectorAll('.close-form')); //
 const signInBtn = document.querySelector('.header__auth--signin'); // eslint-disable-line no-undef
 const signUpBtn = document.querySelector('.header__auth--signup'); // eslint-disable-line no-undef
 
-
-// create function to check if user's signed in
-const checkForUser = () => !!localStorage.getItem('token'); // eslint-disable-line no-undef
-
-const loginState = {
-  state: !!localStorage.getItem('token'), // eslint-disable-line no-undef
-
-};
-
 // create class that that operates the alert modal
 class AlertModal {
   constructor() {
@@ -181,6 +172,7 @@ saveButtons.forEach((btn) => {
       token,
       data,
     });
+    return newData;
   };
 });
 
