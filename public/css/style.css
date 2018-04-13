@@ -25,7 +25,7 @@ body {
   justify-content: center;
   align-items: center;
   padding: 1%;
-  transform: translateX(33px);
+  /* transform: translateX(33px); */
   text-align: center;
   background: #e74c3c;
   color: #ffffff;
@@ -45,12 +45,37 @@ body {
 .header__auth--signin,
 .header__auth--signup
  {
-  display: grid;
+  display: grid;  
   justify-content: space-around;
   align-items: center;
   height: 55%;
   text-transform: uppercase;
   cursor: pointer;
+}
+
+.header__nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column: 4/10;
+  align-items: center;  
+  grid-gap: 10px; 
+  font-weight: bold;
+}
+
+.nav__link {
+  justify-content: center;
+  display: grid;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #443f3f;
+}
+
+.nav__link--saved-articles {
+  grid-column: 2/3;
+}
+
+.nav__link--about {
+  grid-column: 3/4;
 }
 
 .article-list {
