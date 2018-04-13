@@ -62,7 +62,7 @@ class Auth {
   }
 
   // login user
-  async signIn({ username, password }) {
+  async signIn({ username, password }, callback) {
     if (this.everythingAuth) return;
     try {
       const { data: userInfo } = await axios({ // eslint-disable-line no-undef
@@ -79,7 +79,7 @@ class Auth {
       // store token and user id in local storage
       localStorage.setItem('token', token); // eslint-disable-line no-undef
       localStorage.setItem('id', id); // eslint-disable-line no-undef
-
+      callback();
       return userInfo;
     } catch (e) {
       return handleFetchError(e);
@@ -87,7 +87,7 @@ class Auth {
   }
 
   // sign sign up user
-  async signUp({ username, password }) {
+  async signUp({ username, password }, callback) {
     if (this.everythingAuth) return;
     try {
       const { data: userInfo } = await axios({ // eslint-disable-line no-undef
@@ -100,7 +100,7 @@ class Auth {
       });
 
       const { token, id } = userInfo;
-
+      callback();
       // store token and user id in local storage
       localStorage.setItem('token', token); // eslint-disable-line no-undef
       localStorage.setItem('id', id); // eslint-disable-line no-undef
@@ -179,38 +179,45 @@ saveButtons.forEach((btn) => {
 // login
 loginForm.onsubmit = async function (event) {
   event.preventDefault();
-  const formData = new FormData(this); // eslint-disable-line no-undef
+  const form = this;
+  const formData = new FormData(form); // eslint-disable-line no-undef
   const username = formData.get('username');
   const password = formData.get('password');
   const userData = await auth.signIn({
     username,
     password,
+  }, () => {
+    const backdrop = form.parentNode;
+    backdrop.classList.remove('show-form');
+    backdrop.classList.add('hide-form');
+    // empty form
+    form[1].value = '';
+    form['0'].value = '';
   });
-  // empty form
-  this[1].value = '';
-  this['0'].value = '';
   // hide form
-  const backdrop = this.parentNode;
-  backdrop.classList.remove('show-form');
-  backdrop.classList.add('hide-form');
   return userData;
 };
 
 // sign up
 signUpForm.onsubmit = async function (event) {
   event.preventDefault();
-  const formData = new FormData(this); // eslint-disable-line no-undef
+  const form = this;
+  const formData = new FormData(form); // eslint-disable-line no-undef
   const username = formData.get('username');
   const password = formData.get('password');
   const userData = await auth.signUp({
     username,
     password,
+  }, () => {
+    const backdrop = form.parentNode;
+    backdrop.classList.remove('show-form');
+    backdrop.classList.add('hide-form');
+    // empty form
+    form[1].value = '';
+    form['0'].value = '';
   });
-  // empty form
-  this[1].value = '';
-  this['0'].value = '';
   // hide form
-  const backdrop = this.parentNode;
+  const backdrop = form.parentNode;
   backdrop.classList.remove('show-form');
   backdrop.classList.add('hide-form');
   return userData;
@@ -220,7 +227,8 @@ signUpForm.onsubmit = async function (event) {
 hideFormButtons.forEach((btn) => {
   btn.onclick = function (e) {
     e.preventDefault();
-    const backdrop = this.parentNode.parentNode;
+    const thisBtn = this;
+    const backdrop = thisBtn.parentNode.parentNode;
     // hide backdrop by switching classes
     backdrop.classList.remove('show-form');
     backdrop.classList.add('hide-form');
