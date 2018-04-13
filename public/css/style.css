@@ -140,7 +140,6 @@ body {
 .article__title--main {
   text-transform: uppercase;
   font-weight: 600;
-  color: #e74c3c;
 }
 
 .article__title--sub {
@@ -251,6 +250,8 @@ body {
   align-items: center;
   align-content: center;
   position: relative;
+  border: 2px solid #e74c3c;
+  font-weight: bold;
 }
 
 .alert__btn--close {
@@ -259,7 +260,7 @@ body {
   right: 1.5%;
   cursor: pointer;
   transition: all .2s ease;
-  color: #473333;
+  color: #e74c3c;
 }
 
 .alert__btn--close:hover {
