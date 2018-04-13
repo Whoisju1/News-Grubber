@@ -67,6 +67,7 @@ body {
   display: grid;
   text-transform: uppercase;
   text-decoration: none;
+  text-shadow: 2px 3px 14px rgba(0, 0, 0, .3);
   color: #443f3f;
 }
 
@@ -94,9 +95,9 @@ body {
   grid-column: 2/12;
   display: grid;
   grid-gap: 10px;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(10, 1fr);
   grid-template-rows: 1fr min-content;
-  padding: 2%;
+  padding: 2% 0;
 }
 
 .saved-articles {
