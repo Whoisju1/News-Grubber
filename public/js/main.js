@@ -9,6 +9,11 @@ const signUpBtn = document.querySelector('.header__auth--signup'); // eslint-dis
 // create function to check if user's signed in
 const checkForUser = () => !!localStorage.getItem('token'); // eslint-disable-line no-undef
 
+const loginState = {
+  state: !!localStorage.getItem('token'), // eslint-disable-line no-undef
+
+};
+
 // create class that that operates the alert modal
 class AlertModal {
   constructor() {
@@ -59,62 +64,74 @@ const showBackdrop = (elem) => {
   elem.parentElement.classList.remove('hide-form');
 };
 
+class Auth {
+  constructor() {
+    this.loginState = !!localStorage.getItem('token'); // eslint-disable-line no-undef
+    this.authElement = document.querySelector('.header__auth'); // eslint-disable-line no-undef
+  }
+
+  // login user
+  async signIn({ username, password }) {
+    if (this.everythingAuth) return;
+    try {
+      const { data: userInfo } = await axios({ // eslint-disable-line no-undef
+        url: '/api/auth/signin',
+        data: {
+          username,
+          password,
+        },
+        method: 'post',
+      });
+
+      const { token, id } = userInfo;
+
+      // store token and user id in local storage
+      localStorage.setItem('token', token); // eslint-disable-line no-undef
+      localStorage.setItem('id', id); // eslint-disable-line no-undef
+
+      return userInfo;
+    } catch (e) {
+      return handleFetchError(e);
+    }
+  }
+
+  // sign sign up user
+  async signUp({ username, password }) {
+    if (this.everythingAuth) return;
+    try {
+      const { data: userInfo } = await axios({ // eslint-disable-line no-undef
+        url: '/api/auth/signup',
+        data: {
+          username,
+          password,
+        },
+        method: 'post',
+      });
+
+      const { token, id } = userInfo;
+
+      // store token and user id in local storage
+      localStorage.setItem('token', token); // eslint-disable-line no-undef
+      localStorage.setItem('id', id); // eslint-disable-line no-undef
+      return userInfo;
+    } catch (e) {
+      return handleFetchError(e);
+    }
+  }
+
+  // sign out user
+  signOut() {
+    if (!this.everythingAuth) return;
+    localStorage.removeItem('token'); // eslint-disable-line no-undef
+    localStorage.removeItem('id'); // eslint-disable-line no-undef
+  }
+}
+
+const auth = new Auth();
+
 // make functions that hide forms
 const showLoginForm = () => showBackdrop(loginForm);
 const showSignUpForm = () => showBackdrop(signUpForm);
-
-// create function for logging in
-const login = async ({ username, password }) => {
-  try {
-    const { data: userInfo } = await axios({ // eslint-disable-line no-undef
-      url: '/api/auth/signin',
-      data: {
-        username,
-        password,
-      },
-      method: 'post',
-    });
-
-    const { token, id } = userInfo;
-
-    // store token and user id in local storage
-    localStorage.setItem('token', token); // eslint-disable-line no-undef
-    localStorage.setItem('id', id); // eslint-disable-line no-undef
-
-    return userInfo;
-  } catch (e) {
-    return handleFetchError(e);
-  }
-};
-
-// create function for singing up
-const signUp = async ({ username, password }) => {
-  try {
-    const { data: userInfo } = await axios({ // eslint-disable-line no-undef
-      url: '/api/auth/signup',
-      data: {
-        username,
-        password,
-      },
-      method: 'post',
-    });
-
-    const { token, id } = userInfo;
-
-    // store token and user id in local storage
-    localStorage.setItem('token', token); // eslint-disable-line no-undef
-    localStorage.setItem('id', id); // eslint-disable-line no-undef
-    return userInfo;
-  } catch (e) {
-    return handleFetchError(e);
-  }
-};
-
-const signOut = () => {
-  localStorage.removeItem('token'); // eslint-disable-line no-undef
-  localStorage.removeItem('id'); // eslint-disable-line no-undef
-};
-
 
 // create function for storing data
 const storeData = async ({ url, data }) => { // eslint-disable-line no-shadow
@@ -173,10 +190,13 @@ loginForm.onsubmit = async function (event) {
   const formData = new FormData(this); // eslint-disable-line no-undef
   const username = formData.get('username');
   const password = formData.get('password');
-  const userData = await login({
+  const userData = await auth.signIn({
     username,
     password,
   });
+  // empty form
+  this[1].value = '';
+  this['0'].value = '';
   // hide form
   const backdrop = this.parentNode;
   backdrop.classList.remove('show-form');
@@ -190,10 +210,13 @@ signUpForm.onsubmit = async function (event) {
   const formData = new FormData(this); // eslint-disable-line no-undef
   const username = formData.get('username');
   const password = formData.get('password');
-  const userData = await signUp({
+  const userData = await auth.signUp({
     username,
     password,
   });
+  // empty form
+  this[1].value = '';
+  this['0'].value = '';
   // hide form
   const backdrop = this.parentNode;
   backdrop.classList.remove('show-form');
