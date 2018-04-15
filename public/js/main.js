@@ -4,6 +4,32 @@ const signUpForm = document.querySelector('.signup__form'); // eslint-disable-li
 const hideFormButtons = Array.from(document.querySelectorAll('.close-form')); // eslint-disable-line no-undef
 const signInBtn = document.querySelector('.header__auth--signin'); // eslint-disable-line no-undef
 const signUpBtn = document.querySelector('.header__auth--signup'); // eslint-disable-line no-undef
+const links = Array.from(document.querySelectorAll('a[data-location]')); // eslint-disable-line no-undef
+
+// get target elements
+const contentContainers = Array.from(document.querySelectorAll('.content-container')); // eslint-disable-line
+
+links.forEach((link) => {
+  link.onclick = (e) => {
+    e.preventDefault();
+    // get the has from the clicked anchor tag
+    const hash = e.target.getAttribute('data-location');
+
+    // set the hash from the anchor tag to the url
+    window.history.pushState({}, '', hash); // eslint-disable-line
+
+    // if it is displayed make it invisible
+    contentContainers.forEach((contentContainer) => {
+      const id = hash.substring(1); // eslint-disable-line no-unused-vars
+      if (contentContainer.getAttribute('id') !== id) {
+        contentContainer.style.display = 'none';
+      } else {
+        contentContainer.style.display = 'grid';
+      }
+    });
+    return false;
+  };
+});
 
 // create class that that operates the alert modal
 class AlertModal {
