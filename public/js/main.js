@@ -7,7 +7,9 @@ const signUpBtn = document.querySelector('.header__auth--signup'); // eslint-dis
 const links = Array.from(document.querySelectorAll('a[data-location]')); // eslint-disable-line no-undef
 
 // get target elements
-const contentContainers = Array.from(document.querySelectorAll('.content-container')); // eslint-disable-line
+const contentContainers = Array.from(document.querySelectorAll('.content-container')); // eslint-disable-line no-undef
+
+if (!window.location.hash) document.querySelector('#home').style.display = 'grid'; // eslint-disable-line no-undef
 
 links.forEach((link) => {
   link.onclick = (e) => {
