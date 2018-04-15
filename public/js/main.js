@@ -9,6 +9,11 @@ const links = Array.from(document.querySelectorAll('a[data-location]')); // esli
 // get target elements
 const contentContainers = Array.from(document.querySelectorAll('.content-container')); // eslint-disable-line no-undef
 
+contentContainers.forEach((section) => {
+  if (window.location.hash.substr(1) === section.getAttribute('id')) section.style.display = 'grid';
+});
+
+// make sure home page is loaded at the root
 if (!window.location.hash) document.querySelector('#home').style.display = 'grid'; // eslint-disable-line no-undef
 
 links.forEach((link) => {

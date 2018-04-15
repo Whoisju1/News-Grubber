@@ -102,12 +102,6 @@ body {
   padding: 2% 0;
 }
 
-#home {
-  display: none;
-}
-#home:target {
-  display: grid;
-}
 
 .article {
   display: grid;
