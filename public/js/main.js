@@ -9,8 +9,9 @@ const links = Array.from(document.querySelectorAll('a[data-location]')); // esli
 // get target elements
 const contentContainers = Array.from(document.querySelectorAll('.content-container')); // eslint-disable-line no-undef
 
+// load the page that the hash matches on startup
 contentContainers.forEach((section) => {
-  if (window.location.hash.substr(1) === section.getAttribute('id')) section.style.display = 'grid';
+  if (window.location.hash.substr(1) === section.getAttribute('id')) section.style.display = 'grid'; // eslint-disable-line no-undef
 });
 
 // make sure home page is loaded at the root
