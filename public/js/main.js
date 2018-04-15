@@ -110,6 +110,10 @@ class Auth {
 
       const { token, id } = userInfo;
 
+      // clear out old items
+      localStorage.removeItem('token'); // eslint-disable-line no-undef
+      localStorage.removeItem('id'); // eslint-disable-line no-undef
+
       // store token and user id in local storage
       localStorage.setItem('token', token); // eslint-disable-line no-undef
       localStorage.setItem('id', id); // eslint-disable-line no-undef
@@ -135,9 +139,13 @@ class Auth {
 
       const { token, id } = userInfo;
       callback();
+      // clear out old items
+      localStorage.removeItem('token'); // eslint-disable-line no-undef
+      localStorage.removeItem('id'); // eslint-disable-line no-undef
       // store token and user id in local storage
       localStorage.setItem('token', token); // eslint-disable-line no-undef
       localStorage.setItem('id', id); // eslint-disable-line no-undef
+
       return userInfo;
     } catch (e) {
       return handleFetchError(e);
@@ -176,8 +184,6 @@ const storeData = async ({ url, data }) => { // eslint-disable-line no-shadow
 };
 
 saveButtons.forEach((btn) => {
-  const token = localStorage.getItem('token'); // eslint-disable-line no-undef
-  const id = localStorage.getItem('id'); // eslint-disable-line no-undef
   btn.onclick = async function () { // eslint-disable-line no-param-reassign
     const getAttrValue = dataName => this.attributes.getNamedItem(`data-${dataName}`).nodeValue;
     // get values from the DOM
@@ -199,6 +205,8 @@ saveButtons.forEach((btn) => {
         return acc;
       }, { author: { name: null, authorInfo: null }, publicationDate: { date: null, time: null } });
 
+    const token = localStorage.getItem('token'); // eslint-disable-line no-undef
+    const id = localStorage.getItem('id'); // eslint-disable-line no-undef
     // store values in database
     const url = `/api/users/${id}/articles`;
     const newData = await storeData({
