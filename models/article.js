@@ -9,6 +9,7 @@ const articleSchema = new Schema({
     type: String,
     required: true,
     trim: true,
+    unique: true,
   },
   title: {
     type: String,

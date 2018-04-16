@@ -42,6 +42,12 @@ exports.saveArticle = async (req, res, next) => {
     });
     return res.status(200).json(foundArticle);
   } catch (error) {
+    if (error.code === 11000) {
+      return next({
+        status: 400,
+        message: 'This article is already in your collection.',
+      });
+    }
     return next(error);
   }
 };
