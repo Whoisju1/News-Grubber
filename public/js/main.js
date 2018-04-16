@@ -191,11 +191,22 @@ class SavedArticles {
     this.populateContainer = this.populateContainer.bind(this);
     this.getAllArticles = this.getAllArticles.bind(this);
     this.empty = this.empty.bind(this);
+    this.insertPlaceholder = this.insertPlaceholder.bind(this);
   }
 
   // empty container
   empty() {
     this._container.innerHTML = '';
+  }
+
+  // create function to print placeholder content when there's no data to populate this section
+  insertPlaceholder() {
+    this.empty();
+    this._container.innerHTML = `
+      <div class="saved-article__placeholder">
+        You have no articles saved yet.
+      </div>
+    `;
   }
 
   // create method to populate page
@@ -253,6 +264,7 @@ savedArticlesLink.addEventListener('click', async (e) => {
   const id = localStorage.getItem('id'); // eslint-disable-line no-undef
   const url = `http://localhost:3000/api/users/${id}/articles`;
   const articles = await savedArticles.getAllArticles(url);
+  if (!articles.data.length) return savedArticles.insertPlaceholder();
   savedArticles.empty();
   articles.data.forEach(item => savedArticles.populateContainer(item));
   return false;

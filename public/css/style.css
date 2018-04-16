@@ -123,6 +123,39 @@ body {
   grid-column: 2/12;
 }
 
+@keyframes background-color-change {
+  0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
+.saved-article__placeholder {
+  grid-column: 2/12;
+  margin: 3% 0;
+  padding: 2%;
+  color: #fffafa;
+  color: transparent;
+  text-transform: uppercase;
+  text-shadow: 1px 2px 17px rgba(0, 0, 0, .2);
+  background: -webkit-linear-gradient(-45deg,#EB5757, #6a89cc, #feca57); 
+  background: linear-gradient(-45deg,#EB5757, #6a89cc, #feca57);
+  background-size: 400% 400%;
+  background-clip: text; 
+  -webkit-background-clip: text; 
+  font-weight: 800;
+  font-size: 200%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: background-color-change 15s ease infinite;
+}
+
 .article__img {
   grid-column: 1/2;
   grid-row: 1/-1;
