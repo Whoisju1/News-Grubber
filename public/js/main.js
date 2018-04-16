@@ -212,7 +212,9 @@ class SavedArticles {
     contentWrapper.classList.add('saved-article');
     // eslint-disable-line no-undef
     const content = `
-      <img class="saved-article__img" src="${image}"/>
+      <a class="saved-article__img-wrapper" href="${url}" target="article image" target="_blank">
+        <img class="saved-article__img" src="${image}"/>
+      </a>
       <a class="saved-article__title" href="${url}">
         <h1 class="saved-article__title--main">${title}</h1>
         <h2 class="saved-article__title--sub">${subTitle}</h2>
@@ -226,6 +228,7 @@ class SavedArticles {
       </div>
     `;
     contentWrapper.innerHTML = content;
+    console.log(contentWrapper);
     this._container.appendChild(contentWrapper);
   }
   /* eslint class-methods-use-this: 0 */
