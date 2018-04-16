@@ -4,7 +4,7 @@ const signUpForm = document.querySelector('.signup__form'); // eslint-disable-li
 const hideFormButtons = Array.from(document.querySelectorAll('.close-form')); // eslint-disable-line no-undef
 const signInBtn = document.querySelector('.header__auth--signin'); // eslint-disable-line no-undef
 const signUpBtn = document.querySelector('.header__auth--signup'); // eslint-disable-line no-undef
-const links = Array.from(document.querySelectorAll('a[data-location]')); // eslint-disable-line no-undef\
+const links = Array.from(document.querySelectorAll('a[data-location]')); // eslint-disable-line no-undef
 const savedArticlesLink = document.querySelector('.nav__link--saved-articles'); // eslint-disable-line no-undef
 
 // get target elements
@@ -187,7 +187,7 @@ const storeData = async ({ url, data }) => { // eslint-disable-line no-shadow
 class SavedArticles {
   constructor() {
     // grab container
-    this._container = document.querySelector('#saved-articles');
+    this._container = document.querySelector('#saved-articles'); // eslint-disable-line no-undef
     this.populateContainer = this.populateContainer.bind(this);
     this.getAllArticles = this.getAllArticles.bind(this);
     this.empty = this.empty.bind(this);
@@ -208,9 +208,9 @@ class SavedArticles {
     publicationDate,
     notes = null,
   }) {
-    const contentWrapper = document.createElement('div');
+    const contentWrapper = document.createElement('div'); // eslint-disable-line no-undef
     contentWrapper.classList.add('saved-article');
-    // eslint-disable-line no-undef
+    // create content to place inside of content wrapper
     const content = `
       <a class="saved-article__img-wrapper" href="${url}" target="article image" target="_blank">
         <img class="saved-article__img" src="${image}"/>
@@ -228,7 +228,6 @@ class SavedArticles {
       </div>
     `;
     contentWrapper.innerHTML = content;
-    console.log(contentWrapper);
     this._container.appendChild(contentWrapper);
   }
   /* eslint class-methods-use-this: 0 */
