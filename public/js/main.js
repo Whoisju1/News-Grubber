@@ -4,7 +4,8 @@ const signUpForm = document.querySelector('.signup__form'); // eslint-disable-li
 const hideFormButtons = Array.from(document.querySelectorAll('.close-form')); // eslint-disable-line no-undef
 const signInBtn = document.querySelector('.header__auth--signin'); // eslint-disable-line no-undef
 const signUpBtn = document.querySelector('.header__auth--signup'); // eslint-disable-line no-undef
-const links = Array.from(document.querySelectorAll('a[data-location]')); // eslint-disable-line no-undef
+const links = Array.from(document.querySelectorAll('a[data-location]')); // eslint-disable-line no-undef\
+const savedArticlesLink = document.querySelector('.nav__link--saved-articles'); // eslint-disable-line no-undef
 
 // get target elements
 const contentContainers = Array.from(document.querySelectorAll('.content-container')); // eslint-disable-line no-undef
@@ -183,14 +184,87 @@ const storeData = async ({ url, data }) => { // eslint-disable-line no-shadow
   }
 };
 
+class SavedArticles {
+  constructor() {
+    // grab container
+    this._container = document.querySelector('#saved-articles');
+    this.populateContainer = this.populateContainer.bind(this);
+    this.getAllArticles = this.getAllArticles.bind(this);
+    this.empty = this.empty.bind(this);
+  }
+
+  // empty container
+  empty() {
+    this._container.innerHTML = '';
+  }
+
+  // create method to populate page
+  populateContainer({
+    url,
+    title,
+    subTitle,
+    image,
+    author,
+    publicationDate,
+    notes = null,
+  }) {
+    const contentWrapper = document.createElement('div');
+    contentWrapper.classList.add('saved-article');
+    // eslint-disable-line no-undef
+    const content = `
+      <img class="saved-article__img" src="${image}"/>
+      <a class="saved-article__title" href="${url}">
+        <h1 class="saved-article__title--main">${title}</h1>
+        <h2 class="saved-article__title--sub">${subTitle}</h2>
+      </a>
+      <a class="saved-article__author" href="${author.authorInfo && author.authorInfo}">
+        ${author.name && author.name}
+      </a>
+      <div class="saved-article__date">
+        <span class="saved-article__date--date">${publicationDate.date}</span>
+        <span class="saved-article__date--time">${publicationDate.time}</span>
+      </div>
+    `;
+    contentWrapper.innerHTML = content;
+    this._container.appendChild(contentWrapper);
+  }
+  /* eslint class-methods-use-this: 0 */
+  // create method to fetch all saved-articles
+  async getAllArticles(url) {
+    try {
+      const token = localStorage.getItem('token'); // eslint-disable-line no-undef
+      const savedArticles = await axios({ // eslint-disable-line no-undef
+        url,
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return savedArticles;
+    } catch (e) {
+      handleFetchError(e);
+    }
+  }
+}
+
+const savedArticles = new SavedArticles();
+
+savedArticlesLink.addEventListener('click', async (e) => {
+  e.preventDefault();
+  const id = localStorage.getItem('id'); // eslint-disable-line no-undef
+  const url = `http://localhost:3000/api/users/${id}/articles`;
+  const articles = await savedArticles.getAllArticles(url);
+  savedArticles.empty();
+  articles.data.forEach(item => savedArticles.populateContainer(item));
+  return false;
+});
+
 saveButtons.forEach((btn) => {
   btn.onclick = async function () { // eslint-disable-line no-param-reassign
     const getAttrValue = dataName => this.attributes.getNamedItem(`data-${dataName}`).nodeValue;
     // get values from the DOM
-    const attrList = ['date', 'time', 'author-name', 'author-info', 'title', 'subtitle', 'url', 'image'];
+    const attrList = ['date', 'time', 'author-name', 'author-info', 'title', 'subTitle', 'url', 'image'];
     const data = attrList
       .map(attr => (attr && { [attr]: getAttrValue(attr) }))
       .reduce((acc, item) => {
+        // structure properties that are suppose to be nested
         if (item['author-info']) {
           acc.author.authorInfo = item['author-info'];
         } else if (item['author-name']) {
@@ -204,7 +278,6 @@ saveButtons.forEach((btn) => {
         }
         return acc;
       }, { author: { name: null, authorInfo: null }, publicationDate: { date: null, time: null } });
-
     const token = localStorage.getItem('token'); // eslint-disable-line no-undef
     const id = localStorage.getItem('id'); // eslint-disable-line no-undef
     // store values in database

@@ -119,6 +119,10 @@ body {
   /* grid-column: 3/4; */
 }
 
+.saved-article {
+  grid-column: 2/12;
+}
+
 .article__img {
   grid-column: 1/2;
   grid-row: 1/-1;
