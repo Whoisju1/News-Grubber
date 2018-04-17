@@ -224,6 +224,25 @@ button {
   min-height: 25px;
 }
 
+.notes-area {
+  display: grid;
+  grid-auto-flow: row;
+  grid-gap: 4px;
+}
+
+.note {
+  background-color: whitesmoke;
+  justify-content: space-between;
+  border-radius: 10px;
+  display: flex;
+  padding: 1%;
+}
+
+.note__date {
+  align-self: flex-end;
+  font-size: 70%;
+}
+
 @keyframes background-color-change {
   0% {
 		background-position: 0% 50%

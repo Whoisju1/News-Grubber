@@ -255,7 +255,8 @@ class SavedArticles {
           <textarea name="note" placeholder="What are your thoughts?" class="saved-article-form__input--note" id="textarea-${articleID}" required ></textarea>
           <input type="submit" value="Save Note" class="saved-article-form__input--save" />
         </form>
-        <div class="notes-area" id="note-area-${articleID}"></div>
+        <div class="notes-area" id="note-container-${articleID}">
+        </div>
       </div>
     `;
     contentWrapper.innerHTML = content;
@@ -264,13 +265,39 @@ class SavedArticles {
     const addNoteBtn = document.querySelector(`#add-note-${articleID}`); // eslint-disable-line no-undef
     const noteForm = document.querySelector(`#${formId}`); // eslint-disable-line no-undef
     const removeFormBtn = document.querySelector(`#form-remove-${articleID}`); // eslint-disable-line no-undef
+    const notesContainer = document.querySelector(`#note-container-${articleID}`); // eslint-disable-line no-undef
+
+    const renderNotes = (articleNotes) => {
+      notesContainer.innerHTML = '';
+      if (articleNotes.length) {
+        articleNotes.forEach(({ note, timeCreated }) => {
+          const noteContent = `
+              <div class="note__content">
+                ${note}
+              </div>
+              <div class="note__date">
+                ${timeCreated}
+              </div>
+          `;
+          const noteContentWrapper = document.createElement('div'); // eslint-disable-line no-undef
+          noteContentWrapper.classList.add('note');
+          noteContentWrapper.innerHTML = noteContent;
+          notesContainer.appendChild(noteContentWrapper);
+          return note;
+        });
+      }
+    };
+
+    renderNotes(notes);
+
     noteForm.style.display = 'none';
     noteForm.onsubmit = async (e) => {
       e.preventDefault();
       const formData = new FormData(e.target); // eslint-disable-line no-undef
       const note = formData.get('note');
-      const newNote = await this.addNote({ note, articleID });
+      const newNotes = await this.addNote({ note, articleID });
       textArea.value = '';
+      renderNotes(newNotes.data.notes);
     };
 
     // remove form when removeFormBtn is clicked
