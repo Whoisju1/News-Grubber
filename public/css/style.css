@@ -253,7 +253,7 @@ a.saved-article--add:visited:active {
   position: relative;
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  grid-gap: 10px;
+  grid-gap: 3px;
   margin-top: .5%;
   padding-bottom: 10px;
 }
@@ -278,16 +278,23 @@ a.saved-article--add:visited:active {
 .note {
   background-color: whitesmoke;
   justify-content: space-between;
+  grid-template-columns: repeat(12, 1fr);
   border-radius: 28px;
-  display: flex;
+  display: grid;
+  grid-gap: 13px;
   padding: 1.5%;
+}
+
+.note__content {
   text-align: justify;
+  grid-column: 1/-1;
 }
 
 .note__date {
   visibility: hidden;
   align-self: flex-end;
   font-size: 70%;
+  grid-column: 11/-1;
 }
 
 .note:hover> .note__date {
