@@ -452,6 +452,7 @@ a.saved-article--add:visited:active {
   justify-content: center;
   align-items: center;
   display: flex;
+  z-index: 2;
 }
 
 .form {
@@ -463,6 +464,7 @@ a.saved-article--add:visited:active {
   min-width: 30%;
   grid-gap: 10px;
   position: relative;
+  z-index: 3;
 }
 
 /* Form - close icon */
