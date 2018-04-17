@@ -176,7 +176,12 @@ body {
   position: absolute;
   top: 6px;
   right: 6px;
+  visibility: hidden;
 }
+
+.saved-article:hover> .saved-article--dlt {
+  visibility: visible ;
+} 
 
 @keyframes disappear {
   from {
@@ -281,27 +286,23 @@ a.saved-article--add:visited:active {
   grid-template-columns: repeat(12, 1fr);
   border-radius: 28px;
   display: grid;
-  grid-gap: 13px;
-  padding: 1.5%;
+  grid-gap: 10px;
+  padding: 21px 20px 6px 20px;
 }
 
 .note__content {
   text-align: justify;
   grid-column: 1/-1;
   border-bottom: .5px solid gray;
-  padding-bottom: 1%;
+  padding-bottom: 2px;
 }
 
 .note__date {
-  visibility: hidden;
   align-self: flex-end;
   font-size: 70%;
   grid-column: 12/-1;
 }
 
-.note:hover> .note__date {
-  visibility: visible;
-}
 
 .note:hover> .note-edit {
   visibility: visible;
@@ -316,7 +317,6 @@ a.saved-article--add:visited:active {
   visibility: hidden;
   cursor: pointer;
   color: gray;
-  transition: all .5s ease;
   filter: grayscale(1);
   text-align: center;
 }
