@@ -294,7 +294,7 @@ a.saved-article--add:visited:active {
   visibility: hidden;
   align-self: flex-end;
   font-size: 70%;
-  grid-column: 11/-1;
+  grid-column: 12/-1;
 }
 
 .note:hover> .note__date {

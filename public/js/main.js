@@ -276,7 +276,7 @@ class SavedArticles {
                 ${note}
               </div>
               <div class="note__date">
-                ${timeCreated}
+                ${moment(timeCreated).fromNow()}
               </div>
           `;
           const noteContentWrapper = document.createElement('div'); // eslint-disable-line no-undef
