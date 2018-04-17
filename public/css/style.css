@@ -535,3 +535,55 @@ a.saved-article--add:visited:active {
   transform: scale(1.05);
   color: #8d1d1d;
 }
+
+@keyframes notification-appear {
+  from {
+    transform: translateY(-100px);
+  }
+  to {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes notification-disappear {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-100px);
+  }
+}
+
+.notification {
+  position: fixed;
+  top: 0;
+  right: 20%;
+  font-weight: bold;
+  color: white;
+  padding: 2px 1%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notification--success {
+  background-color: darkcyan;
+}
+
+.notification--failure {
+  background-color: tomato;
+}
+
+.notification__appear {
+  animation-name: notification-appear;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+}
+
+.notification__disappear {
+  animation-name: notification-disappear;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+}

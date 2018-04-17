@@ -41,6 +41,32 @@ links.forEach((link) => {
   };
 });
 
+// create class that shows notifications
+class Notification {
+  constructor({ message = 'Success', type }) {
+    if (!type) throw Error('Please provide a type');
+    if (type === 'success' || type === 'failure') {
+      this._type = type;
+    } else {
+      throw Error('type must be a string of success or failure');
+    }
+
+    this._message = message;
+    this._container = document.createElement('div'); // eslint-disable-line no-undef
+    this._container.classList.add('notification');
+    this._container.classList.add(`notification--${this._type}`);
+    this._container.appendChild(document.createTextNode(this._message)); // eslint-disable-line
+    document.body.appendChild(this._container); // eslint-disable-line no-undef
+  }
+
+  notify() {
+    this._container.classList.add('notification__appear');
+    setTimeout(() => {
+      this._container.classList.add('notification__disappear');
+    }, 5000);
+  }
+}
+
 // create class that that operates the alert modal
 class AlertModal {
   constructor() {
