@@ -221,22 +221,23 @@ button {
   color: gray;
   margin-bottom: 1%; 
   text-decoration: underline;
-  transform: translateY(1.5px);
+  transform: translateY(7.5px);
 }
 
 a.saved-article--add:hover,
 a.saved-article--add:link:hover,
 a.saved-article--add:visited:hover {
-  transform: translateY(-2px);
+  transform: translateY(5px);
   color: #e74c3c;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, .2);
+  box-shadow: 1px 3px 3px rgba(0, 0, 0, .2);
   text-decoration: none;
 }
 
 a.saved-article--add:active,
 a.saved-article--add:link:active,
 a.saved-article--add:visited:active {
-  transform: translateY(2px);
+  transform: translateY(8px);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
   color: #e74c3c;
 }
 
