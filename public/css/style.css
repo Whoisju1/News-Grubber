@@ -182,6 +182,10 @@ body {
   }
 }
 
+button {
+  cursor: pointer;
+}
+
 .form-remove {
   position: absolute;
   top: 4px;
