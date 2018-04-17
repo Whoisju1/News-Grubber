@@ -251,6 +251,7 @@ class SavedArticles {
           <button class="saved-article--dlt" id="article-dlt-${articleID}" data-id="${articleID}"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
         </div>
         <form class="saved-article__form" id="${formId}">
+          <i class="fa fa-remove form-remove" id="form-remove-${articleID}" aria-hidden="true"></i>
           <textarea name="note" placeholder="What are your thoughts?" class="saved-article-form__input--note" id="textarea-${articleID}" required ></textarea>
           <input type="submit" value="Save Note" class="saved-article-form__input--save" />
         </form>
@@ -262,6 +263,7 @@ class SavedArticles {
     const textArea = document.querySelector(`#textarea-${articleID}`); // eslint-disable-line no-undef
     const addNoteBtn = document.querySelector(`#add-note-${articleID}`); // eslint-disable-line no-undef
     const noteForm = document.querySelector(`#${formId}`); // eslint-disable-line no-undef
+    const removeFormBtn = document.querySelector(`#form-remove-${articleID}`); // eslint-disable-line no-undef
     noteForm.style.display = 'none';
     noteForm.onsubmit = async (e) => {
       e.preventDefault();
@@ -271,9 +273,17 @@ class SavedArticles {
       textArea.value = '';
     };
 
+    // remove form when removeFormBtn is clicked
+    removeFormBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      addNoteBtn.style.display = 'inline-block';
+      noteForm.style.display = 'none';
+    });
+
     // add event handler to add button to make form appear
     addNoteBtn.addEventListener('click', (e) => {
       e.preventDefault();
+      e.target.style.display = 'none';
       noteForm.style.display = 'grid';
     });
 
