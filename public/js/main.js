@@ -247,7 +247,7 @@ class SavedArticles {
       </div>
       <div class="saved-articles__action">
         <div class="saved-articles__action--btn-area">
-          <button class="saved-article--add"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Add Note</button>
+          <button class="saved-article--add" id="add-note-${articleID}"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Add Note</button>
           <button class="saved-article--dlt" id="article-dlt-${articleID}" data-id="${articleID}"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
         </div>
         <form class="saved-article__form" id="${formId}">
@@ -260,8 +260,9 @@ class SavedArticles {
     contentWrapper.innerHTML = content;
     this._container.appendChild(contentWrapper);
     const textArea = document.querySelector(`#textarea-${articleID}`); // eslint-disable-line no-undef
-
+    const addNoteBtn = document.querySelector(`#add-note-${articleID}`); // eslint-disable-line no-undef
     const noteForm = document.querySelector(`#${formId}`); // eslint-disable-line no-undef
+    noteForm.style.display = 'none';
     noteForm.onsubmit = async (e) => {
       e.preventDefault();
       const formData = new FormData(e.target); // eslint-disable-line no-undef
@@ -269,6 +270,12 @@ class SavedArticles {
       const newNote = await this.addNote({ note, articleID });
       textArea.value = '';
     };
+
+    // add event handler to add button to make form appear
+    addNoteBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      noteForm.style.display = 'grid';
+    });
 
     // find delete button and assign event handler to it
     const deleteBtn = document.querySelector(`#article-dlt-${articleID}`); // eslint-disable-line no-undef
