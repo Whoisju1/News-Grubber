@@ -288,6 +288,8 @@ a.saved-article--add:visited:active {
 .note__content {
   text-align: justify;
   grid-column: 1/-1;
+  border-bottom: .5px solid gray;
+  padding-bottom: 1%;
 }
 
 .note__date {
@@ -299,6 +301,38 @@ a.saved-article--add:visited:active {
 
 .note:hover> .note__date {
   visibility: visible;
+}
+
+.note:hover> .note-edit {
+  visibility: visible;
+}
+
+.note:hover> .note-remove {
+  visibility: visible;
+}
+
+.note-edit,
+.note-remove {
+  visibility: hidden;
+  cursor: pointer;
+  color: gray;
+  transition: all .5s ease;
+  filter: grayscale(1);
+  text-align: center;
+}
+
+.note-edit {
+  color: blue;
+}
+
+.note-remove {
+  color: #e74c3c;
+} 
+
+.note-edit:hover,
+.note-remove:hover {
+  filter: grayscale(0);
+  text-decoration: underline;
 }
 
 @keyframes background-color-change {

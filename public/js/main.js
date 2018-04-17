@@ -275,6 +275,8 @@ class SavedArticles {
               <div class="note__content">
                 ${note}
               </div>
+              <i class="fa fa-edit note-edit" aria-hidden="true"></i>
+              <i class="fa fa-remove note-remove" aria-hidden="true"></i>
               <div class="note__date">
                 ${moment(timeCreated).fromNow()}
               </div>
