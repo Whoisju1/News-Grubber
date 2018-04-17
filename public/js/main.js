@@ -42,7 +42,7 @@ links.forEach((link) => {
 });
 
 // create class that shows notifications
-class Notification {
+class CustomNotification {
   constructor({ message = 'Success', type }) {
     if (!type) throw Error('Please provide a type');
     if (type === 'success' || type === 'failure') {
@@ -146,6 +146,12 @@ class Auth {
       localStorage.setItem('token', token); // eslint-disable-line no-undef
       localStorage.setItem('id', id); // eslint-disable-line no-undef
       callback();
+      const successfulLogin = new CustomNotification({
+        type: 'success',
+        message: `Successfully logged in as ${userInfo.username}.`,
+      });
+
+      successfulLogin.notify();
       return userInfo;
     } catch (e) {
       return handleFetchError(e);
@@ -173,7 +179,12 @@ class Auth {
       // store token and user id in local storage
       localStorage.setItem('token', token); // eslint-disable-line no-undef
       localStorage.setItem('id', id); // eslint-disable-line no-undef
+      const accountCreated = new CustomNotification({
+        type: 'success',
+        message: 'Account Created Successfully',
+      });
 
+      accountCreated.notify();
       return userInfo;
     } catch (e) {
       return handleFetchError(e);
@@ -204,7 +215,8 @@ const storeData = async ({ url, data }) => { // eslint-disable-line no-shadow
       headers: { Authorization: `Bearer ${token}` },
       data,
     });
-
+    const successfulSave = new CustomNotification({ type: 'success', message: 'Article added to your collection' });
+    successfulSave.notify();
     return response;
   } catch (e) {
     return handleFetchError(e);
