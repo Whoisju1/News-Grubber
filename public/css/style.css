@@ -26,7 +26,6 @@ body {
   justify-content: center;
   align-items: center;
   padding: 1%;
-  /* transform: translateX(33px); */
   text-align: center;
   background: #e74c3c;
   color: #ffffff;
@@ -133,6 +132,13 @@ body {
   position: relative;
 }
 
+.saved-articles__action--btn-area {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  position: relative;
+}
+
 .saved-article__content {
   grid-column: 2/-1;
 }
@@ -163,8 +169,7 @@ body {
   border-top: .5px double gray;
   grid-column: 1/-1;
   display: grid;
-  grid-gap: 5px;
-  padding: 5px 0;
+  grid-gap: 8px;
 }
 
 .saved-article--dlt {
@@ -187,16 +192,54 @@ button {
 }
 
 .form-remove {
-  position: absolute;
-  top: 4px;
-  right: 4px;
   cursor: pointer;
   transition: all .5s ease;
+  grid-column: -2/-1;
+  align-self: end;
+  text-align: right;
 }
 
 .form-remove:hover {
-  transform: scale(1.2);
+  color: #EB5757;
+  transform: scaleY(1.1);
 }
+
+
+/* TODO: check the hover state and the effects */
+.saved-article--add,
+.saved-article--add:link,
+.saved-article--add:visited {
+  background-color: transparent;
+  border: transparent;
+  font-weight: 500;
+  text-shadow: 1px 2px 14px rgba(0, 0, 0, .3);
+  transition: all .2s ease;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 3px 5px;
+  color: gray;
+  margin-bottom: 1%; 
+  text-decoration: underline;
+  transform: translateY(1.5px);
+}
+
+a.saved-article--add:hover,
+a.saved-article--add:link:hover,
+a.saved-article--add:visited:hover {
+  transform: translateY(-2px);
+  color: #e74c3c;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, .2);
+  text-decoration: none;
+}
+
+a.saved-article--add:active,
+a.saved-article--add:link:active,
+a.saved-article--add:visited:active {
+  transform: translateY(2px);
+  color: #e74c3c;
+}
+
 
 .disappear {
   animation-name: disappear;
@@ -205,16 +248,17 @@ button {
 }
 
 .saved-article__form {
-  border: .5px solid gray;
+  border-bottom: .5px solid gray;
   position: relative;
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  grid-gap: 5px;
-  padding: 5px 5px;
+  grid-gap: 10px;
+  margin-top: .5%;
+  padding-bottom: 10px;
 }
 
 .saved-article-form__input--note {
-  grid-column: 1/9;
+  grid-column: 1/-1;
   resize: vertical;
   min-height: 6em;
 }
@@ -227,20 +271,26 @@ button {
 .notes-area {
   display: grid;
   grid-auto-flow: row;
-  grid-gap: 4px;
+  grid-gap: 10px;
 }
 
 .note {
   background-color: whitesmoke;
   justify-content: space-between;
-  border-radius: 10px;
+  border-radius: 28px;
   display: flex;
-  padding: 1%;
+  padding: 1.5%;
+  text-align: justify;
 }
 
 .note__date {
+  visibility: hidden;
   align-self: flex-end;
   font-size: 70%;
+}
+
+.note:hover> .note__date {
+  visibility: visible;
 }
 
 @keyframes background-color-change {

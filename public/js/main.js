@@ -237,20 +237,20 @@ class SavedArticles {
           <h1 class="saved-article__title--main">${title}</h1>
           <h2 class="saved-article__title--sub">${subTitle}</h2>
         </a>
-        <a class="saved-article__author" href="${author.authorInfo && author.authorInfo}">
-          ${author.name && author.name}
+        <a class="saved-article__author" href="${author.authorInfo || ''}">
+          ${author.name || ''}
         </a>
         <div class="saved-article__date">
-          <span class="saved-article__date--date">${publicationDate.date}</span>
-          <span class="saved-article__date--time">${publicationDate.time}</span>
+          <span class="saved-article__date--date">${publicationDate.date || ''}</span>
+          <span class="saved-article__date--time">${publicationDate.time || ''}</span>
         </div>
       </div>
+      <button class="saved-article--dlt" id="article-dlt-${articleID}" data-id="${articleID}"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
       <div class="saved-articles__action">
-        <div class="saved-articles__action--btn-area">
-          <button class="saved-article--add" id="add-note-${articleID}"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Add Note</button>
-          <button class="saved-article--dlt" id="article-dlt-${articleID}" data-id="${articleID}"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-        </div>
-        <form class="saved-article__form" id="${formId}">
+      <div class="saved-articles__action--btn-area">
+      <a class="saved-article--add" id="add-note-${articleID}"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Add Note</a>
+      </div>
+      <form class="saved-article__form" id="${formId}">
           <i class="fa fa-remove form-remove" id="form-remove-${articleID}" aria-hidden="true"></i>
           <textarea name="note" placeholder="What are your thoughts?" class="saved-article-form__input--note" id="textarea-${articleID}" required ></textarea>
           <input type="submit" value="Save Note" class="saved-article-form__input--save" />
