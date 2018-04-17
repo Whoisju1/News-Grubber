@@ -1,3 +1,4 @@
+/* eslint no-plusplus: 0 */
 const saveButtons = Array.from(document.querySelectorAll('.article__btn--save')); // eslint-disable-line no-undef
 const loginForm = document.querySelector('.login__form'); // eslint-disable-line no-undef
 const signUpForm = document.querySelector('.signup__form'); // eslint-disable-line no-undef
@@ -192,6 +193,9 @@ class SavedArticles {
     this.getAllArticles = this.getAllArticles.bind(this);
     this.empty = this.empty.bind(this);
     this.insertPlaceholder = this.insertPlaceholder.bind(this);
+    this.deleteArticle = this.deleteArticle.bind(this);
+    this.addNote = this.addNote.bind(this);
+    this._form_id = 0;
   }
 
   // empty container
@@ -211,6 +215,7 @@ class SavedArticles {
 
   // create method to populate page
   populateContainer({
+    _id: articleID,
     url,
     title,
     subTitle,
@@ -221,25 +226,60 @@ class SavedArticles {
   }) {
     const contentWrapper = document.createElement('div'); // eslint-disable-line no-undef
     contentWrapper.classList.add('saved-article');
+    const formId = `note-form-${articleID}`;
     // create content to place inside of content wrapper
     const content = `
       <a class="saved-article__img-wrapper" href="${url}" target="article image" target="_blank">
         <img class="saved-article__img" src="${image}"/>
       </a>
-      <a class="saved-article__title" href="${url}">
-        <h1 class="saved-article__title--main">${title}</h1>
-        <h2 class="saved-article__title--sub">${subTitle}</h2>
-      </a>
-      <a class="saved-article__author" href="${author.authorInfo && author.authorInfo}">
-        ${author.name && author.name}
-      </a>
-      <div class="saved-article__date">
-        <span class="saved-article__date--date">${publicationDate.date}</span>
-        <span class="saved-article__date--time">${publicationDate.time}</span>
+      <div class="saved-article__content" id="saved-article-${articleID}">
+        <a class="saved-article__title" href="${url}">
+          <h1 class="saved-article__title--main">${title}</h1>
+          <h2 class="saved-article__title--sub">${subTitle}</h2>
+        </a>
+        <a class="saved-article__author" href="${author.authorInfo && author.authorInfo}">
+          ${author.name && author.name}
+        </a>
+        <div class="saved-article__date">
+          <span class="saved-article__date--date">${publicationDate.date}</span>
+          <span class="saved-article__date--time">${publicationDate.time}</span>
+        </div>
+      </div>
+      <div class="saved-articles__action">
+        <div class="saved-articles__action--btn-area">
+          <button class="saved-article--add"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Add Note</button>
+          <button class="saved-article--dlt" id="article-dlt-${articleID}" data-id="${articleID}"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+        </div>
+        <form class="saved-article__form" id="${formId}">
+          <textarea name="note" placeholder="What are your thoughts?" class="saved-article-form__input--note" id="textarea-${articleID}" required ></textarea>
+          <input type="submit" value="Save Note" class="saved-article-form__input--save" />
+        </form>
+        <div class="notes-area" id="note-area-${articleID}"></div>
       </div>
     `;
     contentWrapper.innerHTML = content;
     this._container.appendChild(contentWrapper);
+    const textArea = document.querySelector(`#textarea-${articleID}`); // eslint-disable-line no-undef
+
+    const noteForm = document.querySelector(`#${formId}`); // eslint-disable-line no-undef
+    noteForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target); // eslint-disable-line no-undef
+      const note = formData.get('note');
+      const newNote = await this.addNote({ note, articleID });
+      textArea.value = '';
+    };
+
+    // find delete button and assign event handler to it
+    const deleteBtn = document.querySelector(`#article-dlt-${articleID}`); // eslint-disable-line no-undef
+    deleteBtn.addEventListener('click', async (e) => {
+      const id = e.currentTarget.getAttribute('data-id');
+      await this.deleteArticle(id);
+      contentWrapper.classList.add('disappear');
+      setTimeout(() => {
+        contentWrapper.remove();
+      }, 600);
+    }, true);
   }
   /* eslint class-methods-use-this: 0 */
   // create method to fetch all saved-articles
@@ -251,6 +291,48 @@ class SavedArticles {
         headers: { Authorization: `Bearer ${token}` },
       });
       return savedArticles;
+    } catch (e) {
+      handleFetchError(e);
+    }
+  }
+
+  async addNote({ note, articleID }) {
+    try {
+      const token = localStorage.getItem('token'); // eslint-disable-line no-undef
+      const userID = localStorage.getItem('id'); // eslint-disable-line no-undef
+
+      const data = await axios({ // eslint-disable-line no-undef
+        url: `/api/users/${userID}/notes`,
+        method: 'post',
+        headers: { Authorization: `Bearer ${token}` },
+        data: {
+          id: articleID,
+          note,
+
+        },
+      });
+
+      return data;
+    } catch (e) {
+      handleFetchError(e);
+    }
+  }
+
+  async deleteArticle(id) {
+    try {
+      const token = localStorage.getItem('token'); // eslint-disable-line no-undef
+      const userID = localStorage.getItem('id'); // eslint-disable-line no-undef
+
+      const article = await axios({ // eslint-disable-line no-undef
+        url: `/api/users/${userID}/articles`,
+        method: 'delete',
+        headers: { Authorization: `Bearer ${token}` },
+        data: {
+          id,
+        },
+      });
+
+      return article;
     } catch (e) {
       handleFetchError(e);
     }
