@@ -286,7 +286,7 @@ a.saved-article--add:visited:active {
   grid-template-columns: repeat(12, 1fr);
   border-radius: 28px;
   display: grid;
-  grid-gap: 10px;
+  grid-gap: 5px;
   padding: 21px 20px 6px 20px;
 }
 
