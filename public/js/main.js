@@ -412,6 +412,7 @@ class SavedArticles {
       contentWrapper.classList.add('disappear');
       setTimeout(() => {
         contentWrapper.remove();
+        if (!this._container.childNodes.length) return this.insertPlaceholder();
       }, 600);
     }, true);
   }
