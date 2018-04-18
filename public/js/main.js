@@ -131,7 +131,7 @@ class HeaderUserSection {
     this._headerLoggedIn.style.display = 'none';
     this._headerLoggedOut.style.display = 'grid';
     this._userImage.setAttribute('src', '');
-    this._username.innerText('');
+    this._username.textContent = '';
   }
 }
 
