@@ -475,14 +475,21 @@ class SavedArticles {
 
 const savedArticles = new SavedArticles();
 
-savedArticlesLink.addEventListener('click', async (e) => {
-  e.preventDefault();
+// make function to show saved articles page
+const showSavedArticlesPage = async () => {
   const id = localStorage.getItem('id'); // eslint-disable-line no-undef
   const url = `http://localhost:3000/api/users/${id}/articles`;
   const articles = await savedArticles.getAllArticles(url);
   if (!articles.data.length) return savedArticles.insertPlaceholder();
   savedArticles.empty();
   articles.data.forEach(item => savedArticles.populateContainer(item));
+};
+
+if (window.location.hash === '#saved-articles') showSavedArticlesPage(); // eslint-disable-line no-undef
+
+savedArticlesLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  showSavedArticlesPage();
   return false;
 });
 
