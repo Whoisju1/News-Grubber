@@ -34,7 +34,7 @@ body {
 
 .header__auth {
   grid-column: 10/span 2;
-  display: grid;
+  display: none;
   grid-auto-flow: column;
   text-transform: uppercase;
   font-weight: 400;

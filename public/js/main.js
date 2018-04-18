@@ -103,6 +103,41 @@ class AlertModal {
   }
 }
 
+// make class that toggles the elements in the user section in the header
+class HeaderUserSection {
+  constructor() {
+    this._headerLoggedIn = document.querySelector('.header__auth--logged-in'); // eslint-disable-line no-undef
+    this._headerLoggedOut = document.querySelector('.header__auth--logged-out'); // eslint-disable-line no-undef
+    this._isLoggedIn = !!localStorage.getItem('token'); // eslint-disable-line no-undef
+    this._userImage = document.querySelector('.header__auth--img'); // eslint-disable-line no-undef
+    this._username = document.querySelector('.header__auth--username'); // eslint-disable-line no-undef
+
+    this.showUser = this.showUser.bind(this);
+    this.showAuth = this.showAuth.bind(this);
+  }
+
+  showUser() {
+    if (!this._isLoggedIn) return this.showAuth();
+    const img = JSON.parse(localStorage.getItem('img')); // eslint-disable-line no-undef
+    const username = localStorage.getItem('username'); // eslint-disable-line no-undef
+    if (img) this._userImage.setAttribute('src', img);
+    this._username.textContent = username; // eslint-disable-line no-undef
+    this._headerLoggedIn.style.display = 'grid';
+    this._headerLoggedOut.style.display = 'none';
+  }
+
+  showAuth() {
+    if (this._isLoggedIn) return this.showUser();
+    this._headerLoggedIn.style.display = 'none';
+    this._headerLoggedOut.style.display = 'grid';
+    this._userImage.setAttribute('src', '');
+    this._username.innerText('');
+  }
+}
+
+const changeHeaderUserSection = new HeaderUserSection();
+changeHeaderUserSection.showUser();
+
 // create error alert for error messages using AlertModal class
 const handleFetchError = (ErrClass => (err) => {
   const fetchErr = new ErrClass();
@@ -136,7 +171,12 @@ class Auth {
         method: 'post',
       });
 
-      const { token, id } = userInfo;
+      const {
+        token,
+        id,
+        username: signedInUser,
+        profileImageURL,
+      } = userInfo;
 
       // clear out old items
       localStorage.removeItem('token'); // eslint-disable-line no-undef
@@ -145,6 +185,9 @@ class Auth {
       // store token and user id in local storage
       localStorage.setItem('token', token); // eslint-disable-line no-undef
       localStorage.setItem('id', id); // eslint-disable-line no-undef
+      localStorage.setItem('username', signedInUser); // eslint-disable-line no-undef
+      localStorage.setItem('img', profileImageURL); // eslint-disable-line no-undef
+      changeHeaderUserSection.showUser();
       callback();
       const successfulLogin = new CustomNotification({
         type: 'success',
@@ -171,7 +214,11 @@ class Auth {
         method: 'post',
       });
 
-      const { token, id } = userInfo;
+      const {
+        token,
+        id, username: newUser,
+        profileImageURL,
+      } = userInfo;
       callback();
       // clear out old items
       localStorage.removeItem('token'); // eslint-disable-line no-undef
@@ -179,11 +226,13 @@ class Auth {
       // store token and user id in local storage
       localStorage.setItem('token', token); // eslint-disable-line no-undef
       localStorage.setItem('id', id); // eslint-disable-line no-undef
+      localStorage.setItem('username', newUser); // eslint-disable-line no-undef
+      localStorage.setItem('img', profileImageURL); // eslint-disable-line no-undef
       const accountCreated = new CustomNotification({
         type: 'success',
         message: 'Account Created Successfully',
       });
-
+      changeHeaderUserSection.showUser();
       accountCreated.notify();
       return userInfo;
     } catch (e) {
@@ -196,6 +245,7 @@ class Auth {
     if (!this.everythingAuth) return;
     localStorage.removeItem('token'); // eslint-disable-line no-undef
     localStorage.removeItem('id'); // eslint-disable-line no-undef
+    changeHeaderUserSection.showAuth();
   }
 }
 
