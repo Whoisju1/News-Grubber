@@ -3,11 +3,13 @@
 /* ARTICLES */
 body {
   display: grid;
-  padding: 3%;
-  grid-template-rows: minmax(60px, 15%) auto minmax(100px, 15%);
+  padding: 3% 3% 0 3%;
+  grid-template-rows: minmax(65px, 70px) auto minmax(150px, 100px);
   grid-template-columns: repeat(12, 1fr);
   grid-gap: 10px;
   box-sizing: border-box;
+  min-width: 100%;
+  min-height: 100vh; 
 }
 
 .header {
