@@ -108,35 +108,36 @@ class HeaderUserSection {
   constructor() {
     this._headerLoggedIn = document.querySelector('.header__auth--logged-in'); // eslint-disable-line no-undef
     this._headerLoggedOut = document.querySelector('.header__auth--logged-out'); // eslint-disable-line no-undef
-    this._isLoggedIn = !!localStorage.getItem('token'); // eslint-disable-line no-undef
     this._userImage = document.querySelector('.header__auth--img'); // eslint-disable-line no-undef
     this._username = document.querySelector('.header__auth--username'); // eslint-disable-line no-undef
 
     this.showUser = this.showUser.bind(this);
     this.showAuth = this.showAuth.bind(this);
+    this.checkLogin = this.checkLogin.bind(this);
   }
 
   showUser() {
-    if (!this._isLoggedIn) return this.showAuth();
     const img = JSON.parse(localStorage.getItem('img')); // eslint-disable-line no-undef
     const username = localStorage.getItem('username'); // eslint-disable-line no-undef
-    if (img) this._userImage.setAttribute('src', img);
+    (img) ? this._userImage.setAttribute('src', img) : this._userImage.setAttribute('src', '/images/user_profile_image.png');
     this._username.textContent = username; // eslint-disable-line no-undef
     this._headerLoggedIn.style.display = 'grid';
     this._headerLoggedOut.style.display = 'none';
   }
 
   showAuth() {
-    if (this._isLoggedIn) return this.showUser();
     this._headerLoggedIn.style.display = 'none';
     this._headerLoggedOut.style.display = 'grid';
     this._userImage.setAttribute('src', '');
     this._username.textContent = '';
   }
+  checkLogin() {
+    return !!localStorage.getItem('token'); // eslint-disable-line no-undef
+  }
 }
 
 const changeHeaderUserSection = new HeaderUserSection();
-changeHeaderUserSection.showUser();
+changeHeaderUserSection.checkLogin() ? changeHeaderUserSection.showUser() : changeHeaderUserSection.showAuth(); // eslint-disable-line
 
 // create error alert for error messages using AlertModal class
 const handleFetchError = (ErrClass => (err) => {
@@ -160,7 +161,6 @@ class Auth {
 
   // login user
   async signIn({ username, password }, callback) {
-    if (this.everythingAuth) return;
     try {
       const { data: userInfo } = await axios({ // eslint-disable-line no-undef
         url: '/api/auth/signin',
@@ -193,7 +193,7 @@ class Auth {
         type: 'success',
         message: `Successfully logged in as ${userInfo.username}.`,
       });
-
+      changeHeaderUserSection.showUser();
       successfulLogin.notify();
       return userInfo;
     } catch (e) {
@@ -593,6 +593,6 @@ signUpBtn.onclick = showSignUpForm;
 
 const startupAlert = new AlertModal();
 setTimeout(() => {
-  startupAlert.open({ message: 'This site is still under construction. Everything\'s not 100% functional.' });
+  startupAlert.open({ message: 'This site is still under construction.' });
 }, 100);
 
