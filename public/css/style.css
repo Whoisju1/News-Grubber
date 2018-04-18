@@ -42,6 +42,28 @@ body {
   grid-gap: 3px;
 }
 
+.header__auth--img {
+  border: 2px solid lightgray;
+  border-radius: 100px;
+  height: auto;
+  width: 2.1em;
+  justify-self: right;
+  cursor: pointer;
+  filter: grayscale(1);
+  transition: all .2s ease;
+}
+
+.header__auth--img:hover {
+  filter: grayscale(0);
+}
+
+.header__auth--username {
+  color: #443f3f;
+  text-align: right;
+  cursor: pointer;
+  transform: translateX(27px);
+}
+
 .header__auth--signin,
 .header__auth--signup
  {
