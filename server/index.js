@@ -5,6 +5,7 @@ const express = require('express');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
+const cors = require('cors');
 
 // load environment variables
 require('dotenv').config();
@@ -22,6 +23,8 @@ const { loginRequired, ensureCorrectUser } = require('../middleware/auth');
 const app = express();
 const port = process.env.PORT || 3000;
 
+// enable cors
+app.use(cors());
 app.use(express.static(`${__dirname}/../public`));
 
 // set view engine
