@@ -591,3 +591,8 @@ hideFormButtons.forEach((btn) => {
 signInBtn.onclick = showLoginForm;
 signUpBtn.onclick = showSignUpForm;
 
+const startupAlert = new AlertModal();
+setTimeout(() => {
+  startupAlert.open({ message: 'This site is still under construction. Everything\'s not 100% functional.' });
+}, 100);
+
