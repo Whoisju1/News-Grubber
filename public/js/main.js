@@ -479,7 +479,7 @@ const savedArticles = new SavedArticles();
 // make function to show saved articles page
 const showSavedArticlesPage = async () => {
   const id = localStorage.getItem('id'); // eslint-disable-line no-undef
-  const url = `http://localhost:3000/api/users/${id}/articles`;
+  const url = `/api/users/${id}/articles`; // eslint-disable-line no-undef
   const articles = await savedArticles.getAllArticles(url);
   if (!articles.data.length) return savedArticles.insertPlaceholder();
   savedArticles.empty();
