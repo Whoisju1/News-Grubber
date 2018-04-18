@@ -22,7 +22,7 @@ if (!window.location.hash) document.querySelector('#home').style.display = 'grid
 links.forEach((link) => {
   link.onclick = (e) => {
     e.preventDefault();
-    // get the has from the clicked anchor tag
+    // get the hash from the clicked anchor tag
     const hash = e.target.getAttribute('data-location');
 
     // set the hash from the anchor tag to the url
