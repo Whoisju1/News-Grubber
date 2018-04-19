@@ -16,7 +16,11 @@ const contentContainers = Array.from(document.querySelectorAll('.content-contain
 
 // load the page that the hash matches on startup
 contentContainers.forEach((section) => {
-  if (window.location.hash.substr(1) === section.getAttribute('id')) section.style.display = 'grid'; // eslint-disable-line no-undef
+  if (window.location.hash.substr(1) === section.getAttribute('id')) { // eslint-disable-line no-undef
+    section.style.display = 'grid';
+  } else {
+    section.style.display = 'none';
+  }
 });
 
 // make sure home page is loaded at the root
