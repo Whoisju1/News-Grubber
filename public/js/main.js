@@ -8,7 +8,7 @@ const signUpBtn = document.querySelector('.header__auth--signup'); // eslint-dis
 const links = Array.from(document.querySelectorAll('a[data-location]')); // eslint-disable-line no-undef
 const savedArticlesLink = document.querySelector('.nav__link--saved-articles'); // eslint-disable-line no-undef
 const dropDown = document.querySelector('.header__dropdown'); // eslint-disable-line no-undef
-const userImg = document.querySelector('.header__auth--img');
+const userImg = document.querySelector('.header__auth--img'); // eslint-disable-line no-undef
 const signOutElem = document.querySelector('#dropdown-sign-out'); // eslint-disable-line no-undef
 
 // get target elements
@@ -26,6 +26,22 @@ contentContainers.forEach((section) => {
 // make sure home page is loaded at the root
 if (!window.location.hash) document.querySelector('#home').style.display = 'grid'; // eslint-disable-line no-undef
 
+// create function to active link
+const highlightTarget = () => {
+  links.forEach((anchorTag) => {
+    if (anchorTag.getAttribute('data-location') === window.location.hash) { // eslint-disable-line no-undef
+      anchorTag.classList.add('active-link');
+    } else if (!window.location.hash) { // eslint-disable-line no-undef
+      document.querySelector('a[data-location]').classList.add('active-link'); // eslint-disable-line no-undef
+    } else {
+      anchorTag.classList.remove('active-link');
+    }
+  });
+};
+
+// highlight selected link on startup
+highlightTarget();
+
 links.forEach((link) => {
   link.onclick = (e) => {
     e.preventDefault();
@@ -34,6 +50,9 @@ links.forEach((link) => {
 
     // set the hash from the anchor tag to the url
     window.history.pushState({}, '', hash); // eslint-disable-line
+
+    // highlight clicked link when it is clicked
+    highlightTarget();
 
     // if it is displayed make it invisible
     contentContainers.forEach((contentContainer) => {
@@ -642,8 +661,8 @@ hideFormButtons.forEach((btn) => {
 signInBtn.onclick = showLoginForm;
 signUpBtn.onclick = showSignUpForm;
 
-const startupAlert = new AlertModal();
-setTimeout(() => {
-  startupAlert.open({ message: 'This site is still under construction.' });
-}, 100);
+// const startupAlert = new AlertModal();
+// setTimeout(() => {
+//   startupAlert.open({ message: 'This site is still under construction.' });
+// }, 100);
 
