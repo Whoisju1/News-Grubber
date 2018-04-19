@@ -669,6 +669,7 @@ a.saved-article--add:visited:active {
 .about {
   grid-gap: 20px;
   padding: 20px 0;
+  grid-auto-rows: min-content;
 }
 
 .about-content-container {
