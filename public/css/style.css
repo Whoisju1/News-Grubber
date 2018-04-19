@@ -46,23 +46,25 @@ body {
 }
 
 .header__auth--img {
-  border: 2px solid lightgray;
+  border: 2px solid #b1afae;
   border-radius: 100px;
   height: auto;
   width: 2.1em;
   justify-self: right;
   cursor: pointer;
-  filter: grayscale(1);
   transition: all .2s ease;
 }
 
 .header__auth--img:hover {
-  filter: grayscale(0);
+  transform: scale(1.2);
+  border: 2px solid #ec5444;
 }
 
 .header__auth--username {
-  color: #443f3f;
+  color: #ec5444;
+  font-weight: 800;
   text-align: right;
+  text-shadow: 1px 2px 15px rgba(0, 0, 0, .2);
   cursor: pointer;
   transform: translateX(27px);
 }
