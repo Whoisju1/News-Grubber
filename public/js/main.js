@@ -7,6 +7,9 @@ const signInBtn = document.querySelector('.header__auth--signin'); // eslint-dis
 const signUpBtn = document.querySelector('.header__auth--signup'); // eslint-disable-line no-undef
 const links = Array.from(document.querySelectorAll('a[data-location]')); // eslint-disable-line no-undef
 const savedArticlesLink = document.querySelector('.nav__link--saved-articles'); // eslint-disable-line no-undef
+const dropDown = document.querySelector('.header__dropdown'); // eslint-disable-line no-undef
+const userImg = document.querySelector('.header__auth--img');
+const signOutElem = document.querySelector('#dropdown-sign-out'); // eslint-disable-line no-undef
 
 // get target elements
 const contentContainers = Array.from(document.querySelectorAll('.content-container')); // eslint-disable-line no-undef
@@ -119,7 +122,9 @@ class HeaderUserSection {
   showUser() {
     const img = JSON.parse(localStorage.getItem('img')); // eslint-disable-line no-undef
     const username = localStorage.getItem('username'); // eslint-disable-line no-undef
-    (img) ? this._userImage.setAttribute('src', img) : this._userImage.setAttribute('src', '/images/user_profile_image.png');
+    (img) ?
+      (this._userImage.setAttribute('src', img)) :
+      (this._userImage.setAttribute('src', '/images/user_profile_image.png'));
     this._username.textContent = username; // eslint-disable-line no-undef
     this._headerLoggedIn.style.display = 'grid';
     this._headerLoggedOut.style.display = 'none';
@@ -242,7 +247,6 @@ class Auth {
 
   // sign out user
   signOut() {
-    if (!this.everythingAuth) return;
     localStorage.removeItem('token'); // eslint-disable-line no-undef
     localStorage.removeItem('id'); // eslint-disable-line no-undef
     changeHeaderUserSection.showAuth();
@@ -272,7 +276,49 @@ const storeData = async ({ url, data }) => { // eslint-disable-line no-shadow
     return handleFetchError(e);
   }
 };
+// Make function and event handlers to toggles header drop down and to sign user out
+const handleSignOut = (e) => {
+  e.preventDefault();
+  // logout user
+  auth.signOut();
+};
 
+// create function that hides dropdown
+const hideDropdown = () => {
+  dropDown.classList.add('dropdown-disappear');
+  dropDown.classList.remove('dropdown-appear');
+};
+
+// create function that shows dropdown
+const showDropdown = () => {
+  dropDown.classList.add('dropdown-appear');
+  dropDown.classList.remove('dropdown-disappear');
+};
+
+const toggleDropDown = () => {
+  if (dropDown.classList.contains('dropdown-appear')) {
+    hideDropdown();
+  } else {
+    showDropdown();
+  }
+};
+
+// show dropdown when user image is clicked
+userImg.addEventListener('click', (e) => {
+  e.stopPropagation();
+  toggleDropDown();
+}, true);
+
+// hide dropdown when any dropdown item is clicked
+Array.from(document.querySelectorAll('.header__dropdown-item')) // eslint-disable-line no-undef
+  .forEach(elem => elem.addEventListener('click', hideDropdown));
+
+// logout user when the logout option in the dropdown is clicked
+signOutElem.addEventListener('click', handleSignOut);
+
+window.addEventListener('click', (e) => { // eslint-disable-line no-undef
+  if (e.target !== document.querySelector('.header__auth--img')) hideDropdown(); // eslint-disable-line no-undef
+}, false);
 class SavedArticles {
   constructor() {
     // grab container
