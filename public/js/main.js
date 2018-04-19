@@ -317,6 +317,7 @@ Array.from(document.querySelectorAll('.header__dropdown-item')) // eslint-disabl
 signOutElem.addEventListener('click', handleSignOut);
 
 window.addEventListener('click', (e) => { // eslint-disable-line no-undef
+  // close dropdown when uer clicks anything that is not dropdown
   if (e.target !== document.querySelector('.header__auth--img')) hideDropdown(); // eslint-disable-line no-undef
 }, false);
 class SavedArticles {
