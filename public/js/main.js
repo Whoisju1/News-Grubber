@@ -143,11 +143,11 @@ class HeaderUserSection {
   }
 
   showUser() {
-    const img = JSON.parse(localStorage.getItem('img')); // eslint-disable-line no-undef
+    const img = (localStorage.getItem('img') !== 'null') ? // eslint-disable-line no-undef
+      localStorage.getItem('img') : // eslint-disable-line no-undef
+      '/images/user_profile_image.png';
     const username = localStorage.getItem('username'); // eslint-disable-line no-undef
-    (img) ?
-      (this._userImage.setAttribute('src', img)) :
-      (this._userImage.setAttribute('src', '/images/user_profile_image.png'));
+    this._userImage.setAttribute('src', img);
     this._username.textContent = username; // eslint-disable-line no-undef
     this._headerLoggedIn.style.display = 'grid';
     this._headerLoggedOut.style.display = 'none';
