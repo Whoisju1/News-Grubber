@@ -362,11 +362,11 @@ class SavedArticles {
   }
 
   // create function to print placeholder content when there's no data to populate this section
-  insertPlaceholder() {
+  insertPlaceholder(placeholderText) {
     this.empty();
     this._container.innerHTML = `
       <div class="saved-article__placeholder">
-        You have no articles saved yet.
+        ${placeholderText}
       </div>
     `;
   }
@@ -482,7 +482,7 @@ class SavedArticles {
       contentWrapper.classList.add('disappear');
       setTimeout(() => {
         contentWrapper.remove();
-        if (!this._container.childNodes.length) return this.insertPlaceholder();
+        if (!this._container.childNodes.length) return this.insertPlaceholder('You have no articles saved yet.');
       }, 600);
     }, true);
   }
@@ -548,10 +548,13 @@ const savedArticles = new SavedArticles();
 
 // make function to show saved articles page
 const showSavedArticlesPage = async () => {
+  const token = localStorage.getItem('token'); // eslint-disable-line no-undef
+  // if user is not logged in insert placeholder text instead
+  if (!token) return savedArticles.insertPlaceholder('You must be logged in to save articles.');
   const id = localStorage.getItem('id'); // eslint-disable-line no-undef
   const url = `/api/users/${id}/articles`; // eslint-disable-line no-undef
   const articles = await savedArticles.getAllArticles(url);
-  if (!articles.data.length) return savedArticles.insertPlaceholder();
+  if (!articles.data.length) return savedArticles.insertPlaceholder('You have no articles saved yet.');
   savedArticles.empty();
   articles.data.forEach(item => savedArticles.populateContainer(item));
 };
