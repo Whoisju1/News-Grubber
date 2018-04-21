@@ -143,7 +143,9 @@ class HeaderUserSection {
   }
 
   showUser() {
-    const img = (localStorage.getItem('img') !== 'null') ? // eslint-disable-line no-undef
+    const img = (localStorage.getItem('img') !== 'null' && // eslint-disable-line no-undef
+    localStorage.getItem('img') !== 'undefined' && // eslint-disable-line no-undef
+    localStorage.getItem('img') !== null) ? // eslint-disable-line no-undef
       localStorage.getItem('img') : // eslint-disable-line no-undef
       '/images/user_profile_image.png';
     const username = localStorage.getItem('username'); // eslint-disable-line no-undef
