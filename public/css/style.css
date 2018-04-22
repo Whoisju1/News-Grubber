@@ -794,11 +794,22 @@ a.saved-article--add:visited:active {
    font-size: 1.09rem;
    justify-content: center;
  }
+
+ .header__auth > button {
+   font-size: .9rem;
+ }
+ 
 }
 
 @media screen and (max-width: 500px) {
   .header__logo {
     font-size: 1.2rem
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .header__nav {
+    grid-column: 4/9;
   }
 }
 
@@ -816,5 +827,18 @@ a.saved-article--add:visited:active {
 
   .header__auth {
     grid-column: 11/13;
+  }
+}
+
+@media screen and (max-width: 817px) {
+  .header__auth--signin,
+  .header__auth--signup {
+    font-size: 1.1rem;
+  }
+}
+@media screen and (max-width: 700px) {
+  .header__auth--signin,
+  .header__auth--signup {
+    grid-column: span 2;
   }
 }
