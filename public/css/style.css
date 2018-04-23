@@ -232,7 +232,7 @@ body {
   border-top: .05rem solid gray;
   border-bottom: .05rem solid gray;
   grid-column: 2/12;
-  /* grid-gap: 10px; */
+  grid-gap: 1rem;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: 1fr min-content;
   padding: 2% 0;
@@ -557,17 +557,12 @@ a.saved-article--add:visited:active {
 }
 
 .article__btn--save {
-  grid-column: 2/-1;
+  grid-column: -2/-1;
   cursor: pointer;
 }
 
 .saved-articles {
   border: .05rem solid gray;
-}
-
-.article__btn--save {
-  justify-self: end;
-  width: 10%;
 }
 
 /* LOGIN FORM */
@@ -806,12 +801,35 @@ a.saved-article--add:visited:active {
   .header__auth--signup {
     font-size: 1.1rem;
   }
+
+  .article {
+    grid-column: 1/-1;
+  }
+
+  .article__img {
+    float: left;
+    width: 9rem;
+  }
+
+  .article__btn--save {
+    grid-column: 8/span 1;
+  }
 }
 
 @media screen and (max-width: 700px) {
   .header__auth--signin,
   .header__auth--signup {
     grid-column: span 2;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .article__img {
+    width: 8rem;
+  }
+
+  .article__btn--save {
+    grid-column-end: span 2;  
   }
 }
 
