@@ -229,7 +229,6 @@ body {
 
 .article {
   display: grid;
-  border-top: .05rem solid gray;
   border-bottom: .05rem solid gray;
   grid-column: 2/12;
   grid-gap: 1rem;
