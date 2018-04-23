@@ -780,10 +780,6 @@ a.saved-article--add:visited:active {
 }
 
 @media screen and (max-width: 550px) {
-  body {
-    padding: 0;
-  }
-  
  .header__auth--username {
    display: none;
   }
@@ -801,6 +797,24 @@ a.saved-article--add:visited:active {
  
 }
 
+@media screen and (max-width: 817px) {
+  body {
+    padding: 0;
+  }
+  
+  .header__auth--signin,
+  .header__auth--signup {
+    font-size: 1.1rem;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .header__auth--signin,
+  .header__auth--signup {
+    grid-column: span 2;
+  }
+}
+
 @media screen and (max-width: 500px) {
   .header__logo {
     font-size: 1.2rem
@@ -810,6 +824,17 @@ a.saved-article--add:visited:active {
 @media screen and (max-width: 420px) {
   .header__nav {
     grid-column: 4/9;
+    grid-template-columns: repeat(3, 33.333%);
+  }
+
+  .header__logo {
+    grid-column: 1/span 2;
+    font-size: 1.2rem;
+    transform: translateX(.4rem);
+  }
+
+  .header__auth--logged-out {
+    grid-column: 9/ span 4;
   }
 }
 
@@ -817,28 +842,9 @@ a.saved-article--add:visited:active {
   .header__logo {
     font-size: 1rem;
     width: 150%;
-    transform: translateX(-2rem);
   }
 
   .header__nav {
-    grid-column: 4/11;
     font-size: 1rem;
-  }
-
-  .header__auth {
-    grid-column: 11/13;
-  }
-}
-
-@media screen and (max-width: 817px) {
-  .header__auth--signin,
-  .header__auth--signup {
-    font-size: 1.1rem;
-  }
-}
-@media screen and (max-width: 700px) {
-  .header__auth--signin,
-  .header__auth--signup {
-    grid-column: span 2;
   }
 }
