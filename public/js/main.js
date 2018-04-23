@@ -430,13 +430,13 @@ class SavedArticles {
     const renderNotes = (articleNotes) => {
       notesContainer.innerHTML = '';
       if (articleNotes.length) {
-        articleNotes.forEach(({ note, timeCreated }) => {
+        articleNotes.forEach(({ _id: noteID, note, timeCreated }) => {
           const noteContent = `
               <div class="note__content">
                 ${note}
               </div>
-              <i class="fa fa-edit note-edit" aria-hidden="true"></i>
-              <i class="fa fa-remove note-remove" aria-hidden="true"></i>
+              <i class="fa fa-edit note-edit" id="note-edit-${noteID}" aria-hidden="true"></i>
+              <i class="fa fa-remove note-remove" id="note-remove-${noteID}" aria-hidden="true"></i>
               <div class="note__date">
                 ${moment(timeCreated).fromNow()}
               </div>
@@ -445,6 +445,38 @@ class SavedArticles {
           noteContentWrapper.classList.add('note');
           noteContentWrapper.innerHTML = noteContent;
           notesContainer.appendChild(noteContentWrapper);
+
+          // get note edit and delete buttons
+          const noteEditBtn = document.querySelector(`#note-edit-${noteID}`); // eslint-disable-line no-undef
+          const noteRemoveBtn = document.querySelector(`#note-remove-${noteID}`); // eslint-disable-line no-undef
+
+          noteEditBtn.addEventListener('click', async (e) => {
+            try {
+              // const { target } = e;
+            } catch (err) {
+              handleFetchError(err);
+            }
+          });
+
+          noteRemoveBtn.addEventListener('click', async (e) => {
+            try {
+              const { target } = e;
+              // get token and user id to get authorization
+              const userID = localStorage.getItem('id'); // eslint-disable-line no-undef
+              const token = localStorage.getItem('token'); // eslint-disable-line no-undef
+              await axios({ // eslint-disable-line no-undef
+                url: `/api/users/${userID}/notes`,
+                method: 'delete',
+                headers: { Authorization: `Bearer ${token}` },
+                data: { articleID, noteID },
+              });
+
+              target.parentNode.remove();
+            } catch (err) {
+              handleFetchError(err);
+            }
+          });
+
           return note;
         });
       }
