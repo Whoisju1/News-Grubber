@@ -427,35 +427,84 @@ class SavedArticles {
     const removeFormBtn = document.querySelector(`#form-remove-${articleID}`); // eslint-disable-line no-undef
     const notesContainer = document.querySelector(`#note-container-${articleID}`); // eslint-disable-line no-undef
 
+    // write function to create a fragment that contains the form to edit notes
+    const createNoteForm = ({ note, noteID }, callback) => {
+      const fragment = document.createDocumentFragment(); // eslint-disable-line no-undef
+      const noteEditBackdrop = document.createElement('div'); // eslint-disable-line no-undef
+      noteEditBackdrop.classList.add('note-edit-form__backdrop');
+      const noteEditForm = document.createElement('form'); // eslint-disable-line no-undef
+      noteEditForm.classList.add('note-edit-form');
+      noteEditForm.innerHTML = `
+        <label class="note-edit-form__label">Edit Note</label>
+        <textarea class="note-edit-form__textarea" name="note">${note}</textarea>
+        <input type="submit" class="note-edit-form__submit" />
+      `;
+      // add event handler to note edit form
+      noteEditForm.addEventListener('submit', async (e) => {
+        try {
+          e.preventDefault();
+          // get token and user id to get authorization
+          const userID = localStorage.getItem('id'); // eslint-disable-line no-undef
+          const token = localStorage.getItem('token'); // eslint-disable-line no-undef
+          const noteBody = new FormData(e.target).get('note'); // eslint-disable-line no-undef
+          const { data } = await axios({ // eslint-disable-line no-undef
+            url: `/api/users/${userID}/notes`,
+            method: 'put',
+            headers: { Authorization: `Bearer ${token}` },
+            data: { articleID, noteID, noteBody },
+          });
+          // get note from returned payload
+          const [{ note: newData }] =
+            data.notes.filter(returnedNote => returnedNote._id === noteID);
+
+          callback(newData);
+          noteEditBackdrop.remove();
+        } catch (err) {
+          handleFetchError(err);
+        }
+      });
+      noteEditBackdrop.appendChild(noteEditForm);
+      fragment.appendChild(noteEditBackdrop);
+      return fragment;
+    };
+
     const renderNotes = (articleNotes) => {
       notesContainer.innerHTML = '';
       if (articleNotes.length) {
         articleNotes.forEach(({ _id: noteID, note, timeCreated }) => {
           const noteContent = `
-              <div class="note__content">
-                ${note}
-              </div>
-              <i class="fa fa-edit note-edit" id="note-edit-${noteID}" aria-hidden="true"></i>
-              <i class="fa fa-remove note-remove" id="note-remove-${noteID}" aria-hidden="true"></i>
-              <div class="note__date">
-                ${moment(timeCreated).fromNow()}
-              </div>
+            <div class="note__content" id="note-content-${noteID}">
+              ${note}
+            </div>
+            <i class="fa fa-edit note-edit" id="note-edit-${noteID}" aria-hidden="true"></i>
+            <i class="fa fa-remove note-remove" id="note-remove-${noteID}" aria-hidden="true"></i>
+            <div class="note__date">
+              ${moment(timeCreated).fromNow()}
+            </div>
           `;
           const noteContentWrapper = document.createElement('div'); // eslint-disable-line no-undef
           noteContentWrapper.classList.add('note');
           noteContentWrapper.innerHTML = noteContent;
           notesContainer.appendChild(noteContentWrapper);
 
+          // make function to change content of the note
+          const updateNote = (newNote) => {
+            const noteContainer = document.querySelector(`#note-content-${noteID}`); // eslint-disable-line no-undef
+            noteContainer.innerHTML = newNote;
+          };
+
           // get note edit and delete buttons
           const noteEditBtn = document.querySelector(`#note-edit-${noteID}`); // eslint-disable-line no-undef
           const noteRemoveBtn = document.querySelector(`#note-remove-${noteID}`); // eslint-disable-line no-undef
 
           noteEditBtn.addEventListener('click', async (e) => {
-            try {
-              // const { target } = e;
-            } catch (err) {
-              handleFetchError(err);
-            }
+            e.preventDefault();
+            const noteEditForm = createNoteForm({
+              note,
+              noteID,
+            }, updateNote);
+
+            this._container.appendChild(noteEditForm);
           });
 
           noteRemoveBtn.addEventListener('click', async (e) => {
