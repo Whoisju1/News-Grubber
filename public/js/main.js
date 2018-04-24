@@ -428,16 +428,21 @@ class SavedArticles {
     const notesContainer = document.querySelector(`#note-container-${articleID}`); // eslint-disable-line no-undef
 
     // write function to create a fragment that contains the form to edit notes
-    const createNoteForm = ({ note, noteID }, callback) => {
+    const createNoteForm = ({ noteID }, callback) => {
       const fragment = document.createDocumentFragment(); // eslint-disable-line no-undef
       const noteEditBackdrop = document.createElement('div'); // eslint-disable-line no-undef
       noteEditBackdrop.classList.add('note-edit-form__backdrop');
       const noteEditForm = document.createElement('form'); // eslint-disable-line no-undef
       noteEditForm.classList.add('note-edit-form');
+
+      // get the note from the dom
+      const getNote = () => document.querySelector(`#note-content-${noteID}`).textContent.trim(); // eslint-disable-line no-undef
+
       noteEditForm.innerHTML = `
         <label class="note-edit-form__label">Edit Note</label>
-        <textarea class="note-edit-form__textarea" name="note">${note}</textarea>
-        <input type="submit" class="note-edit-form__submit" />
+        <textarea class="note-edit-form__textarea" name="note">${getNote()}</textarea>
+        <input type="submit" value="SAVE" class="note-edit-form__submit" />
+        <button class="note-edit-cancel">Leave Unedited</button>
       `;
       // add event handler to note edit form
       noteEditForm.addEventListener('submit', async (e) => {
@@ -747,8 +752,8 @@ hideFormButtons.forEach((btn) => {
 signInBtn.onclick = showLoginForm;
 signUpBtn.onclick = showSignUpForm;
 
-const startupAlert = new AlertModal();
-setTimeout(() => {
-  startupAlert.open({ message: 'This site is still under construction.' });
-}, 100);
+// const startupAlert = new AlertModal();
+// setTimeout(() => {
+//   startupAlert.open({ message: 'This site is still under construction.' });
+// }, 100);
 
