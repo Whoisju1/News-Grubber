@@ -308,11 +308,11 @@ body {
 } 
 
 @keyframes disappear {
-  to {
+  0% {
     opacity: 1;
     transform: scale(1);
   }
-  from {
+  100% {
     opacity: 0;
     transform: scale(0);
   }
