@@ -470,6 +470,17 @@ class SavedArticles {
       });
       noteEditBackdrop.appendChild(noteEditForm);
       fragment.appendChild(noteEditBackdrop);
+
+      // target the cancel button
+      const cancelBtn = fragment.querySelector('.note-edit-cancel');
+
+      // add event handler to cancel button
+      cancelBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        // close the form when clicked
+        noteEditBackdrop.remove();
+      });
+
       return fragment;
     };
 
