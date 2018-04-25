@@ -237,12 +237,12 @@ body {
   padding: 2% 0;
 }
 
-
 .saved-articles {
   grid-gap: 1rem;
   grid-auto-rows: min-content;
-  padding: 1% 0;
   display: grid;
+  border: .05rem solid gray;
+  padding: 1rem 0;
 }
 
 .saved-article {
@@ -555,13 +555,33 @@ a.saved-article--add:visited:active {
   color: #8a8a8a;
 }
 
-.article__btn--save {
+.article__btn--save,
+.article__btn--save:link,
+.article__btn--save:visited
+ {
   grid-column: -2/-1;
   cursor: pointer;
+  background-color: #e74c3c;
+  color: #ffffff;
+  border: .1rem solid #e74c3c;
+  transition: transform .1s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  padding: .2rem 0;
+  box-shadow: .1rem .3rem 1.4rem rgba(0, 0, 0, .3);
 }
 
-.saved-articles {
-  border: .05rem solid gray;
+.article__btn--save:hover {
+  transform: translateY(-.2rem);
+  box-shadow: .1rem .5rem 1.4rem rgba(0, 0, 0, .3);
+}
+
+.article__btn--save:active {
+  transform: translateY(.1rem);
+  background-color: #f4a3a3;
+  box-shadow: .1rem .2rem .2rem rgba(0, 0, 0, .5);
 }
 
 /* LOGIN FORM */
@@ -686,10 +706,9 @@ a.saved-article--add:visited:active {
   margin: .5rem 0;
 }
 
-.note-edit-form__textarea,
-.note-edit-form__textarea:focus {
+.note-edit-form__textarea {
   width: 100%;
-  height: 30rem;
+  height: 19rem;
   max-height: 60vh;
   justify-self: center;
   resize: vertical;
