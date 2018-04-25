@@ -457,6 +457,7 @@ a.saved-article--add:visited:active {
   color: gray;
   filter: grayscale(1);
   text-align: center;
+  justify-self: left;
 }
 
 .note-edit {
