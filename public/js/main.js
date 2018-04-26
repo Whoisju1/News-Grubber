@@ -1,7 +1,5 @@
 /* eslint no-plusplus: 0 */
 const saveButtons = Array.from(document.querySelectorAll('.article__btn--save')); // eslint-disable-line no-undef
-const loginForm = document.querySelector('.login__form'); // eslint-disable-line no-undef
-const signUpForm = document.querySelector('.signup__form'); // eslint-disable-line no-undef
 const hideFormButtons = Array.from(document.querySelectorAll('.close-form')); // eslint-disable-line no-undef
 const signInBtn = document.querySelector('.header__auth--signin'); // eslint-disable-line no-undef
 const signUpBtn = document.querySelector('.header__auth--signup'); // eslint-disable-line no-undef
@@ -10,6 +8,67 @@ const savedArticlesLink = document.querySelector('.nav__link--saved-articles'); 
 const dropDown = document.querySelector('.header__dropdown'); // eslint-disable-line no-undef
 const userImg = document.querySelector('.header__auth--img'); // eslint-disable-line no-undef
 const signOutElem = document.querySelector('#dropdown-sign-out'); // eslint-disable-line no-undef
+
+class ModalAuthForm {
+  constructor({ formLabel, inputPlaceholder, submitBtnVal }) {
+    this._template = document.createElement('template'); // eslint-disable-line no-undef
+    this._template.innerHTML = `
+      <div class="backdrop">
+        <form class="auth-form">
+        <i class="fa fa-close close-form" aria-hidden="true"></i>
+          <label class="auth-form__label">${formLabel}</label>
+          <input
+            class="auth-form__input auth-form__input--username"
+            name="username"
+            placeholder="${inputPlaceholder}"
+            required
+            autofocus
+          />
+          <input type="password"
+            placeholder="Password"
+            name="password"
+          />
+          <input type="submit"
+            class="auth-form__input--submit"
+            value="${submitBtnVal}"
+            required
+          />
+        </form>
+      </div>
+    `;
+
+    this._fragment = this._template.content.cloneNode(true);
+    this._form = this._fragment.querySelector('form');
+    this._backdrop = this._fragment.querySelector('.backdrop');
+    this._closeBtn = this._fragment.querySelector('.close-form');
+    this.mount = this.mount.bind(this);
+    this.unmount = this.unmount.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.getFormData = this.getFormData.bind(this);
+    this._closeBtn.addEventListener('click', this.unmount);
+  }
+
+  onSubmit(handleSubmit) {
+    this._form.addEventListener('submit', handleSubmit);
+    return this._fragment;
+  }
+
+  mount(parent) {
+    parent.appendChild(this._fragment);
+  }
+
+  unmount() {
+    this._backdrop.remove();
+  }
+
+  getFormData() {
+    const formData = new FormData(this._form); // eslint-disable-line no-undef
+    return {
+      username: formData.get('username'),
+      password: formData.get('password'),
+    };
+  }
+}
 
 // get target elements
 const contentContainers = Array.from(document.querySelectorAll('.content-container')); // eslint-disable-line no-undef
@@ -178,11 +237,6 @@ const handleFetchError = (ErrClass => (err) => {
   if (err.response.data) fetchErr.open({ message });
 })(AlertModal);
 
-const showBackdrop = (elem) => {
-  elem.parentElement.classList.add('show-form');
-  elem.parentElement.classList.remove('hide-form');
-};
-
 class Auth {
   constructor() {
     this.loginState = !!localStorage.getItem('token'); // eslint-disable-line no-undef
@@ -279,10 +333,6 @@ class Auth {
 }
 
 const auth = new Auth();
-
-// make functions that hide forms
-const showLoginForm = () => showBackdrop(loginForm);
-const showSignUpForm = () => showBackdrop(signUpForm);
 
 // create function for storing data
 const storeData = async ({ url, data }) => { // eslint-disable-line no-shadow
@@ -701,51 +751,51 @@ saveButtons.forEach((btn) => {
   };
 });
 
-// login
-loginForm.onsubmit = async function (event) {
-  event.preventDefault();
-  const form = this;
-  const formData = new FormData(form); // eslint-disable-line no-undef
-  const username = formData.get('username');
-  const password = formData.get('password');
-  const userData = await auth.signIn({
-    username,
-    password,
-  }, () => {
-    const backdrop = form.parentNode;
-    backdrop.classList.remove('show-form');
-    backdrop.classList.add('hide-form');
-    // empty form
-    form[1].value = '';
-    form['0'].value = '';
+const operateLoginForm = () => {
+  // create user login form
+  const loginForm = new ModalAuthForm({
+    formLabel: 'Login',
+    inputPlaceholder: 'Username',
+    submitBtnVal: 'Login',
   });
-  // hide form
-  return userData;
+
+  // login
+  const handleUserLogin = async (event) => {
+    event.preventDefault();
+    try {
+      const formData = loginForm.getFormData();
+      const userData = await auth.signIn(formData, loginForm.unmount);
+      return userData;
+    } catch (e) {
+      handleFetchError(e);
+    }
+  };
+  // sign in
+  loginForm.onSubmit(handleUserLogin);
+
+  // mount form
+  loginForm.mount(document.body); // eslint-disable-line no-undef
 };
 
-// sign up
-signUpForm.onsubmit = async function (event) {
-  event.preventDefault();
-  const form = this;
-  const formData = new FormData(form); // eslint-disable-line no-undef
-  const username = formData.get('username');
-  const password = formData.get('password');
-  const userData = await auth.signUp({
-    username,
-    password,
-  }, () => {
-    const backdrop = form.parentNode;
-    backdrop.classList.remove('show-form');
-    backdrop.classList.add('hide-form');
-    // empty form
-    form[1].value = '';
-    form['0'].value = '';
+
+const operateSignUpForm = () => {
+  // create user signup form
+  const signUpForm = new ModalAuthForm({
+    formLabel: 'Sign Up',
+    inputPlaceholder: 'Username',
+    submitBtnVal: 'Sign Up',
   });
-  // hide form
-  const backdrop = form.parentNode;
-  backdrop.classList.remove('show-form');
-  backdrop.classList.add('hide-form');
-  return userData;
+
+  const handleUserSignup = async (e) => {
+    e.preventDefault();
+    const formData = signUpForm.getFormData();
+    await auth.signUp(formData, signUpForm.unmount);
+  };
+  // sign up
+  signUpForm.onSubmit(handleUserSignup);
+
+  // mount form
+  signUpForm.mount(document.body); // eslint-disable-line no-undef
 };
 
 // hide form
@@ -760,8 +810,8 @@ hideFormButtons.forEach((btn) => {
   };
 });
 
-signInBtn.onclick = showLoginForm;
-signUpBtn.onclick = showSignUpForm;
+signInBtn.addEventListener('click', operateLoginForm); // eslint-disable-line no-undef
+signUpBtn.addEventListener('click', operateSignUpForm); // eslint-disable-line no-undef
 
 // const startupAlert = new AlertModal();
 // setTimeout(() => {
