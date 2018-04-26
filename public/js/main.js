@@ -538,6 +538,7 @@ class SavedArticles {
       notesContainer.innerHTML = '';
       if (articleNotes.length) {
         articleNotes.forEach(({ _id: noteID, note, timeCreated }) => {
+          const time = moment(timeCreated).fromNow(); // eslint-disable-line no-undef
           const noteContent = `
             <div class="note__content" id="note-content-${noteID}">
               ${note}
@@ -545,7 +546,7 @@ class SavedArticles {
             <i class="fa fa-edit note-edit" id="note-edit-${noteID}" aria-hidden="true"></i>
             <i class="fa fa-remove note-remove" id="note-remove-${noteID}" aria-hidden="true"></i>
             <div class="note__date">
-              ${moment(timeCreated).fromNow()}
+              ${time}
             </div>
           `;
           const noteContentWrapper = document.createElement('div'); // eslint-disable-line no-undef
