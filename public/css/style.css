@@ -595,8 +595,7 @@ a.saved-article--add:visited:active {
 }
 
 /* LOGIN FORM */
-.login__backdrop,
-.signup__backdrop {
+.backdrop {
   background-color: rgba(0, 0, 0, .4);
   width: 100vw;
   height: 100vh;
@@ -609,16 +608,38 @@ a.saved-article--add:visited:active {
   z-index: 2;
 }
 
-.form {
-  background: white;
+.auth-form {
   display: grid;
-  justify-content: center;
-  align-content: center;
-  height: 20rem;
-  min-width: 30%;
+  height: 21rem;
   grid-gap: 1rem;
   position: relative;
   z-index: 3;
+  background-color: #f3f3f3;
+  width: 32rem;
+  padding: 3rem;
+  max-width: 100vw;
+  border: .05rem solid darkgray;
+  border-radius: 1rem;
+}
+
+.auth-form__label {
+  text-shadow: .1rem .2rem 1.5rem rgba(0, 0, 0, .3);
+  color: #e74c3c;;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.auth-form__input--submit {
+  background: #e74c3c;
+  border: transparent;
+  color: white;
+  box-shadow: .1rem .2rem 1rem rgba(0, 0, 0, .2);
+  cursor: pointer;
+  transition: all .3s ease;
+}
+
+.auth-form__input--submit:hover {
+  transform: scale(1.01);
 }
 
 /* Form - close icon */
