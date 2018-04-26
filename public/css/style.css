@@ -84,7 +84,6 @@ body {
   font-weight: 800;
   text-align: right;
   text-shadow: .1rem .2rem 1.5rem rgba(0, 0, 0, .2);
-  cursor: pointer;
   transform: translateX(2.7rem);
 }
 
