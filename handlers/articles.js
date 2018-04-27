@@ -28,6 +28,9 @@ exports.saveArticle = async (req, res, next) => {
       publicationDate,
     });
 
+    const count = await db.Article.count({ url }).where({ user: userID });
+    if (count) return next({ status: 400, message: 'This article is already in your collection.' });
+
     article.user = userID;
     article.save();
 
@@ -51,6 +54,7 @@ exports.saveArticle = async (req, res, next) => {
     return next(error);
   }
 };
+
 exports.getArticles = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -60,6 +64,7 @@ exports.getArticles = async (req, res, next) => {
     return next(e);
   }
 };
+
 exports.deleteArticle = async (req, res, next) => {
   try {
     // get article id from the request body
