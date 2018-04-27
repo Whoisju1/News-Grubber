@@ -28,6 +28,7 @@ exports.saveArticle = async (req, res, next) => {
       publicationDate,
     });
 
+    // return an error message if article already exists
     const count = await db.Article.count({ url }).where({ user: userID });
     if (count) return next({ status: 400, message: 'This article is already in your collection.' });
 
