@@ -351,12 +351,6 @@ const storeData = async ({ url, data }) => { // eslint-disable-line no-shadow
     return handleFetchError(e);
   }
 };
-// Make function and event handlers to toggles header drop down and to sign user out
-const handleSignOut = (e) => {
-  e.preventDefault();
-  // logout user
-  auth.signOut();
-};
 
 // create function that hides dropdown
 const hideDropdown = () => {
@@ -388,8 +382,6 @@ userImg.addEventListener('click', (e) => {
 Array.from(document.querySelectorAll('.header__dropdown-item')) // eslint-disable-line no-undef
   .forEach(elem => elem.addEventListener('click', hideDropdown));
 
-// logout user when the logout option in the dropdown is clicked
-signOutElem.addEventListener('click', handleSignOut);
 
 window.addEventListener('click', (e) => { // eslint-disable-line no-undef
   // close dropdown when uer clicks anything that is not dropdown
@@ -716,6 +708,17 @@ savedArticlesLink.addEventListener('click', (e) => {
   showSavedArticlesPage();
   return false;
 });
+
+// Make function and event handlers to toggles header drop down and to sign user out
+const handleSignOut = (e) => {
+  e.preventDefault();
+  // logout user
+  auth.signOut();
+  if (window.location.hash === '#saved-articles') showSavedArticlesPage(); // eslint-disable-line no-undef
+};
+
+// logout user when the logout option in the dropdown is clicked
+signOutElem.addEventListener('click', handleSignOut);
 
 saveButtons.forEach((btn) => {
   btn.onclick = async function () { // eslint-disable-line no-param-reassign
