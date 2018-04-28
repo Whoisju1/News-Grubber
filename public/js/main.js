@@ -768,8 +768,8 @@ const operateLoginForm = () => {
     event.preventDefault();
     try {
       const formData = loginForm.getFormData();
-      const userData = await auth.signIn(formData, loginForm.unmount);
-      return userData;
+      await auth.signIn(formData, loginForm.unmount);
+      if (window.location.hash === '#saved-articles') showSavedArticlesPage(); // eslint-disable-line no-undef
     } catch (e) {
       handleFetchError(e);
     }
