@@ -935,6 +935,10 @@ a.saved-article--add:visited:active {
     width: 13rem;
     height: 7rem;
   }
+
+  .about__img {
+    width: 12rem;
+  }
 }
 
 @media screen and (max-width: 550px) {
