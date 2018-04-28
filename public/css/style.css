@@ -283,6 +283,7 @@ body {
 }
 
 .saved-article__title--main {
+  width: 94%;
   grid-column: 2/span 4;
   text-transform: uppercase;
   font-weight: 600;
@@ -875,6 +876,11 @@ a.saved-article--add:visited:active {
   .header__logo {
     font-size: 1.5rem;
   }
+  .note-edit,
+  .note-remove,
+  .saved-article--dlt {
+    visibility: visible;
+  }
 }
 
 @media screen and (max-width: 907px) {
@@ -951,6 +957,11 @@ a.saved-article--add:visited:active {
   .header__logo {
     font-size: 1.2rem
   }
+  .saved-article {
+    grid-column: 1/-1;
+    border-left: none;
+    border-right: none;
+  }
 }
 
 @media screen and (max-width: 420px) {
@@ -967,6 +978,10 @@ a.saved-article--add:visited:active {
 
   .header__auth--logged-out {
     grid-column: 9/ span 4;
+  }
+
+  .header__nav {
+    grid-column: 4/10;
   }
 }
 
