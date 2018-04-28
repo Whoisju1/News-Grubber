@@ -895,10 +895,6 @@ a.saved-article--add:visited:active {
 }
 
 @media screen and (max-width: 550px) {
- .header__auth--username {
-   display: none;
-  }
-
  .header__auth {
    grid-column: 10/13;
    display: flex;
@@ -969,6 +965,10 @@ a.saved-article--add:visited:active {
     grid-column: 4/9;
     grid-template-columns: repeat(3, 33.333%);
   }
+  
+  .header__auth {
+    transform: translateX(-1rem);
+  }
 
   .header__logo {
     grid-column: 1/span 2;
@@ -978,10 +978,6 @@ a.saved-article--add:visited:active {
 
   .header__auth--logged-out {
     grid-column: 9/ span 4;
-  }
-
-  .header__nav {
-    grid-column: 4/10;
   }
 }
 
