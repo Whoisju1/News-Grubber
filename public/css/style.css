@@ -875,6 +875,41 @@ a.saved-article--add:visited:active {
   border: .5rem solid #EB5757;
 }
 
+.about__title--sub {
+  margin: 1rem 0;
+  font-weight: 600;
+  color: #EB5757;
+  font-size: 2rem;
+}
+
+.about__list-item {
+  text-indent: 1rem;
+  margin: 1rem 0;
+}
+
+.about__list-item::before {
+  content: "• ";
+  color: #EB5757;
+}
+
+.about__content--bio {
+  text-align: justify;
+  word-spacing: 3rem;
+}
+
+.about__content--bio::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+@media screen and (min-width: 900px) {
+  .about-content-container {
+    grid-column: 2/11;
+  }
+}
+
+
 @media screen and (max-width: 1100px) {
   body {
     padding: 2rem;
