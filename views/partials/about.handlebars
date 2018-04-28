@@ -1,23 +1,38 @@
 <section class="content-container about" id="about">
   <div class="about--news-grubber about-content-container">
-    <h2 class="about__heading--sub">What is News Grubber?</h2>
-    <p class="about__purpose about__content">
+    <p class="about__content--purpose">
+      <h2 class="about__heading--sub">What is News Grubber?</h2>
       This app is a non commercial app that scraps <a href="https://www.cnet.com" class="about__purpose--link">CNET's homepage</a> for articles and lets you store the links to those articles and leave notes for articles of your choice.
-      This side was built using Handlebars, JavaScript (including ES6 and ES7), CSS Grid Layouts, CSS3, Node.js, Express, MongoDB. Authentication and authorization was done using json web tokens and password was encrypted using bcrypt. The scrapping was done using the Cheerio and Request 
-      packages. In the dev environment I utilized Eslint to maintain good coding habits and practices.  
+      It is a full stack application built using the MVC pattern where Node.js is used to develope the back end portion of it.
+      Express router was used to handling the routing and Express Handlebars to display the front end portion of News Grubber. The <a href="https://github.com/Whoisju1/News-Grubber.git" target="_blank">source code</a> for the application can be viewed if you want a more detailed knowledge of how 
+      the various technologies are utilized. 
     </p>
-  </div>
-  <div class="meet-the-dev about-content-container">
-    <h2 class="about__heading--sub">
-      <span class="about__heading--dev-title">
+    <p class="about__content about__content--tech">
+      <h3 class="about__heading--sub">Tech Used to Build News Grubber<h3>
+      <ul class="about__list">
+        <li class="about__list-item">Node.js (For back-end)</li>
+        <li class="about__list-item">Express (For route handling)</li>
+        <li class="about__list-item">Handlebars Templating Engine</li>
+        <li class="about__list-item">Using JSON web tokens & Bcrypt (For user authentication & authorization)</li>
+        <li class="about__list-item">Cheerio and Request (For Scraping)</li>
+        <li class="about__list-item">CSS3 & CSS Grid (To page layout and styling)</li>
+        <li class="about__list-item">JavaScript (ES6 & ES7)</li>
+        <li class="about__list-item">HTML5</li>
+        <li class="about__list-item">ES Lint (to ensure good coding practices)</li>
+        <li class="about__list-item">RESTful APIs</li>
+        <li class="about__list-item">MVC (file and folder structure)</li>
+      </ul>
+    </p>
+    <p class="about__content about__content--bio">
+      <h2 class="about__heading--sub">
         Meet the Developer
-      </span>
-    </h2>
-    <img src="/images/dev_photo.jpg" alt="Developer Image" class="about__img">
-    <p class="dev__bio about__content">
-      My name is Juan John-Charles, the developer of this website. I absolutely love web development since I got into it.
+      </h2>
+      <img src="/images/dev_photo.jpg" alt="Developer Image" class="about__img">
+      Hi, my name is Juan John-Charles. I'm from a tiny Caribbean island called Dominica (not Dominican Republic). I moved to the US in 2015 and fell in love with software engineering. I attended the Rutgers University Coding Bootcamp and graduated with a certificate in web developement and since then
+      as placed it upon myself to keep growing in my skill and knowledge of full stack web developement. I believe in lifelong learning and hard work.
+      Take a look at my <a href="https://github.com/Whoisju1">Github</a> page to take a look at other personal projects I have worked on and hopefully see the progress over time. 
       If you want to get in touch with me my email address is whoisju1@gmail.com and my number is 609-847-4450.
-      I am currently available and actively looking for work so feel free to reach out to me. 
+      I am currently available for employment and actively looking for work so feel free to reach out to me.
     </p>
     {{!-- <div class="about__links">
       <a href="" class="about__links--a"><img src="images/github" alt="Github Logo" class="about__link--img"></a>
