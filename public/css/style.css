@@ -862,6 +862,7 @@ a.saved-article--add:visited:active {
   /* text-align: justify; */
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-weight: thin;
+  margin-bottom: 4rem;
 }
 
 .about__img {
