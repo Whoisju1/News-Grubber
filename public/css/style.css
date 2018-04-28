@@ -171,8 +171,8 @@ body {
   grid-template-columns: 1fr;
   top: 90%;
   width: 18rem;
-  height: 8rem;
-  right: 1rem;
+  height: 4rem;
+  right: 0rem;
   border: .05rem solid gray;
   text-transform: none;
   background-color: #ffffff;
@@ -934,7 +934,7 @@ a.saved-article--add:visited:active {
 
   .header__dropdown {
     width: 13rem;
-    height: 7rem;
+    height: 4rem;
   }
 
   .about__img {
