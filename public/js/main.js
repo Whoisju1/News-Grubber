@@ -345,7 +345,6 @@ class Auth {
         method: 'delete',
         headers: { Authorization: `Bearer ${token}` },
       });
-      changeHeaderUserSection.showAuth();
       // make sure all user information is deleted from localStorage
       this.signOut();
     } catch (e) {
