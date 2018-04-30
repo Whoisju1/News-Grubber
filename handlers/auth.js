@@ -72,16 +72,17 @@ exports.signUp = async function signUp(req, res, next) {
 exports.unregister = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const doc = await db.User.findByIdAndRemove(id);
+    const doc = await db.User.findById(id);
     if (doc === null) {
       return next({
         status: 500,
         message: 'Something went wrong',
       });
     }
+    const removedUser = await doc.remove();
     const response = {
       message: 'You\'ve been unregistered',
-      id: doc._id,
+      id: removedUser._id,
     };
     return res.status(200).json(response);
   } catch (err) {
