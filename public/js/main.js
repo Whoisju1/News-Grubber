@@ -9,6 +9,8 @@ const dropDown = document.querySelector('.header__dropdown'); // eslint-disable-
 const userImg = document.querySelector('.header__auth--img'); // eslint-disable-line no-undef
 const signOutElem = document.querySelector('#dropdown-sign-out'); // eslint-disable-line no-undef
 
+const unregisterBtn = dropDown.querySelector('#dropdown-unregister'); // eslint-disable-line no-undef
+
 class ModalAuthForm {
   constructor({ formLabel, inputPlaceholder, submitBtnVal }) {
     this._template = document.createElement('template'); // eslint-disable-line no-undef
@@ -328,11 +330,37 @@ class Auth {
   signOut() {
     localStorage.removeItem('token'); // eslint-disable-line no-undef
     localStorage.removeItem('id'); // eslint-disable-line no-undef
+    localStorage.removeItem('username'); // eslint-disable-line no-undef
+    localStorage.removeItem('img'); // eslint-disable-line no-undef
     changeHeaderUserSection.showAuth();
+  }
+
+  // method for unregistering user
+  async unregister() {
+    try {
+      const token = localStorage.getItem('token'); // eslint-disable-line no-undef
+      const id = localStorage.getItem('id'); // eslint-disable-line no-undef
+      await axios({ // eslint-disable-line no-undef
+        url: `http://localhost:3000/api/auth/id/${id}/unregister`,
+        method: 'delete',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      changeHeaderUserSection.showAuth();
+      // make sure all user information is deleted from localStorage
+      this.signOut();
+    } catch (e) {
+      return handleFetchError(e);
+    }
   }
 }
 
 const auth = new Auth();
+
+// add event handler to unregister user
+unregisterBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  auth.unregister();
+});
 
 // create function for storing data
 const storeData = async ({ url, data }) => { // eslint-disable-line no-shadow

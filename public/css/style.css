@@ -176,7 +176,6 @@ body {
   grid-template-columns: 1fr;
   top: 90%;
   width: 18rem;
-  height: 4rem;
   right: 0rem;
   border: .05rem solid gray;
   text-transform: none;
@@ -900,16 +899,6 @@ a.saved-article--add:visited:active {
 .about__list-item::before {
   content: "• ";
   color: #EB5757;
-}  
-
-  text-align: justify;
-  word-spacing: 3rem;
-}  
-
-.about__content--bio::after {
-  content: "";
-  display: table;
-  clear: both;
 }  
 
 /* RESPONSIVENESS */
