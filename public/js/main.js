@@ -340,11 +340,18 @@ class Auth {
     try {
       const token = localStorage.getItem('token'); // eslint-disable-line no-undef
       const id = localStorage.getItem('id'); // eslint-disable-line no-undef
-      await axios({ // eslint-disable-line no-undef
+      const deletedDocument = await axios({ // eslint-disable-line no-undef
         url: `http://localhost:3000/api/auth/id/${id}/unregister`,
         method: 'delete',
         headers: { Authorization: `Bearer ${token}` },
       });
+
+      const successfulUnregister = new CustomNotification({
+        type: 'success',
+        message: deletedDocument.data.message,
+      });
+
+      successfulUnregister.notify();
       // make sure all user information is deleted from localStorage
       this.signOut();
     } catch (e) {
