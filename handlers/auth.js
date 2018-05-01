@@ -69,7 +69,7 @@ exports.signUp = async function signUp(req, res, next) {
   }
 };
 
-exports.unregister = async (req, res, next) => {
+exports.removeUser = async function (req, res, next) {
   try {
     // find user by specified id
     const user = await db.User.findById(req.params.id);
