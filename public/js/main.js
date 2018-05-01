@@ -15,15 +15,17 @@ const unregisterBtn = dropDown.querySelector('#dropdown-unregister'); // eslint-
 const areYouSure = (message, callback) => {
   const template = document.createElement('template'); // eslint-disable-line no-undef
   template.innerHTML = `
+  <div class="backdrop">
     <div class="confirmation">
       <div class="confirmation__message">${message}</div>
       <button class="confirmation__btn confirmation__btn--yes">Yes</button>
       <button class="confirmation__btn confirmation__btn--no">No</button>
     </div>
+  </div>
   `;
   const fragment = template.content;
   // get buttons from fragment
-  const confirmationDiv = fragment.querySelector('.confirmation');
+  const confirmationDiv = fragment.querySelector('.backdrop');
   const yesBtn = fragment.querySelector('.confirmation__btn--yes');
   const noBtn = fragment.querySelector('.confirmation__btn--no');
 
@@ -39,7 +41,7 @@ const areYouSure = (message, callback) => {
     callback(false);
   });
 
-  document.body.appendChild(confirmationDiv); // eslint-disable-line no-undef
+  document.body.appendChild(fragment); // eslint-disable-line no-undef
 };
 
 class ModalAuthForm {
@@ -396,7 +398,9 @@ const auth = new Auth();
 // add event handler to unregister user
 unregisterBtn.addEventListener('click', (e) => {
   e.preventDefault();
-  auth.unregister();
+  areYouSure('Are you sure you want to delete your account?', (shouldYou) => {
+    if (shouldYou) auth.unregister();
+  });
 });
 
 // create function for storing data
