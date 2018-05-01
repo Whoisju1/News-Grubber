@@ -245,6 +245,10 @@ body {
   padding: 2% 0;
 }
 
+.article:last-child {
+  border-bottom: none;
+}
+
 .saved-articles {
   grid-gap: 1rem;
   grid-auto-rows: min-content;
