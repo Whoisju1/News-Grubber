@@ -11,6 +11,37 @@ const signOutElem = document.querySelector('#dropdown-sign-out'); // eslint-disa
 
 const unregisterBtn = dropDown.querySelector('#dropdown-unregister'); // eslint-disable-line no-undef
 
+// create function that asks for confirmation
+const areYouSure = (message, callback) => {
+  const template = document.createElement('template'); // eslint-disable-line no-undef
+  template.innerHTML = `
+    <div class="confirmation">
+      <div class="confirmation__message">${message}</div>
+      <button class="confirmation__btn confirmation__btn--yes">Yes</button>
+      <button class="confirmation__btn confirmation__btn--no">No</button>
+    </div>
+  `;
+  const fragment = template.content;
+  // get buttons from fragment
+  const confirmationDiv = fragment.querySelector('.confirmation');
+  const yesBtn = fragment.querySelector('.confirmation__btn--yes');
+  const noBtn = fragment.querySelector('.confirmation__btn--no');
+
+  const remove = () => confirmationDiv.remove();
+
+  // add event handlers to the buttons
+  yesBtn.addEventListener('click', () => {
+    remove();
+    callback(true);
+  });
+  noBtn.addEventListener('click', () => {
+    remove();
+    callback(false);
+  });
+
+  document.body.appendChild(confirmationDiv); // eslint-disable-line no-undef
+};
+
 class ModalAuthForm {
   constructor({ formLabel, inputPlaceholder, submitBtnVal }) {
     this._template = document.createElement('template'); // eslint-disable-line no-undef
