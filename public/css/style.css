@@ -984,6 +984,15 @@ a.saved-article--add:visited:active {
   }
 }
 
+@media screen and (max-width: 600px) {
+  .header__logo,
+  .header__logo:link,
+  .header__logo:visited,
+  .header__logo:active {
+    font-size: 1.3rem;
+  }
+}
+
 @media screen and (max-width: 550px) {
   .article__img {
     width: 8rem;
