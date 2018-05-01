@@ -1053,7 +1053,7 @@ a.saved-article--add:visited:active {
   .header__logo {
     grid-column: 1/span 2;
     font-size: 1.2rem;
-    transform: translateX(.4rem);
+    transform: translateX(-2rem);
   }
 
   .header__auth--logged-out {
