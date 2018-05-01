@@ -69,12 +69,13 @@ exports.signUp = async function signUp(req, res, next) {
   }
 };
 
-exports.removeUser = async function (req, res, next) {
+exports.unregister = async (req, res, next) => {
   try {
     // find user by specified id
     const user = await db.User.findById(req.params.id);
     // then delete user from database
-    const { _id: id } = await user.remove();
+    const { _id: id = null } = await user.remove();
+    if (!id) return next({ status: 400, message: 'Oops! Something went wrong. Please try again later.' });
     res.status(200).json({
       id,
       message: 'You\'ve been successfully unregistered',
