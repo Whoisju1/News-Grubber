@@ -37,6 +37,7 @@ export default () =>
             url,
           });
         } else {
+          // eslint-disable-next-line prefer-promise-reject-errors
           reject('Content not available.');
         }
       });
