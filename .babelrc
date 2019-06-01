@@ -1,5 +1,14 @@
 {
-  "presets": ["@babel/env"],
+  "presets": [
+    [
+      "@babel/env",
+      {
+        "targets": {
+          "node": "10"
+        }
+      }
+    ]
+  ],
   "sourceMaps": "both",
   "plugins": ["@babel/plugin-transform-regenerator"]
 }

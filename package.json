@@ -10,7 +10,9 @@
     "clean": "rimraf dist",
     "eslint-check": "eslint --print-config . | eslint-config-prettier-check",
     "lint": "echo '...Linting' && eslint src --fix && echo 'Linting Complete'",
-    "watch": "watch \"echo '...Linting' && eslint src --fix && echo 'Linting Complete'\" src"
+    "watch": "watch \"echo '...Linting' && eslint src --fix && echo 'Linting Complete'\" src",
+    "test": "jest",
+    "test:w": "jest --watch"
   },
   "author": "Juan John-Charles",
   "license": "ISC",
@@ -31,6 +33,7 @@
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
     "@babel/register": "^7.4.4",
+    "babel-jest": "^24.8.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^4.3.0",
