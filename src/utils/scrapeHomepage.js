@@ -5,21 +5,25 @@ export default () =>
   new Promise((resolve, reject) => {
     const rootURL = 'https://www.cnet.com';
     request(rootURL, (err, response, body) => {
-      if (err) reject(err);
+      if (err) return reject(err);
       const $ = load(body);
 
       const linkedItems = [];
 
-      $('section div.item').each(function each() {
+      $(
+        'div:nth-child(3) > section > div.latestScrollContainer div.row.item'
+      ).each(function each() {
         // grab needed information from specified element
         const title = $(this)
           .find('h3')
           .text();
+
         const subTitle = $(this)
-          .find('p')
+          // .find('.row div:nth-child(1) p a')
+          .find('.row div p a')
           .text();
         const image = $(this)
-          .find('figure > a > span > img')
+          .find('img')
           .attr('src');
         const url = `${rootURL}${$(this)
           .find('h3 > a')
@@ -32,9 +36,10 @@ export default () =>
             image,
             url,
           });
+        } else {
+          reject('Content not available.');
         }
       });
-      console.log(JSON.stringify(2, linkedItems, null));
-      resolve(linkedItems);
+      return resolve(linkedItems);
     });
   });

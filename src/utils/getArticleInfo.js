@@ -39,8 +39,6 @@ export default new Promise((resolve, reject) => {
         const authorAndDate = { author, publicationDate };
 
         // if there is still call the addData function with remaining data
-        // eslint-disable-next-line no-console
-        console.log({ ...first, ...authorAndDate });
         finalList.push({ ...first, ...authorAndDate });
         if (remaining) addNewData(remaining);
       });
