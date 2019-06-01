@@ -5,12 +5,12 @@ const { Schema } = mongoose;
 const noteSchema = new Schema({
   note: {
     type: String,
-    required: true
+    required: true,
   },
   timeCreated: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 export default noteSchema;

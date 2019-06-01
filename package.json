@@ -8,6 +8,7 @@
     "start": "node -r dotenv/config dist/server/index.js",
     "build": "npm run clean && babel src --out-dir dist",
     "clean": "rimraf dist",
+    "eslint-check": "eslint --print-config . | eslint-config-prettier-check",
     "lint": "echo '...Linting' && eslint src --fix && echo 'Linting Complete'",
     "watch": "watch \"echo '...Linting' && eslint src --fix && echo 'Linting Complete'\" src"
   },

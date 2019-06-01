@@ -9,22 +9,22 @@ const userSchema = new Schema({
     required: true,
     trim: true,
     lowercase: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
   profileImageURL: {
-    type: String
+    type: String,
   },
   articles: [
     {
       type: _Schema.Types.ObjectId,
-      ref: 'Article'
-    }
-  ]
+      ref: 'Article',
+    },
+  ],
 });
 
 userSchema.pre('save', async function pre(next) {

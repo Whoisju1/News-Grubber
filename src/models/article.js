@@ -1,5 +1,5 @@
 import mongoose, { Schema as _Schema, model } from 'mongoose';
-import { findById } from './user';
+import User from './user';
 import noteSchema from './note';
 
 const { Schema } = mongoose;
@@ -8,44 +8,44 @@ const articleSchema = new Schema({
   url: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
   title: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
   subTitle: {
     type: String,
-    trim: true
+    trim: true,
   },
   image: String,
   author: {
     name: {
       type: String,
-      trim: true
+      trim: true,
     },
     authorInfo: {
       type: String,
-      trim: true
-    }
+      trim: true,
+    },
   },
   publicationDate: {
     date: String,
-    time: String
+    time: String,
   },
   notes: [noteSchema],
   user: {
     type: _Schema.Types.ObjectId,
-    ref: 'User'
-  }
+    ref: 'User',
+  },
 });
 
 // eslint-disable-next-line func-names
 articleSchema.pre('remove', async function(next) {
   // eslint-disable-line consistent-return
   try {
-    const user = await findById(this.user);
+    const user = await User.findById(this.user);
     user.articles.remove(this.id);
     return await user.save();
   } catch (err) {

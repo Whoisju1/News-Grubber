@@ -17,7 +17,7 @@ export async function deleteNote(req, res, next) {
     const { id: userID } = req.params;
     const { articleID, noteID } = req.body;
     const foundArticle = await models.Article.findById(articleID).where({
-      user: userID
+      user: userID,
     });
     await foundArticle.notes.id(noteID).remove();
     const reducedArticle = await foundArticle.save();
@@ -31,7 +31,7 @@ export async function editNote(req, res, next) {
     const { id: userID } = req.params;
     const { articleID, noteID, noteBody } = req.body;
     const foundArticle = await models.Article.findById(articleID).where({
-      user: userID
+      user: userID,
     });
     foundArticle.notes.id(noteID).set({ note: noteBody });
 

@@ -4,7 +4,7 @@ import {
   saveArticle,
   getArticles,
   deleteArticle,
-  getOneArticle
+  getOneArticle,
 } from '../handlers/articles';
 
 const router = Router({ mergeParams: true });

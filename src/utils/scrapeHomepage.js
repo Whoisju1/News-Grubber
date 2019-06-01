@@ -1,13 +1,12 @@
-const request = require('request');
-const cheerio = require('cheerio');
+import request from 'request';
+import { load } from 'cheerio';
 
-module.exports = () =>
+export default () =>
   new Promise((resolve, reject) => {
-    console.log('------------ SCRAPPING ----------');
     const rootURL = 'https://www.cnet.com';
     request(rootURL, (err, response, body) => {
       if (err) reject(err);
-      const $ = cheerio.load(body);
+      const $ = load(body);
 
       const linkedItems = [];
 
@@ -31,7 +30,7 @@ module.exports = () =>
             title,
             subTitle,
             image,
-            url
+            url,
           });
         }
       });

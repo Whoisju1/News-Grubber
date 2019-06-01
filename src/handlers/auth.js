@@ -5,7 +5,7 @@ export async function SignIn(req, res, next) {
   try {
     // find user
     const user = await User.findOne({
-      username: req.body.username
+      username: req.body.username,
     });
     // if no user exists send back an error message of "User not found"
     if (!user) return next({ status: 401, message: 'User not found' });
@@ -18,7 +18,7 @@ export async function SignIn(req, res, next) {
         {
           id,
           username,
-          profileImageURL
+          profileImageURL,
         },
         process.env.SECRETE_KEY
       );
@@ -26,18 +26,18 @@ export async function SignIn(req, res, next) {
         id,
         username,
         profileImageURL,
-        token
+        token,
       });
     }
     // if something doesn't match send an error
     return next({
       status: 400,
-      message: 'Invalid password.'
+      message: 'Invalid password.',
     });
   } catch (err) {
     return next({
       status: 400,
-      message: 'Oops! Something went wrong.'
+      message: 'Oops! Something went wrong.',
     });
   }
 }
@@ -50,7 +50,7 @@ export async function signUp(req, res, next) {
       {
         id,
         username,
-        profileImageURL
+        profileImageURL,
       },
       process.env.SECRETE_KEY
     );
@@ -59,7 +59,7 @@ export async function signUp(req, res, next) {
       id,
       username,
       profileImageURL,
-      token
+      token,
     });
   } catch (err) {
     if (err.code === 11000) {
@@ -67,7 +67,7 @@ export async function signUp(req, res, next) {
     }
     return next({
       status: 400,
-      message: err.message
+      message: err.message,
     });
   }
 }
@@ -80,7 +80,7 @@ export async function unregister(req, res, next) {
     const { _id: id = null } = await user.remove();
     return res.status(200).json({
       id,
-      message: "You've been successfully unregistered"
+      message: "You've been successfully unregistered",
     });
   } catch (e) {
     return next(e);

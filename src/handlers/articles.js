@@ -15,7 +15,7 @@ export async function saveArticle(req, res, next) {
       subTitle = null,
       image = null,
       author,
-      publicationDate
+      publicationDate,
     } = req.body;
 
     // create message
@@ -25,7 +25,7 @@ export async function saveArticle(req, res, next) {
       subTitle,
       image,
       author,
-      publicationDate
+      publicationDate,
     });
 
     // return an error message if article already exists
@@ -33,7 +33,7 @@ export async function saveArticle(req, res, next) {
     if (count)
       return next({
         status: 400,
-        message: 'This article is already in your collection.'
+        message: 'This article is already in your collection.',
       });
 
     article.user = userID;
@@ -46,14 +46,14 @@ export async function saveArticle(req, res, next) {
 
     // find article and referenced user and send it to the client
     const foundArticle = await Article.findById(article._id).populate('user', {
-      username: true
+      username: true,
     });
     return res.status(200).json(foundArticle);
   } catch (error) {
     if (error.code === 11000) {
       return next({
         status: 400,
-        message: 'This article is already in your collection.'
+        message: 'This article is already in your collection.',
       });
     }
     return next(error);
@@ -86,7 +86,7 @@ export async function deleteArticle(req, res, next) {
 export async function getOneArticle(req, res, next) {
   try {
     const foundArticle = await Article.findById(req.body.id).where({
-      user: req.params.id
+      user: req.params.id,
     });
     return res.status(200).json(foundArticle);
   } catch (e) {

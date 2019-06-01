@@ -12,7 +12,7 @@ export function loginRequired(req, res, next) {
       if (decoded) return next();
       return next({
         status: 401,
-        message: 'Please log in first'
+        message: 'Please log in first',
       });
     });
   } catch (e) {
@@ -29,7 +29,7 @@ export function ensureCorrectUser(req, res, next) {
       if (decoded && decoded.id === req.params.id) return next();
       return next({
         status: 401,
-        message: 'Unauthorized'
+        message: 'Unauthorized',
       });
     });
   } catch (e) {

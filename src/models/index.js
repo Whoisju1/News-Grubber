@@ -5,7 +5,8 @@ mongoose.set('debug', true);
 mongoose.Promise = Promise;
 
 mongoose.connect(config.mongoUri, {
-  keepAlive: true
+  keepAlive: true,
+  useNewUrlParser: true,
 });
 
 export { default as User } from './user';
