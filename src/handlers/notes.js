@@ -1,4 +1,5 @@
 import * as models from '../models';
+import { getUserFromToken } from '../utils/getUserFromToken';
 
 export async function addNote(req, res, next) {
   try {
@@ -14,10 +15,11 @@ export async function addNote(req, res, next) {
 }
 export async function deleteNote(req, res, next) {
   try {
-    const { id: userID } = req.params;
+    const token = req.headers.authorization.split(' ')[1];
+    const { id } = getUserFromToken(token);
     const { articleID, noteID } = req.body;
     const foundArticle = await models.Article.findById(articleID).where({
-      user: userID,
+      user: id,
     });
     await foundArticle.notes.id(noteID).remove();
     const reducedArticle = await foundArticle.save();
@@ -28,10 +30,11 @@ export async function deleteNote(req, res, next) {
 }
 export async function editNote(req, res, next) {
   try {
-    const { id: userID } = req.params;
+    const token = req.headers.authorization.split(' ')[1];
+    const { id } = getUserFromToken(token);
     const { articleID, noteID, noteBody } = req.body;
     const foundArticle = await models.Article.findById(articleID).where({
-      user: userID,
+      user: id,
     });
     foundArticle.notes.id(noteID).set({ note: noteBody });
 

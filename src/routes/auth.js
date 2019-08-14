@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { signUp, SignIn, unregister } from '../handlers/auth';
+import { signUp, signIn, unregister } from '../handlers/auth';
 
 const router = Router();
 
 router.post('/signup', signUp);
-router.post('/signin', SignIn);
-router.delete('/id/:id/unregister', unregister);
+router.post('/signin', signIn);
+router.delete('/unregister', unregister);
 
 export default router;

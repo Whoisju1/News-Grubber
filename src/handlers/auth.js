@@ -1,7 +1,7 @@
-import { sign } from 'jsonwebtoken';
 import { User } from '../models';
+import { createToken } from '../utils/createToken';
 
-export async function SignIn(req, res, next) {
+export async function signIn(req, res, next) {
   try {
     // find user
     const user = await User.findOne({
@@ -14,14 +14,11 @@ export async function SignIn(req, res, next) {
     const isMatched = await user.comparePassword(req.body.password);
     // if password matches send back user information with a token
     if (isMatched) {
-      const token = sign(
-        {
-          id,
-          username,
-          profileImageURL,
-        },
-        process.env.SECRETE_KEY
-      );
+      const token = await createToken({
+        id,
+        username,
+        profileImageURL,
+      });
       return res.status(200).json({
         id,
         username,
@@ -46,15 +43,7 @@ export async function signUp(req, res, next) {
   try {
     const user = await User.create(req.body);
     const { id, username, profileImageURL } = user;
-    const token = sign(
-      {
-        id,
-        username,
-        profileImageURL,
-      },
-      process.env.SECRETE_KEY
-    );
-
+    const token = await createToken({ id, username });
     return res.status(200).json({
       id,
       username,
@@ -75,7 +64,7 @@ export async function signUp(req, res, next) {
 export async function unregister(req, res, next) {
   try {
     // find user by specified id
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.locals.id);
     // then delete user from database
     const { _id: id = null } = await user.remove();
     return res.status(200).json({

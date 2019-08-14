@@ -10,11 +10,9 @@ import {
 const router = Router({ mergeParams: true });
 
 router
-  .route('/')
-  .post(saveArticle)
-  .get(getArticles)
-  .delete(deleteArticle);
-
-router.route('/one').get(getOneArticle);
+  .post('/', saveArticle)
+  .get('/', getArticles)
+  .get('/:id', getOneArticle)
+  .delete('/:id', deleteArticle);
 
 export default router;

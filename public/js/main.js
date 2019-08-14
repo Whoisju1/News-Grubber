@@ -1,5 +1,7 @@
 /* eslint no-plusplus: 0 */
-const saveButtons = Array.from(document.querySelectorAll('.article__btn--save')); // eslint-disable-line no-undef
+const saveButtons = Array.from(
+  document.querySelectorAll('.article__btn--save')
+); // eslint-disable-line no-undef
 const hideFormButtons = Array.from(document.querySelectorAll('.close-form')); // eslint-disable-line no-undef
 const signInBtn = document.querySelector('.header__auth--signin'); // eslint-disable-line no-undef
 const signUpBtn = document.querySelector('.header__auth--signup'); // eslint-disable-line no-undef
@@ -106,11 +108,14 @@ class ModalAuthForm {
 }
 
 // get target elements
-const contentContainers = Array.from(document.querySelectorAll('.content-container')); // eslint-disable-line no-undef
+const contentContainers = Array.from(
+  document.querySelectorAll('.content-container')
+); // eslint-disable-line no-undef
 
 // load the page that the hash matches on startup
-contentContainers.forEach((section) => {
-  if (window.location.hash.substr(1) === section.getAttribute('id')) { // eslint-disable-line no-undef
+contentContainers.forEach(section => {
+  if (window.location.hash.substr(1) === section.getAttribute('id')) {
+    // eslint-disable-line no-undef
     section.style.display = 'grid';
   } else {
     section.style.display = 'none';
@@ -118,14 +123,17 @@ contentContainers.forEach((section) => {
 });
 
 // make sure home page is loaded at the root
-if (!window.location.hash) document.querySelector('#home').style.display = 'grid'; // eslint-disable-line no-undef
+if (!window.location.hash)
+  document.querySelector('#home').style.display = 'grid'; // eslint-disable-line no-undef
 
 // create function to active link
 const highlightTarget = () => {
-  links.forEach((anchorTag) => {
-    if (anchorTag.getAttribute('data-location') === window.location.hash) { // eslint-disable-line no-undef
+  links.forEach(anchorTag => {
+    if (anchorTag.getAttribute('data-location') === window.location.hash) {
+      // eslint-disable-line no-undef
       anchorTag.classList.add('active-link');
-    } else if (!window.location.hash) { // eslint-disable-line no-undef
+    } else if (!window.location.hash) {
+      // eslint-disable-line no-undef
       document.querySelector('a[data-location]').classList.add('active-link'); // eslint-disable-line no-undef
     } else {
       anchorTag.classList.remove('active-link');
@@ -136,8 +144,8 @@ const highlightTarget = () => {
 // highlight selected link on startup
 highlightTarget();
 
-links.forEach((link) => {
-  link.onclick = (e) => {
+links.forEach(link => {
+  link.onclick = e => {
     e.preventDefault();
     // get the hash from the clicked anchor tag
     const hash = e.target.getAttribute('data-location');
@@ -149,7 +157,7 @@ links.forEach((link) => {
     highlightTarget();
 
     // if it is displayed make it invisible
-    contentContainers.forEach((contentContainer) => {
+    contentContainers.forEach(contentContainer => {
       const id = hash.substring(1); // eslint-disable-line no-unused-vars
       if (contentContainer.getAttribute('id') !== id) {
         contentContainer.style.display = 'none';
@@ -201,8 +209,10 @@ class AlertModal {
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
   }
+
   // create method for opening modal
-  open({ message, alertContentArea = document.createElement('div') }) { // eslint-disable-line no-undef
+  open({ message, alertContentArea = document.createElement('div') }) {
+    // eslint-disable-line no-undef
     if (!message) throw new Error('Please supply a message to the open method');
     // if the backdrop element has a child element, remove it
     if (this._modal.firstChild) this._modal.removeChild(this._modal.firstChild);
@@ -215,6 +225,7 @@ class AlertModal {
     this._modal.classList.remove('alert-close');
     this._modal.classList.add('alert-open');
   }
+
   // create method for closing modal
   close() {
     this._modal.classList.remove('alert-open');
@@ -237,11 +248,12 @@ class HeaderUserSection {
   }
 
   showUser() {
-    const img = (localStorage.getItem('img') !== 'null' && // eslint-disable-line no-undef
-    localStorage.getItem('img') !== 'undefined' && // eslint-disable-line no-undef
-    localStorage.getItem('img') !== null) ? // eslint-disable-line no-undef
-      localStorage.getItem('img') : // eslint-disable-line no-undef
-      '/images/user_profile_image.png';
+    const img =
+      localStorage.getItem('img') !== 'null' && // eslint-disable-line no-undef
+      localStorage.getItem('img') !== 'undefined' && // eslint-disable-line no-undef
+      localStorage.getItem('img') !== null // eslint-disable-line no-undef
+        ? localStorage.getItem('img') // eslint-disable-line no-undef
+        : '/images/user_profile_image.png';
     const username = localStorage.getItem('username'); // eslint-disable-line no-undef
     this._userImage.setAttribute('src', img);
     this._username.textContent = username; // eslint-disable-line no-undef
@@ -255,6 +267,7 @@ class HeaderUserSection {
     this._userImage.setAttribute('src', '');
     this._username.textContent = '';
   }
+
   checkLogin() {
     return !!localStorage.getItem('token'); // eslint-disable-line no-undef
   }
@@ -264,10 +277,14 @@ const changeHeaderUserSection = new HeaderUserSection();
 changeHeaderUserSection.checkLogin() ? changeHeaderUserSection.showUser() : changeHeaderUserSection.showAuth(); // eslint-disable-line
 
 // create error alert for error messages using AlertModal class
-const handleFetchError = (ErrClass => (err) => {
+const handleFetchError = (ErrClass => err => {
   const fetchErr = new ErrClass();
-  if (err.message === 'Network Error') return fetchErr.open({ message: 'Network Error! Please check your Internet connection' });
-  if (!err.response) return fetchErr.open({ message: 'Oops! Something went wrong. :(' });
+  if (err.message === 'Network Error')
+    return fetchErr.open({
+      message: 'Network Error! Please check your Internet connection',
+    });
+  if (!err.response)
+    return fetchErr.open({ message: 'Oops! Something went wrong. :(' });
   const { message } = err.response.data.error;
   if (err.response.data) fetchErr.open({ message });
 })(AlertModal);
@@ -281,7 +298,8 @@ class Auth {
   // login user
   async signIn({ username, password }, callback) {
     try {
-      const { data: userInfo } = await axios({ // eslint-disable-line no-undef
+      const { data: userInfo } = await axios({
+        // eslint-disable-line no-undef
         url: '/api/auth/signin',
         data: {
           username,
@@ -290,12 +308,7 @@ class Auth {
         method: 'post',
       });
 
-      const {
-        token,
-        id,
-        username: signedInUser,
-        profileImageURL,
-      } = userInfo;
+      const { token, id, username: signedInUser, profileImageURL } = userInfo;
 
       // clear out old items
       localStorage.removeItem('token'); // eslint-disable-line no-undef
@@ -324,7 +337,8 @@ class Auth {
   async signUp({ username, password }, callback) {
     if (this.everythingAuth) return;
     try {
-      const { data: userInfo } = await axios({ // eslint-disable-line no-undef
+      const { data: userInfo } = await axios({
+        // eslint-disable-line no-undef
         url: '/api/auth/signup',
         data: {
           username,
@@ -333,11 +347,7 @@ class Auth {
         method: 'post',
       });
 
-      const {
-        token,
-        id, username: newUser,
-        profileImageURL,
-      } = userInfo;
+      const { token, id, username: newUser, profileImageURL } = userInfo;
       callback();
       // clear out old items
       localStorage.removeItem('token'); // eslint-disable-line no-undef
@@ -373,7 +383,8 @@ class Auth {
     try {
       const token = localStorage.getItem('token'); // eslint-disable-line no-undef
       const id = localStorage.getItem('id'); // eslint-disable-line no-undef
-      const deletedDocument = await axios({ // eslint-disable-line no-undef
+      const deletedDocument = await axios({
+        // eslint-disable-line no-undef
         url: `/api/auth/id/${id}/unregister`,
         method: 'delete',
         headers: { Authorization: `Bearer ${token}` },
@@ -396,24 +407,29 @@ class Auth {
 const auth = new Auth();
 
 // add event handler to unregister user
-unregisterBtn.addEventListener('click', (e) => {
+unregisterBtn.addEventListener('click', e => {
   e.preventDefault();
-  areYouSure('Are you sure you want to delete your account?', (shouldYou) => {
+  areYouSure('Are you sure you want to delete your account?', shouldYou => {
     if (shouldYou) auth.unregister();
   });
 });
 
 // create function for storing data
-const storeData = async ({ url, data }) => { // eslint-disable-line no-shadow
+const storeData = async ({ url, data }) => {
+  // eslint-disable-line no-shadow
   try {
     const token = localStorage.getItem('token'); // eslint-disable-line no-undef
-    const { data: response } = await axios({ // eslint-disable-line no-undef
+    const { data: response } = await axios({
+      // eslint-disable-line no-undef
       url,
       method: 'post',
       headers: { Authorization: `Bearer ${token}` },
       data,
     });
-    const successfulSave = new CustomNotification({ type: 'success', message: 'Article added to your collection' });
+    const successfulSave = new CustomNotification({
+      type: 'success',
+      message: 'Article added to your collection',
+    });
     successfulSave.notify();
     return response;
   } catch (e) {
@@ -442,20 +458,29 @@ const toggleDropDown = () => {
 };
 
 // show dropdown when user image is clicked
-userImg.addEventListener('click', (e) => {
-  e.stopPropagation();
-  toggleDropDown();
-}, true);
+userImg.addEventListener(
+  'click',
+  e => {
+    e.stopPropagation();
+    toggleDropDown();
+  },
+  true
+);
 
 // hide dropdown when any dropdown item is clicked
 Array.from(document.querySelectorAll('.header__dropdown-item')) // eslint-disable-line no-undef
   .forEach(elem => elem.addEventListener('click', hideDropdown));
 
-
-window.addEventListener('click', (e) => { // eslint-disable-line no-undef
-  // close dropdown when uer clicks anything that is not dropdown
-  if (e.target !== document.querySelector('.header__auth--img')) hideDropdown(); // eslint-disable-line no-undef
-}, false);
+window.addEventListener(
+  'click',
+  e => {
+    // eslint-disable-line no-undef
+    // close dropdown when uer clicks anything that is not dropdown
+    if (e.target !== document.querySelector('.header__auth--img'))
+      hideDropdown(); // eslint-disable-line no-undef
+  },
+  false
+);
 class SavedArticles {
   constructor() {
     // grab container
@@ -512,8 +537,10 @@ class SavedArticles {
           ${author.name || ''}
         </a>
         <div class="saved-article__date">
-          <span class="saved-article__date--date">${publicationDate.date || ''}</span>
-          <span class="saved-article__date--time">${publicationDate.time || ''}</span>
+          <span class="saved-article__date--date">${publicationDate.date ||
+            ''}</span>
+          <span class="saved-article__date--time">${publicationDate.time ||
+            ''}</span>
         </div>
       </div>
       <button class="saved-article--dlt" id="article-dlt-${articleID}" data-id="${articleID}"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
@@ -536,7 +563,9 @@ class SavedArticles {
     const addNoteBtn = document.querySelector(`#add-note-${articleID}`); // eslint-disable-line no-undef
     const noteForm = document.querySelector(`#${formId}`); // eslint-disable-line no-undef
     const removeFormBtn = document.querySelector(`#form-remove-${articleID}`); // eslint-disable-line no-undef
-    const notesContainer = document.querySelector(`#note-container-${articleID}`); // eslint-disable-line no-undef
+    const notesContainer = document.querySelector(
+      `#note-container-${articleID}`
+    ); // eslint-disable-line no-undef
 
     // write function to create a fragment that contains the form to edit notes
     const createNoteForm = ({ noteID }, callback) => {
@@ -547,7 +576,8 @@ class SavedArticles {
       noteEditForm.classList.add('note-edit-form');
 
       // get the note from the dom
-      const getNote = () => document.querySelector(`#note-content-${noteID}`).textContent.trim(); // eslint-disable-line no-undef
+      const getNote = () =>
+        document.querySelector(`#note-content-${noteID}`).textContent.trim(); // eslint-disable-line no-undef
 
       noteEditForm.innerHTML = `
         <label class="note-edit-form__label">Edit Note</label>
@@ -556,22 +586,24 @@ class SavedArticles {
         <button class="note-edit-cancel">Leave Unedited</button>
       `;
       // add event handler to note edit form
-      noteEditForm.addEventListener('submit', async (e) => {
+      noteEditForm.addEventListener('submit', async e => {
         try {
           e.preventDefault();
           // get token and user id to get authorization
           const userID = localStorage.getItem('id'); // eslint-disable-line no-undef
           const token = localStorage.getItem('token'); // eslint-disable-line no-undef
           const noteBody = new FormData(e.target).get('note'); // eslint-disable-line no-undef
-          const { data } = await axios({ // eslint-disable-line no-undef
+          const { data } = await axios({
+            // eslint-disable-line no-undef
             url: `/api/users/${userID}/notes`,
             method: 'put',
             headers: { Authorization: `Bearer ${token}` },
             data: { articleID, noteID, noteBody },
           });
           // get note from returned payload
-          const [{ note: newData }] =
-            data.notes.filter(returnedNote => returnedNote._id === noteID);
+          const [{ note: newData }] = data.notes.filter(
+            returnedNote => returnedNote._id === noteID
+          );
 
           callback(newData);
           noteEditBackdrop.remove();
@@ -586,7 +618,7 @@ class SavedArticles {
       const cancelBtn = fragment.querySelector('.note-edit-cancel');
 
       // add event handler to cancel button
-      cancelBtn.addEventListener('click', (e) => {
+      cancelBtn.addEventListener('click', e => {
         e.preventDefault();
         // close the form when clicked
         noteEditBackdrop.remove();
@@ -595,7 +627,7 @@ class SavedArticles {
       return fragment;
     };
 
-    const renderNotes = (articleNotes) => {
+    const renderNotes = articleNotes => {
       notesContainer.innerHTML = '';
       if (articleNotes.length) {
         articleNotes.forEach(({ _id: noteID, note, timeCreated }) => {
@@ -616,32 +648,40 @@ class SavedArticles {
           notesContainer.appendChild(noteContentWrapper);
 
           // make function to change content of the note
-          const updateNote = (newNote) => {
-            const noteContainer = document.querySelector(`#note-content-${noteID}`); // eslint-disable-line no-undef
+          const updateNote = newNote => {
+            const noteContainer = document.querySelector(
+              `#note-content-${noteID}`
+            ); // eslint-disable-line no-undef
             noteContainer.innerHTML = newNote;
           };
 
           // get note edit and delete buttons
           const noteEditBtn = document.querySelector(`#note-edit-${noteID}`); // eslint-disable-line no-undef
-          const noteRemoveBtn = document.querySelector(`#note-remove-${noteID}`); // eslint-disable-line no-undef
+          const noteRemoveBtn = document.querySelector(
+            `#note-remove-${noteID}`
+          ); // eslint-disable-line no-undef
 
-          noteEditBtn.addEventListener('click', async (e) => {
+          noteEditBtn.addEventListener('click', async e => {
             e.preventDefault();
-            const noteEditForm = createNoteForm({
-              note,
-              noteID,
-            }, updateNote);
+            const noteEditForm = createNoteForm(
+              {
+                note,
+                noteID,
+              },
+              updateNote
+            );
 
             this._container.appendChild(noteEditForm);
           });
 
-          noteRemoveBtn.addEventListener('click', async (e) => {
+          noteRemoveBtn.addEventListener('click', async e => {
             try {
               const { target } = e;
               // get token and user id to get authorization
               const userID = localStorage.getItem('id'); // eslint-disable-line no-undef
               const token = localStorage.getItem('token'); // eslint-disable-line no-undef
-              await axios({ // eslint-disable-line no-undef
+              await axios({
+                // eslint-disable-line no-undef
                 url: `/api/users/${userID}/notes`,
                 method: 'delete',
                 headers: { Authorization: `Bearer ${token}` },
@@ -662,7 +702,7 @@ class SavedArticles {
     renderNotes(notes);
 
     noteForm.style.display = 'none';
-    noteForm.onsubmit = async (e) => {
+    noteForm.onsubmit = async e => {
       e.preventDefault();
       const formData = new FormData(e.target); // eslint-disable-line no-undef
       const note = formData.get('note');
@@ -672,14 +712,14 @@ class SavedArticles {
     };
 
     // remove form when removeFormBtn is clicked
-    removeFormBtn.addEventListener('click', (e) => {
+    removeFormBtn.addEventListener('click', e => {
       e.preventDefault();
       addNoteBtn.style.display = 'inline-block';
       noteForm.style.display = 'none';
     });
 
     // add event handler to add button to make form appear
-    addNoteBtn.addEventListener('click', (e) => {
+    addNoteBtn.addEventListener('click', e => {
       e.preventDefault();
       e.target.style.display = 'none';
       noteForm.style.display = 'grid';
@@ -687,22 +727,29 @@ class SavedArticles {
 
     // find delete button and assign event handler to it
     const deleteBtn = document.querySelector(`#article-dlt-${articleID}`); // eslint-disable-line no-undef
-    deleteBtn.addEventListener('click', async (e) => {
-      const id = e.currentTarget.getAttribute('data-id');
-      await this.deleteArticle(id);
-      contentWrapper.classList.add('disappear');
-      setTimeout(() => {
-        contentWrapper.remove();
-        if (!this._container.childNodes.length) return this.insertPlaceholder('You have no articles saved yet.');
-      }, 600);
-    }, true);
+    deleteBtn.addEventListener(
+      'click',
+      async e => {
+        const id = e.currentTarget.getAttribute('data-id');
+        await this.deleteArticle(id);
+        contentWrapper.classList.add('disappear');
+        setTimeout(() => {
+          contentWrapper.remove();
+          if (!this._container.childNodes.length)
+            return this.insertPlaceholder('You have no articles saved yet.');
+        }, 600);
+      },
+      true
+    );
   }
+
   /* eslint class-methods-use-this: 0 */
   // create method to fetch all saved-articles
   async getAllArticles(url) {
     try {
       const token = localStorage.getItem('token'); // eslint-disable-line no-undef
-      const savedArticles = await axios({ // eslint-disable-line no-undef
+      const savedArticles = await axios({
+        // eslint-disable-line no-undef
         url,
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -717,14 +764,14 @@ class SavedArticles {
       const token = localStorage.getItem('token'); // eslint-disable-line no-undef
       const userID = localStorage.getItem('id'); // eslint-disable-line no-undef
 
-      const data = await axios({ // eslint-disable-line no-undef
+      const data = await axios({
+        // eslint-disable-line no-undef
         url: `/api/users/${userID}/notes`,
         method: 'post',
         headers: { Authorization: `Bearer ${token}` },
         data: {
           id: articleID,
           note,
-
         },
       });
 
@@ -739,7 +786,8 @@ class SavedArticles {
       const token = localStorage.getItem('token'); // eslint-disable-line no-undef
       const userID = localStorage.getItem('id'); // eslint-disable-line no-undef
 
-      const article = await axios({ // eslint-disable-line no-undef
+      const article = await axios({
+        // eslint-disable-line no-undef
         url: `/api/users/${userID}/articles`,
         method: 'delete',
         headers: { Authorization: `Bearer ${token}` },
@@ -761,25 +809,29 @@ const savedArticles = new SavedArticles();
 const showSavedArticlesPage = async () => {
   const token = localStorage.getItem('token'); // eslint-disable-line no-undef
   // if user is not logged in insert placeholder text instead
-  if (!token) return savedArticles.insertPlaceholder('You must be logged in to save articles.');
+  if (!token)
+    return savedArticles.insertPlaceholder(
+      'You must be logged in to save articles.'
+    );
   const id = localStorage.getItem('id'); // eslint-disable-line no-undef
   const url = `/api/users/${id}/articles`; // eslint-disable-line no-undef
   const articles = await savedArticles.getAllArticles(url);
-  if (!articles.data.length) return savedArticles.insertPlaceholder('You have no articles saved yet.');
+  if (!articles.data.length)
+    return savedArticles.insertPlaceholder('You have no articles saved yet.');
   savedArticles.empty();
   articles.data.forEach(item => savedArticles.populateContainer(item));
 };
 
 if (window.location.hash === '#saved-articles') showSavedArticlesPage(); // eslint-disable-line no-undef
 
-savedArticlesLink.addEventListener('click', (e) => {
+savedArticlesLink.addEventListener('click', e => {
   e.preventDefault();
   showSavedArticlesPage();
   return false;
 });
 
 // Make function and event handlers to toggles header drop down and to sign user out
-const handleSignOut = (e) => {
+const handleSignOut = e => {
   e.preventDefault();
   // logout user
   auth.signOut();
@@ -789,28 +841,45 @@ const handleSignOut = (e) => {
 // logout user when the logout option in the dropdown is clicked
 signOutElem.addEventListener('click', handleSignOut);
 
-saveButtons.forEach((btn) => {
-  btn.onclick = async function () { // eslint-disable-line no-param-reassign
-    const getAttrValue = dataName => this.attributes.getNamedItem(`data-${dataName}`).nodeValue;
+saveButtons.forEach(btn => {
+  btn.onclick = async function() {
+    // eslint-disable-line no-param-reassign
+    const getAttrValue = dataName =>
+      this.attributes.getNamedItem(`data-${dataName}`).nodeValue;
     // get values from the DOM
-    const attrList = ['date', 'time', 'author-name', 'author-info', 'title', 'subTitle', 'url', 'image'];
+    const attrList = [
+      'date',
+      'time',
+      'author-name',
+      'author-info',
+      'title',
+      'subTitle',
+      'url',
+      'image',
+    ];
     const data = attrList
-      .map(attr => (attr && { [attr]: getAttrValue(attr) }))
-      .reduce((acc, item) => {
-        // structure properties that are suppose to be nested
-        if (item['author-info']) {
-          acc.author.authorInfo = item['author-info'];
-        } else if (item['author-name']) {
-          acc.author.name = item['author-name'];
-        } else if (item.date) {
-          acc.publicationDate.date = item.date;
-        } else if (item.time) {
-          acc.publicationDate.time = item.time;
-        } else {
-          acc = { ...acc, ...item }; // eslint-disable-line no-param-reassign
+      .map(attr => attr && { [attr]: getAttrValue(attr) })
+      .reduce(
+        (acc, item) => {
+          // structure properties that are suppose to be nested
+          if (item['author-info']) {
+            acc.author.authorInfo = item['author-info'];
+          } else if (item['author-name']) {
+            acc.author.name = item['author-name'];
+          } else if (item.date) {
+            acc.publicationDate.date = item.date;
+          } else if (item.time) {
+            acc.publicationDate.time = item.time;
+          } else {
+            acc = { ...acc, ...item }; // eslint-disable-line no-param-reassign
+          }
+          return acc;
+        },
+        {
+          author: { name: null, authorInfo: null },
+          publicationDate: { date: null, time: null },
         }
-        return acc;
-      }, { author: { name: null, authorInfo: null }, publicationDate: { date: null, time: null } });
+      );
     const token = localStorage.getItem('token'); // eslint-disable-line no-undef
     const id = localStorage.getItem('id'); // eslint-disable-line no-undef
     // store values in database
@@ -833,7 +902,7 @@ const operateLoginForm = () => {
   });
 
   // login
-  const handleUserLogin = async (event) => {
+  const handleUserLogin = async event => {
     event.preventDefault();
     try {
       const formData = loginForm.getFormData();
@@ -850,7 +919,6 @@ const operateLoginForm = () => {
   loginForm.mount(document.body); // eslint-disable-line no-undef
 };
 
-
 const operateSignUpForm = () => {
   // create user signup form
   const signUpForm = new ModalAuthForm({
@@ -859,7 +927,7 @@ const operateSignUpForm = () => {
     submitBtnVal: 'Sign Up',
   });
 
-  const handleUserSignup = async (e) => {
+  const handleUserSignup = async e => {
     e.preventDefault();
     const formData = signUpForm.getFormData();
     await auth.signUp(formData, signUpForm.unmount);
@@ -872,8 +940,8 @@ const operateSignUpForm = () => {
 };
 
 // hide form
-hideFormButtons.forEach((btn) => {
-  btn.onclick = function (e) {
+hideFormButtons.forEach(btn => {
+  btn.onclick = function(e) {
     e.preventDefault();
     const thisBtn = this;
     const backdrop = thisBtn.parentNode.parentNode;
@@ -890,4 +958,3 @@ signUpBtn.addEventListener('click', operateSignUpForm); // eslint-disable-line n
 // setTimeout(() => {
 //   startupAlert.open({ message: 'This site is still under construction.' });
 // }, 100);
-

@@ -1,12 +1,13 @@
 /* eslint no-underscore-dangle: 0 */
 import { Article, User } from '../models';
+import { getUserFromToken } from '../utils/getUserFromToken';
 // make methods for manipulating article data
 
 // make method to save article
 export async function saveArticle(req, res, next) {
   try {
-    // get id from params
-    const { id: userID } = req.params;
+    const token = req.headers.authorization.split(' ')[1];
+    const { id: userID } = getUserFromToken(token);
 
     // get data from req.body
     const {
@@ -62,7 +63,8 @@ export async function saveArticle(req, res, next) {
 
 export async function getArticles(req, res, next) {
   try {
-    const { id } = req.params;
+    const token = req.headers.authorization.split(' ')[1];
+    const { id } = getUserFromToken(token);
     const articles = await Article.find({}).where({ user: id });
     return res.status(200).json(articles);
   } catch (e) {
@@ -73,7 +75,7 @@ export async function getArticles(req, res, next) {
 export async function deleteArticle(req, res, next) {
   try {
     // get article id from the request body
-    const { id } = req.body;
+    const { id } = req.params;
     // find the article and then remove it
     const foundArticle = await Article.findById(id);
     await foundArticle.remove();
@@ -85,8 +87,10 @@ export async function deleteArticle(req, res, next) {
 
 export async function getOneArticle(req, res, next) {
   try {
-    const foundArticle = await Article.findById(req.body.id).where({
-      user: req.params.id,
+    const token = req.headers.authorization.split(' ')[1];
+    const { id } = getUserFromToken(token);
+    const foundArticle = await Article.findById(req.params.id).where({
+      user: id,
     });
     return res.status(200).json(foundArticle);
   } catch (e) {
