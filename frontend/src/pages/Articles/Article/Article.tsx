@@ -17,6 +17,7 @@ const StyledArticle = styled.div`
   img {
     grid-column: 1/2;
     grid-row: 1/2;
+    position: relative;
   }
 
   button {
@@ -24,17 +25,23 @@ const StyledArticle = styled.div`
     grid-row: -2/-1;
   }
 
+  .link--img-wrapper {
+    display: contents;
+  }
+
   a,
   a:link,
   a:visited,
   a:active {
     text-decoration: none;
+    color: #333333;
   }
 
   div.info {
     grid-row-gap: .1rem;
     h1 {
       font-size: 2.1rem;
+      font-weight: 600;
     }
     a,
     a:link,
@@ -48,11 +55,22 @@ const StyledArticle = styled.div`
     }
     h2 {
       font-size: 1.7rem;
+      color: #555555;
     }
-    p {
+    a.author {
+      color: #777777;
+      text-decoration-line: underline;
+      margin-top: 1rem;
+    }
+        p {
+      color: #777777;
       font-size: 1.3rem;
       display: grid;
       color: gray;
+      grid-auto-flow: column;
+      grid-column-gap: .5rem;
+      justify-content: left;
+      margin-top: .3rem;
     }
   }
 `;
@@ -61,13 +79,15 @@ function Article(props: IArticle) {
   const { image, publicationDate, subTitle, title, url, author } = props;
   return (
     <StyledArticle>
-      <img src={image} alt="Article picture" />
+      <a href={url} target="_blank" rel="noopener noreferrer" className="link--img-wrapper">
+        <img src={image} alt="Article picture" />
+      </a>
       <div className="info">
-        <a href={url} target="_blank">
+        <a href={url} target="_blank" rel="noopener noreferrer">
           <h1>{title}</h1>
           <h2>{subTitle}</h2>
         </a>
-        <a href={author.authorInfo} target="_blank" rel="noopener noreferrer">{author.name}</a>
+        <a href={author.authorInfo} target="_blank" rel="noopener noreferrer" className="author">{author.name}</a>
         <p>
           {publicationDate.date && <span className="date">{publicationDate.date}</span>}
           {publicationDate.date && <span className="time">{publicationDate.time}</span>}

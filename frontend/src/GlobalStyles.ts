@@ -24,6 +24,7 @@ const GlobalStyles = createGlobalStyle`
     border: 0;
     padding: 0;
     font-size: 1.6rem;
+    color: #111111;
 
     /* Set dimensions */
     min-width: 100vw;
