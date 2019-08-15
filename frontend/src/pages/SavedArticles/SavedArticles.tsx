@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components';
 
-const Section = styled.section`
+const Section = styled.div`
   /* ... */
 `;
 
-function Home() {
+function SavedArticles() {
   return (
     <Section>
       Home
@@ -13,4 +13,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default SavedArticles;

@@ -19,7 +19,6 @@ export default () =>
           .text();
 
         const subTitle = $(this)
-          // .find('.row div:nth-child(1) p a')
           .find('.row div p a')
           .text();
         const image = $(this)
@@ -36,10 +35,13 @@ export default () =>
             image,
             url,
           });
-        } else {
-          // eslint-disable-next-line prefer-promise-reject-errors
-          reject('Content not available.');
         }
+        // else {
+        //   // eslint-disable-next-line prefer-promise-reject-errors
+        //   const error = new Error('Could not retrieve articles');
+        //   error.status = 500;
+        //   reject(error);
+        // }
       });
       return resolve(linkedItems);
     });
