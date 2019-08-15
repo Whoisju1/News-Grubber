@@ -1,10 +1,10 @@
 import faker from 'faker';
 import { model } from 'mongoose';
 
-const User = model('model');
+const User = model('User');
 
 export const createUser = () => ({
-  username: faker.internet.username(),
+  username: faker.internet.userName(),
   password: faker.internet.password(),
 });
 

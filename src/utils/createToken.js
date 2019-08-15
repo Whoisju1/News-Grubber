@@ -1,5 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import { sign } from 'jsonwebtoken';
+import config from '../config';
+
+const { jwtSecreteKey } = config;
 
 export const createToken = async ({ id, username, profileImageURL }) => {
   const sub = {
@@ -7,6 +10,6 @@ export const createToken = async ({ id, username, profileImageURL }) => {
     username,
     profileImageURL,
   };
-  const token = sign({ sub }, process.env.SECRETE_KEY);
+  const token = sign({ sub }, jwtSecreteKey);
   return token;
 };

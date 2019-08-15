@@ -52,12 +52,11 @@ export async function signUp(req, res, next) {
     });
   } catch (err) {
     if (err.code === 11000) {
-      err.message = 'Sorry, that username is taken';
+      const error = new Error('Sorry, username already taken.');
+      error.status = 400;
+      return next(error);
     }
-    return next({
-      status: 400,
-      message: err.message,
-    });
+    return next(err);
   }
 }
 
