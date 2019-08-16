@@ -15,11 +15,12 @@
     "lint": "echo '...Linting' && eslint src --fix && echo 'Linting Complete'",
     "watch": "watch \"echo '...Linting' && eslint src --fix && echo 'Linting Complete'\" src",
     "test:unit": "jest",
-    "test:unit:w": "jest --watch"
+    "test:unit:w": "jest --watch",
+    "test:react": "cd ./frontend && npx cross-env CI=true react-scripts test --env=jsdom"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && npm run test:unit",
+      "pre-commit": "npm run lint && npm run test:unit && npm run test:react",
       "pre-push": "npm run test:unit"
     }
   },
