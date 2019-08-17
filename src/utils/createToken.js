@@ -4,9 +4,9 @@ import config from '../config';
 
 const { jwtSecreteKey } = config;
 
-export const createToken = async ({ id, username, profileImageURL }) => {
+export const createToken = ({ _id, username, profileImageURL }) => {
   const sub = {
-    id,
+    _id,
     username,
     profileImageURL,
   };

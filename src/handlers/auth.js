@@ -15,7 +15,7 @@ export async function signIn(req, res, next) {
     // if password matches send back user information with a token
     if (isMatched) {
       const token = await createToken({
-        id,
+        _id: id,
         username,
         profileImageURL,
       });

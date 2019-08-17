@@ -88,9 +88,9 @@ export async function deleteArticle(req, res, next) {
 export async function getOneArticle(req, res, next) {
   try {
     const token = req.headers.authorization.split(' ')[1];
-    const { id } = getUserFromToken(token);
+    const { _id } = await getUserFromToken(token);
     const foundArticle = await Article.findById(req.params.id).where({
-      user: id,
+      user: _id,
     });
     return res.status(200).json(foundArticle);
   } catch (e) {
