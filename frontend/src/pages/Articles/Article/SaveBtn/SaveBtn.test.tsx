@@ -16,5 +16,6 @@ describe('`SaveBtn`', () => {
     it('`click` function should be executed when `SaveBtn` is clicked', () => {
       wrapper.simulate('click');
       expect(saveFunc).toBeCalled();
+      saveFunc.mockClear();
     });
 });
