@@ -20,6 +20,6 @@
     "jsx": "react"
   },
   "include": [
-    "src", "setupTest.ts"
+    "src", "setupTest.ts", "node_modules/jest-extended/types/**/*.d.ts"
   ]
 }

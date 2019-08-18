@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components';
-import { useScrappedArticles } from '../../utils/requests';
+import { ScrappedArticlesContext } from '../../shared/contexts/scrappedArticlesContext';
 import Article from './Article';
 
 const Section = styled.div`
@@ -11,10 +11,11 @@ const Section = styled.div`
 `;
 
 function Articles()  {
-  const articles = useScrappedArticles();
+  const { articles } = useContext(ScrappedArticlesContext);
+  const articleList = articles.map((article) => <Article key={article.url} {...article} />);
   return (
     <Section>
-      {articles.map((article) => <Article key={article.url} {...article} />)}
+      {articleList}
     </Section>
   )
 }

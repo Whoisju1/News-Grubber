@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
-import { IArticle } from '../../../utils/requests';
 import SaveBtn from './SaveBtn';
+import { IArticle } from '../../../shared/contexts/scrappedArticlesContext';
 
 const StyledArticle = styled.div`
   grid-column: 2/12;
