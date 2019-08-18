@@ -1,5 +1,5 @@
-/* eslint-disable import/first */
-/* eslint consistent-return: 0 */
+/* eslint-disable import/prefer-default-export */
+/* eslint-disable consistent-return */
 import { verify } from 'jsonwebtoken';
 import config from '../config';
 
@@ -11,35 +11,12 @@ export function loginRequired(req, res, next) {
     const token = req.headers.authorization.split(' ')[1];
     verify(token, jwtSecreteKey, (err, decoded) => {
       if (decoded) return next();
-      return next({
+      next({
         status: 401,
         message: 'Please log in first',
       });
     });
   } catch (e) {
-    return next({ status: 401, message: 'Please log in first' });
-  }
-}
-
-// make sure you have the correct user - Authorization
-export function ensureCorrectUser(req, res, next) {
-  try {
-    const token = req.headers.authorization.split(' ')[1];
-
-    verify(token, jwtSecreteKey, (err, decoded) => {
-      if (err) {
-        return next({
-          status: 401,
-          message: 'Unauthorized',
-        });
-      }
-      if (decoded && decoded.id === req.params.id) return next();
-      return next({
-        status: 401,
-        message: 'Unauthorized',
-      });
-    });
-  } catch (e) {
-    return next({ status: 401, message: 'Unauthorized' });
+    next({ status: 401, message: 'Please log in first' });
   }
 }

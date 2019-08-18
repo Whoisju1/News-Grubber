@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import '@babel/polyfill';
 import request from 'supertest';
 import { app } from '../src/server';
 import { createToken } from '../src/utils/createToken';

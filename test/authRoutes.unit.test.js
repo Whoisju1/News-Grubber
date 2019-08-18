@@ -1,3 +1,4 @@
+import '@babel/register';
 import request from 'supertest';
 import { model } from 'mongoose';
 import jwt from 'jsonwebtoken';

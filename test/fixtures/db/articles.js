@@ -2,9 +2,9 @@
 import { model, Types } from 'mongoose';
 import faker from 'faker';
 import bcrypt from 'bcrypt';
+import { Article } from '../../../src/models';
 
 const User = model('User');
-const Article = model('Article');
 
 // create hashed password
 export const hashedPass = bcrypt.hashSync('password', 10);

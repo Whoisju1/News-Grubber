@@ -12,7 +12,6 @@ describe('createToken function', () => {
   const fakeUser = {
     _id,
     username: faker.internet.userName(),
-    profileImageURL: faker.internet.url(),
   };
 
   const token = createToken(fakeUser);
