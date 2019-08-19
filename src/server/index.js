@@ -13,7 +13,7 @@ import newArticles from '../routes/newArticles';
 
 // get middleware
 import errorHandler from '../handlers/error';
-import { loginRequired } from '../middleware/auth';
+import { loginRequired, userMustExistMiddleware } from '../middleware/auth';
 
 const app = express();
 
@@ -28,7 +28,12 @@ app.use(json());
 // import routes
 app.use('/api/auth', authRoutes);
 app.use('/api/articles/scrapped', newArticles);
-app.use('/api/articles/', loginRequired, articleRoutes);
+app.use(
+  '/api/articles/',
+  loginRequired,
+  userMustExistMiddleware,
+  articleRoutes
+);
 app.use('/api/notes', loginRequired, noteRoutes);
 
 // make middleware to handle routes without handlers

@@ -37,7 +37,11 @@ describe('authRoute', () => {
 
       const parsedResponse = JSON.parse(response.text);
 
-      expect(jwt.verify(parsedResponse.token, config.jwtSecreteKey));
+      const decoded = jwt.verify(parsedResponse.token, config.jwtSecreteKey);
+
+      expect(decoded.sub.username.toLowerCase()).toBe(
+        createdUserCredentials.username.toLowerCase()
+      );
     });
 
     it('should return an error if you try to sign up the same user twice', async () => {

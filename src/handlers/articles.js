@@ -7,35 +7,23 @@ import { getUserFromToken } from '../utils/getUserFromToken';
 export async function saveArticle(req, res, next) {
   try {
     const token = req.headers.authorization.split(' ')[1];
-    const { id: userID } = getUserFromToken(token);
+    const {
+      sub: { _id: userID },
+    } = getUserFromToken(token);
+    const duplicateErr = new Error(
+      'This article is already in your collection.'
+    );
+    duplicateErr.status = 401;
 
     // get data from req.body
-    const {
-      url,
-      title,
-      subTitle = null,
-      image = null,
-      author,
-      publicationDate,
-    } = req.body;
+    const { url } = req.body;
 
-    // create message
-    const article = await Article.create({
-      url,
-      title,
-      subTitle,
-      image,
-      author,
-      publicationDate,
-    });
-
-    // return an error message if article already exists
+    // check to see if article already exists and if it does return an error message instead
     const count = await Article.count({ url }).where({ user: userID });
-    if (count)
-      return next({
-        status: 400,
-        message: 'This article is already in your collection.',
-      });
+    if (count) return next(duplicateErr);
+
+    // if all is well create the article
+    const article = await new Article(req.body);
 
     article.user = userID;
     article.save();
@@ -45,7 +33,7 @@ export async function saveArticle(req, res, next) {
     foundUser.articles.push(article._id);
     await foundUser.save();
 
-    // find article and referenced user and send it to the client
+    // find article and referenced user and send them to the client
     const foundArticle = await Article.findById(article._id).populate('user', {
       username: true,
     });
@@ -88,7 +76,9 @@ export async function deleteArticle(req, res, next) {
 export async function getOneArticle(req, res, next) {
   try {
     const token = req.headers.authorization.split(' ')[1];
-    const { _id } = await getUserFromToken(token);
+    const {
+      sub: { _id },
+    } = getUserFromToken(token);
     const foundArticle = await Article.findById(req.params.id).where({
       user: _id,
     });

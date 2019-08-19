@@ -17,7 +17,7 @@ export const createUser = () => ({
 
 export const user = createUser();
 
-const createArticleObject = () => ({
+export const createArticleObject = () => ({
   _id: `${Types.ObjectId()}`,
   url: faker.internet.url(),
   title: faker.lorem.sentence(10),

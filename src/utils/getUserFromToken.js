@@ -4,10 +4,4 @@ import config from '../config';
 
 const { jwtSecreteKey } = config;
 
-export const getUserFromToken = token =>
-  new Promise((resolve, reject) => {
-    verify(token, jwtSecreteKey, (err, decoded) => {
-      resolve(decoded.sub);
-      reject(err);
-    });
-  });
+export const getUserFromToken = token => verify(token, jwtSecreteKey);
