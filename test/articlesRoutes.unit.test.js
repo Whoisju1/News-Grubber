@@ -9,7 +9,7 @@ import {
   user,
   emptyDb,
   createArticleObject,
-} from './fixtures/db/articles';
+} from './fixtures/db';
 
 describe('Article Routes', () => {
   const token = createToken(user);

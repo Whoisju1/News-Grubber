@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 import '@babel/polyfill';
-import { user, initDb, emptyDb } from './fixtures/db/articles';
+import { user, initDb, emptyDb } from './fixtures/db';
 import { createToken } from '../src/utils/createToken';
 import { userMustExistMiddleware } from '../src/middleware/auth';
 

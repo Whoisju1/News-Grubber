@@ -2,8 +2,14 @@ import '@babel/register';
 import request from 'supertest';
 import jwt from 'jsonwebtoken';
 import { app } from '../src/server';
-import { createdUserCredentials } from './fixtures/db';
-import { user, password, initDb, emptyDb } from './fixtures/db/articles';
+import {
+  createdUserCredentials,
+  user,
+  password,
+  initDb,
+  emptyDb,
+} from './fixtures/db';
+
 import config from '../src/config';
 
 describe('authRoute', () => {
