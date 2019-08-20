@@ -1,5 +1,5 @@
 import mongoose, { Schema as _Schema, model } from 'mongoose';
-import { hash, compare } from 'bcrypt';
+import { hashSync, compareSync } from 'bcrypt';
 
 const { Schema } = mongoose;
 
@@ -27,12 +27,12 @@ const userSchema = new Schema({
   ],
 });
 
-userSchema.pre('save', async function pre(next) {
+userSchema.pre('save', function pre(next) {
   try {
     if (!this.isModified('password')) {
       return next();
     }
-    const hashedPassword = await hash(this.password, 10);
+    const hashedPassword = hashSync(this.password, 10);
     this.password = hashedPassword;
     return next();
   } catch (err) {
@@ -40,12 +40,12 @@ userSchema.pre('save', async function pre(next) {
   }
 });
 
-userSchema.methods.comparePassword = async function comparePassword(
+userSchema.methods.comparePassword = function comparePassword(
   candidatePassword,
   next
 ) {
   try {
-    const isMatch = await compare(candidatePassword, this.password);
+    const isMatch = compareSync(candidatePassword, this.password);
     return isMatch;
   } catch (err) {
     return next(err);

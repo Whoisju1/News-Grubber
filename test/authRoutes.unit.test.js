@@ -1,18 +1,18 @@
 import '@babel/register';
 import request from 'supertest';
-import { model } from 'mongoose';
 import jwt from 'jsonwebtoken';
 import { app } from '../src/server';
 import { createdUserCredentials } from './fixtures/db';
+import { user, password, initDb, emptyDb } from './fixtures/db/articles';
 import config from '../src/config';
 
-const User = model('User');
 describe('authRoute', () => {
+  // /api/auth/singup
+  beforeEach(async () => {
+    await emptyDb();
+    await initDb();
+  });
   describe('`createUser` function', () => {
-    beforeEach(async () => {
-      await User.deleteMany();
-    });
-
     it('should return a status of `200`', async () => {
       await request(app)
         .post('/api/auth/signup')
@@ -61,5 +61,69 @@ describe('authRoute', () => {
         error: { message: 'Sorry, username already taken.' },
       });
     });
+  });
+
+  // /api/auth/signin
+  describe('SignIn route', () => {
+    describe('When user submits correct credentials', () => {
+      it("should return the user's username, _id, and token", async () => {
+        const response = await request(app)
+          .post('/api/auth/signin')
+          .send({
+            username: user.username,
+            password,
+          })
+          .expect(200);
+
+        const parsedResponse = JSON.parse(response.text);
+
+        expect({
+          username: parsedResponse.username.toLowerCase(),
+          _id: parsedResponse._id,
+        }).toEqual({
+          username: user.username.toLowerCase(),
+          _id: user._id,
+        });
+      });
+    });
+
+    describe('when wrong password is submitted', () => {
+      it('should should return a status of 400 and the error message `User not found.`', async () => {
+        const resp = await request(app)
+          .post('/api/auth/signin')
+          .send({ username: 'nonexistant_usernaem', password: user.password })
+          .expect(400);
+
+        const parsedResponse = JSON.parse(resp.text);
+
+        expect(parsedResponse).toEqual({
+          error: {
+            message: 'User not found.',
+          },
+        });
+      });
+    });
+
+    describe('when wrong password is submitted', () => {
+      it('should should return a status of 404 and the error message `Invalid password.`', async () => {
+        const err = new Error('Invalid password.');
+        err.status = 400;
+        const resp = await request(app)
+          .post('/api/auth/signin')
+          .send({ username: user.username, password: 'wrong password' })
+          .expect(400);
+
+        const parsedResponse = JSON.parse(resp.text);
+        expect(parsedResponse).toEqual({
+          error: {
+            message: 'Invalid password.',
+          },
+        });
+      });
+    });
+  });
+
+  afterAll(async () => {
+    await emptyDb();
   });
 });

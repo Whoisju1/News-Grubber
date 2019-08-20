@@ -1,18 +1,17 @@
 /* eslint-disable no-underscore-dangle */
 import { model, Types } from 'mongoose';
 import faker from 'faker';
-import bcrypt from 'bcrypt';
 import { Article } from '../../../src/models';
 
 const User = model('User');
 
-// create hashed password
-export const hashedPass = bcrypt.hashSync('password', 10);
+// generate user password
+export const password = faker.internet.password();
 
 export const createUser = () => ({
   _id: `${Types.ObjectId()}`,
   username: faker.internet.userName(),
-  password: hashedPass,
+  password,
 });
 
 export const user = createUser();
