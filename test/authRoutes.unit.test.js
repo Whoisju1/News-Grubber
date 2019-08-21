@@ -20,10 +20,21 @@ describe('authRoute', () => {
   });
   describe('`createUser` function', () => {
     it('should return a status of `200`', async () => {
-      await request(app)
+      const response = await request(app)
         .post('/api/auth/signup')
         .send(createdUserCredentials)
         .expect(200);
+
+      const parsedResponse = JSON.parse(response.text);
+      expect({
+        ...parsedResponse,
+        username: parsedResponse.username.toLowerCase(),
+      }).toEqual(
+        expect.objectContaining({
+          _id: parsedResponse._id,
+          username: createdUserCredentials.username.toLowerCase(),
+        })
+      );
     });
 
     it('should should not return the `password` along with the data', async () => {

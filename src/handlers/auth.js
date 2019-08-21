@@ -44,10 +44,10 @@ export async function signIn(req, res, next) {
 export async function signUp(req, res, next) {
   try {
     const user = await User.create(req.body);
-    const { id, username, profileImageURL } = user;
-    const token = await createToken({ id, username });
+    const { _id, username, profileImageURL } = user;
+    const token = await createToken({ _id, username });
     return res.status(200).json({
-      id,
+      _id,
       username,
       profileImageURL,
       token,
