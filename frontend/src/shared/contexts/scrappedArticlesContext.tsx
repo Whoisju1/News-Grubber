@@ -1,5 +1,5 @@
 import React, { createContext, useReducer } from 'react';
-import { useFetch } from '../../utils/requests/requests';
+import { useFetch } from '../../utils/requests';
 
 export interface IPublicationDate {
   date?: string;
