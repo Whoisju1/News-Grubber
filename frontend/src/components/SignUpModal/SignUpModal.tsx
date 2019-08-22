@@ -18,7 +18,7 @@ const SignUpModal: React.FC<Props> = ({ isShown, hide }) => {
     }
   }
   return (
-    <Modal show={isShown}>
+    <Modal show={isShown} hide={hide}>
       <AuthForm
         handleSubmit={handleSubmit}
         submitBtnValue="Sign Up"

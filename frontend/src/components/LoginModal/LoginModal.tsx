@@ -18,7 +18,7 @@ const LoginModal: React.FC<Props> = ({ show, hide }) => {
     }
   }
   return (
-    <Modal show={show}>
+    <Modal show={show} hide={hide}>
       <AuthForm
         handleSubmit={handleSubmit}
         formHeading="Sign In"
