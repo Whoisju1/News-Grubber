@@ -1,6 +1,26 @@
-import React from 'react'
-import styled from 'styled-components';
+import React, { useEffect } from 'react'
+import styled, { keyframes } from 'styled-components';
 import CloseBtn from './CloseBtn';
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
+const dropDown = keyframes`
+ 0% {
+    opacity: 0;
+    transform: translateY(-2rem) translate(-50%, -50%);;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) translate(-50%, -50%);;
+  }
+`;
 
 interface ModalProps {
   show: boolean;
@@ -20,7 +40,10 @@ const StyledModal = styled.div<ModalProps>`
     left: 50%;
     top: 40%;
     transform: translate(-50%, -50%);
+    animation: ${dropDown} .3s both ease-in;
+    animation-delay: .2s;
   }
+  animation: ${fadeIn} .5s both;
 `;
 
 interface IProps {
@@ -30,7 +53,20 @@ interface IProps {
   hide: () => void;
 }
 
-function Modal ({ children, show, showCloseBtn = false, hide }: IProps) {
+function Modal ({ children, show, showCloseBtn = true, hide }: IProps) {
+  const handleEscPress = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      hide();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keyup', handleEscPress)
+    return () => {
+      document.removeEventListener('keyup', handleEscPress)
+    };
+  }, [])
+
   if (show) {
     document.body.style.overflow = 'hidden';
   } else {
@@ -40,7 +76,7 @@ function Modal ({ children, show, showCloseBtn = false, hide }: IProps) {
 
   return (
     <StyledModal show={show}>
-      <CloseBtn click={hide} />
+      {showCloseBtn ? <CloseBtn click={hide} /> : null}
       <div className="content">
         {children}
       </div>

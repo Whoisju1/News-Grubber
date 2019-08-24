@@ -20,10 +20,11 @@ interface Props {
 const CloseBtn: React.FC<Props> = ({ click }) => {
   return (
     <Svg onClick={click}>
+      <title>Close</title>
       <path
-        stroke="#fff"
+        stroke="#353b48"
         strokeWidth="7"
-        fill="#fff"
+        fill="#353b48"
         strokeLinecap="round"
         strokeLinejoin="round"
         d="M0,0 100,100 M0,100 100,0"
