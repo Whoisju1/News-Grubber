@@ -10,13 +10,15 @@ const StyledModal = styled.div<ModalProps>`
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 1;
+  backdrop-filter: blur(3px) grayscale(.3);
   height: 100vh;
+  overflow: hidden;
   width: 100vw;
-  background-color: rgba(0, 0, 0, .3);
   .content {
     position: absolute;
     left: 50%;
-    top: 30%;
+    top: 40%;
     transform: translate(-50%, -50%);
   }
 `;
@@ -29,7 +31,13 @@ interface IProps {
 }
 
 function Modal ({ children, show, showCloseBtn = false, hide }: IProps) {
+  if (show) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = 'auto';
+  }
   if (!show) return null;
+
   return (
     <StyledModal show={show}>
       <CloseBtn click={hide} />
