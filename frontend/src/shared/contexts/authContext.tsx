@@ -6,6 +6,7 @@ export interface User {
   token: '',
   username: '',
 }
+
 export interface IAuthCtx {
   signin: (cred: UserCredentials) => void;
   user: User | null,
@@ -37,8 +38,20 @@ interface Action {
 
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
+  const getToken = () => localStorage.getItem('token');
+
+  const setToken = ((token: string) => localStorage.setItem('token', token));
+
+  const clearToken = () => localStorage.removeItem('token');
+
+  const tokenManager = {
+    getToken,
+    setToken,
+    clearToken,
+  };
+
   const initialState: User | null =  null;
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(!!tokenManager.getToken());
   const [user, dispatch] = useReducer((state: State, action: Action) => {
     switch (action.type) {
       case 'LOGIN':
@@ -57,7 +70,14 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   const ctxValue: IAuthCtx = {
     isLoggedIn,
     user,
-    logout: () => {},
+    logout: () => {
+      tokenManager.clearToken();
+      setIsLoggedIn(false);
+      dispatch({
+        type: 'LOGOUT',
+        data: null,
+      });
+    },
     signin: (body) => {
       fetch('/api/auth/signin', {
         body: JSON.stringify(body),
@@ -68,6 +88,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       })
       .then(res => res.json())
       .then(data => {
+        tokenManager.setToken(data.token);
         dispatch({
           type: 'LOGIN',
           data,
@@ -85,6 +106,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       })
       .then(res => res.json())
       .then(data => {
+        tokenManager.setToken(data.token);
         dispatch({
           type: 'SIGNUP',
           data,
