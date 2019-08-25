@@ -61,7 +61,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
        .then(user => {
          dispatch({
            type: 'LOGIN',
-           data: user,
+           data: { ...user, token: tokenManager.getToken() },
          });
        });
     }
