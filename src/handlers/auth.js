@@ -1,5 +1,6 @@
 import { User } from '../models';
 import { createToken } from '../utils/createToken';
+import { getUserFromToken } from '../utils/getUserFromToken';
 
 export async function signIn(req, res, next) {
   try {
@@ -76,3 +77,15 @@ export async function unregister(req, res, next) {
     return next(e);
   }
 }
+
+export const getCurrentUser = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization.split(' ')[1];
+
+    const { sub } = getUserFromToken(token);
+
+    return res.status(200).json(sub);
+  } catch (error) {
+    return next(error);
+  }
+};

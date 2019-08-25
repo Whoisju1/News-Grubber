@@ -11,6 +11,7 @@ import {
 } from './fixtures/db';
 
 import config from '../src/config';
+import { createToken } from '../src/utils/createToken';
 
 describe('authRoute', () => {
   // /api/auth/singup
@@ -136,6 +137,23 @@ describe('authRoute', () => {
             message: 'Invalid password.',
           },
         });
+      });
+    });
+  });
+
+  // /api/auth/user
+  describe('get Current user route', () => {
+    it('should return the user', async () => {
+      const token = createToken(user);
+      const response = await request(app)
+        .get('/api/auth/user')
+        .set('authorization', `Bearer ${token}`)
+        .expect(200);
+
+      const parsedResponse = JSON.parse(response.text);
+      expect(parsedResponse).toEqual({
+        _id: user._id,
+        username: user.username,
       });
     });
   });

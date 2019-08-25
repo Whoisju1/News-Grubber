@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useState } from 'react'
+import React, { createContext, useReducer, useState, useEffect } from 'react'
 
 export interface UserCredentials { username: string; password: string };
 export interface User {
@@ -49,6 +49,23 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     setToken,
     clearToken,
   };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetch('/api/auth/user', {
+        headers: {
+          authorization: `Bear ${tokenManager.getToken()}`,
+        }
+       })
+       .then(data => data.json())
+       .then(user => {
+         dispatch({
+           type: 'LOGIN',
+           data: user,
+         });
+       });
+    }
+  }, []);
 
   const initialState: User | null =  null;
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(!!tokenManager.getToken());

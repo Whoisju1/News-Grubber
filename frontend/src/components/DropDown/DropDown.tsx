@@ -45,7 +45,6 @@ const StyledDropDown = styled.div`
 
   .head {
     cursor: pointer;
-    border: 1px solid black;
   }
 
   .hide {
