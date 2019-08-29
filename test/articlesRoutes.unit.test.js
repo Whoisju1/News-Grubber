@@ -69,4 +69,16 @@ describe('Article Routes', () => {
       ]);
     });
   });
+
+  // DELETE /api/articles/:id
+  describe('Delete article', () => {
+    it('should delete the article for the id passed in', async () => {
+      const res = await request(app)
+        .delete(`/api/articles/${article._id}`)
+        .set('authorization', `Bearer ${token}`)
+        .expect(200);
+      const parsedResponse = JSON.parse(res.text);
+      expect(parsedResponse._id).toBe(article._id);
+    });
+  });
 });

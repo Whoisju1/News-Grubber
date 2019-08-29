@@ -69,7 +69,7 @@ export async function deleteArticle(req, res, next) {
     // find the article and then remove it
     const foundArticle = await Article.findById(id);
     await foundArticle.remove();
-    return res.status(200).json('Article deleted');
+    return res.status(200).json(foundArticle);
   } catch (e) {
     return next(e);
   }
