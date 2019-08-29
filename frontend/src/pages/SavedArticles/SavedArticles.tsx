@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { IArticle } from '../../shared/contexts/scrappedArticlesContext';
 import { AuthContext } from '../../shared/contexts/authContext';
 import SavedArticle from './SavedArticle/SavedArticle';
+import DeleteModal from '../../components/DeleteModal';
 
 const Section = styled.div`
   display: grid;
@@ -16,7 +17,10 @@ const Section = styled.div`
 
 function SavedArticles() {
   const [articles, setArticles] = useState<IArticle[]>([]);
+  const [deleteModalIsShown, setDeleteModalIsShown] = useState(false);
   const { user } = useContext(AuthContext);
+  const launchDeleteModal = () => setDeleteModalIsShown(true);
+
   useEffect(() => {
     if (user) {
       fetch('/api/articles', {
@@ -31,11 +35,25 @@ function SavedArticles() {
   if (!articles.length) return <p>Please save an article first</p>;
 
   return (
-    <Section>
+    <>
+      <Section>
+        {
+          articles.map(savedArticle => <SavedArticle launchDltModal={launchDeleteModal} {...savedArticle} />)
+        }
+      </Section>
       {
-        articles.map(savedArticle => <SavedArticle {...savedArticle} />)
+        deleteModalIsShown
+        ? <DeleteModal
+          isShown={deleteModalIsShown}
+          buttonValue="Delete Article"
+          confirmationMsg="Are you sure you want to delete this article?"
+          hide={() => setDeleteModalIsShown(false)}
+          deleteAction={async () => console.log('deleted')}
+          cancelBtnValue="Cancel"
+        />
+        : null
       }
-    </Section>
+    </>
   );
 }
 

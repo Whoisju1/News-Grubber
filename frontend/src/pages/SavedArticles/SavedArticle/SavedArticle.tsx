@@ -55,14 +55,11 @@ const StyledContainer = styled.div`
 `;
 
 interface Props extends IArticle {
-
+  launchDltModal: () => void;
 }
 
 const SavedArticle: React.FC<Props> = (props) => {
-  const [showDeleteModal, setShowDeleteModal] = useState(true);
-  const showDelModal = () => setShowDeleteModal(true);
   const { date, time } = props.publicationDate;
-  console.log(showDeleteModal);
   return (
     <>
       <StyledContainer>
@@ -76,11 +73,10 @@ const SavedArticle: React.FC<Props> = (props) => {
         <a href={props.author.authorInfo} className="author" target="_blank">{props.author.name}</a>
         <div className="date">{date} {time}</div>
         <div className="article-buttons">
-          {/* TODO: replace buttons with svg elements */}
           <ArticleBtn click={() => void(0)} title="Add note about article">
             <AddNoteIcon />
           </ArticleBtn>
-          <ArticleBtn click={showDelModal} title="Delete this article">
+          <ArticleBtn click={props.launchDltModal} title="Delete this article">
             <TrashIcon preserveAspectRatio="xMidYMid" />
           </ArticleBtn>
           <ArticleBtn click={() => void(0)} title="View Notes">
@@ -88,18 +84,6 @@ const SavedArticle: React.FC<Props> = (props) => {
           </ArticleBtn>
         </div>
       </StyledContainer>
-      {
-        showDeleteModal
-        ? <DeleteModal
-            isShown={showDeleteModal}
-            buttonValue="Delete Article"
-            confirmationMsg="Are you sure you want to delete this article?"
-            hide={() => setShowDeleteModal(false)}
-            deleteAction={async () => console.log('deleted')}
-            cancelBtnValue="Cancel"
-          />
-          : null
-      }
     </>
   );
 };
