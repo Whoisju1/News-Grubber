@@ -27,11 +27,11 @@ interface ModalProps {
 }
 
 const StyledModal = styled.div<ModalProps>`
+  background: rgba(0, 0, 0, .3);
   position: fixed;
   top: 0;
   left: 0;
   z-index: 1;
-  backdrop-filter: blur(3px) grayscale(.3);
   height: 100vh;
   overflow: hidden;
   width: 100vw;
@@ -44,6 +44,12 @@ const StyledModal = styled.div<ModalProps>`
     animation-delay: .2s;
   }
   animation: ${fadeIn} .5s both;
+  @supports (backdrop-filter: blur(3px) grayscale(.3)) {
+    & {
+      background: transparent;
+      backdrop-filter: blur(3px) grayscale(.3);
+    }
+  }
 `;
 
 interface IProps {
