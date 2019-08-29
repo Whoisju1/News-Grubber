@@ -4,6 +4,7 @@ import { IArticle } from '../../shared/contexts/scrappedArticlesContext';
 import { AuthContext } from '../../shared/contexts/authContext';
 import SavedArticle from './SavedArticle/SavedArticle';
 import DeleteModal from '../../components/DeleteModal';
+import { deleteArticle } from '../../utils/requests';
 
 const Section = styled.div`
   display: grid;
@@ -18,9 +19,19 @@ const Section = styled.div`
 function SavedArticles() {
   const [articles, setArticles] = useState<IArticle[]>([]);
   const [deleteModalIsShown, setDeleteModalIsShown] = useState(false);
+  const [articleToDeleteId, setArticleToDeleteId] = useState('');
   const { user } = useContext(AuthContext);
-  const launchDeleteModal = () => setDeleteModalIsShown(true);
+  const launchDeleteModal = (id: string) => {
+    setArticleToDeleteId(id);
+    setDeleteModalIsShown(true);
+  };
 
+  const removeArticle = async () => {
+    await deleteArticle(articleToDeleteId);
+    setDeleteModalIsShown(false);
+    const remainingArticles = articles.filter(({ _id: articleId }) => articleToDeleteId !== articleId)
+    setArticles(remainingArticles);
+  }
   useEffect(() => {
     if (user) {
       fetch('/api/articles', {
@@ -48,7 +59,7 @@ function SavedArticles() {
           buttonValue="Delete Article"
           confirmationMsg="Are you sure you want to delete this article?"
           hide={() => setDeleteModalIsShown(false)}
-          deleteAction={async () => console.log('deleted')}
+          deleteAction={removeArticle}
           cancelBtnValue="Cancel"
         />
         : null

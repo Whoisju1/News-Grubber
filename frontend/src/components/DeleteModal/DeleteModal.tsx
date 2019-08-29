@@ -63,7 +63,7 @@ interface Props {
   description?: string;
   buttonValue: string;
   cancelBtnValue: string;
-  deleteAction: () => Promise<any>;
+  deleteAction: () => void;
 }
 
 const DeleteModal: React.FC<Props> = ({

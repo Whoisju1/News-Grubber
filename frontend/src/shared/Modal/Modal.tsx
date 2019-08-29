@@ -33,14 +33,13 @@ const StyledModal = styled.div<ModalProps>`
   left: 0;
   z-index: 1;
   height: 100vh;
-  overflow: hidden;
   width: 100vw;
   .content {
     position: absolute;
     left: 50%;
     top: 40%;
     transform: translate(-50%, -50%);
-    animation: ${dropDown} .3s both ease-in;
+    animation: ${dropDown} .3s both ease-out;
     animation-delay: .2s;
   }
   animation: ${fadeIn} .5s both;
@@ -73,11 +72,6 @@ function Modal ({ children, show, showCloseBtn = true, hide }: IProps) {
     };
   }, [])
 
-  if (show) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = 'auto';
-  }
   if (!show) return null;
 
   return (

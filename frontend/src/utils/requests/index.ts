@@ -29,3 +29,15 @@ export const usePost = <T, K>(url: string, { body, initialState }: { initialStat
 
   return state;
 };
+
+export const deleteArticle = async (id: string) => {
+  const token = localStorage.getItem('token');
+  const response = await fetch(`/api/articles/${id}`, {
+    method: 'DELETE',
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
+  const deletedArticle = await response.json();
+  return deletedArticle;
+}

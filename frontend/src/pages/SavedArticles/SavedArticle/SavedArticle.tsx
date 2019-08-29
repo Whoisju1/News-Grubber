@@ -55,7 +55,7 @@ const StyledContainer = styled.div`
 `;
 
 interface Props extends IArticle {
-  launchDltModal: () => void;
+  launchDltModal: (id: string) => void;
 }
 
 const SavedArticle: React.FC<Props> = (props) => {
@@ -76,7 +76,7 @@ const SavedArticle: React.FC<Props> = (props) => {
           <ArticleBtn click={() => void(0)} title="Add note about article">
             <AddNoteIcon />
           </ArticleBtn>
-          <ArticleBtn click={props.launchDltModal} title="Delete this article">
+          <ArticleBtn click={() => props.launchDltModal(props._id)} title="Delete this article">
             <TrashIcon preserveAspectRatio="xMidYMid" />
           </ArticleBtn>
           <ArticleBtn click={() => void(0)} title="View Notes">

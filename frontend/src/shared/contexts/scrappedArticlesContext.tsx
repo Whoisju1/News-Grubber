@@ -12,6 +12,7 @@ export interface IAuthor {
 }
 
 export interface IArticle {
+  _id: string;
   title: string;
   subTitle: string;
   image: string;
