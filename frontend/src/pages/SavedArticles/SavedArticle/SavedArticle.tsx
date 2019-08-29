@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react'
 import styled from 'styled-components';
 import { IArticle } from '../../../shared/contexts/scrappedArticlesContext';
 import ArticleBtn from './ArticleBtn';
-import { AddNoteIcon, TrashIcon } from '../../../shared/CustomIcons';
+import MenuBtn from './MenuBtn';
+import { AddNoteIcon, TrashIcon, MenuIcon } from '../../../shared/CustomIcons';
 
 const StyledContainer = styled.div`
   display: grid;
@@ -38,15 +39,18 @@ const StyledContainer = styled.div`
   }
 
   .article-buttons {
-    grid-column: 1/2;
-    grid-row: 4/5;
+    grid-column: 11/13;
+    grid-row: 3/4;
     height: 3rem;
     display: grid;
     justify-content: space-between;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(1rem, 3rem));
+    transform: translateY(-.6rem);
+    min-width: 5rem;
   }
-  border-bottom: .04rem solid lightgray;
-  border-top: .04rem solid lightgray;
+  :not(:last-child) {
+    border-bottom: .04rem solid lightgray;
+  }
 `;
 
 interface Props extends IArticle {
@@ -72,7 +76,10 @@ const SavedArticle: React.FC<Props> = (props) => {
           <AddNoteIcon />
         </ArticleBtn>
         <ArticleBtn click={() => void(0)} title="Delete this article">
-          <TrashIcon preserveAspectRatio="xMaxYMid" />
+          <TrashIcon preserveAspectRatio="xMidYMid" />
+        </ArticleBtn>
+        <ArticleBtn click={() => void(0)} title="View Notes">
+          <MenuIcon />
         </ArticleBtn>
       </div>
     </StyledContainer>
