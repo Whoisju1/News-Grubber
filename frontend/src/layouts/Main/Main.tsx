@@ -16,8 +16,8 @@ function Main() {
     <ScrappedArticlesProvider>
       <StyledMain>
         <Switch>
-          <Route exact path="/articles/" component={Articles} />
-          <Route exact path="/articles/saved" component={SavedArticles} />
+          <Route exact path="/" component={Articles} />
+          <Route exact path="/articles" component={SavedArticles} />
           <Route exact path="/about" components={About} />
         </Switch>
       </StyledMain>

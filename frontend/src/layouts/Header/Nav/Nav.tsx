@@ -53,10 +53,10 @@ const StyledNav = styled.nav`
 function Nav() {
   return (
     <StyledNav>
-      <StyledLink to="/articles" activeClassName="active">
-        Articles
+      <StyledLink exact to="/" activeClassName="active">
+        Home
       </StyledLink>
-      <StyledLink to="/articles/saved" activeClassName="active">
+      <StyledLink to="/articles" activeClassName="active">
         Saved Articles
       </StyledLink>
       <StyledLink to="/about" activeClassName="active">
