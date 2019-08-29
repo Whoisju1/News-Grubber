@@ -13,9 +13,9 @@ const TrashIcon : React.FC<Props> = ({ preserveAspectRatio }) => {
       id="trash-can"
       viewBox="0 0 100 100"
       stroke="rgb(101, 119, 134)"
-      stroke-width="6"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       fill="transparent">
       <path
         id="cover"

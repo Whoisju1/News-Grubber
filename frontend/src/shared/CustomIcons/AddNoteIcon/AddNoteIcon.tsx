@@ -9,10 +9,10 @@ const AddNoteIcon = () => {
         id="note-pad"
         viewBox="0 0 100 100"
         fill="transparent"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         stroke="rgb(101, 119, 134)"
-        stroke-width="6">
+        strokeWidth="6">
       <path
         id="outline"
         d="

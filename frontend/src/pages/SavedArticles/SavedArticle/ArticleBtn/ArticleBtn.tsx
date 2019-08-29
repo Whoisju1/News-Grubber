@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components';
-import { string } from 'prop-types';
 
 const StyledBtn = styled.a.attrs(({ title }) => ({ title }) )`
   display: grid;

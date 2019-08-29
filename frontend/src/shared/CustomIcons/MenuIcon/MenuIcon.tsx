@@ -12,9 +12,9 @@ const MenuIcon: React.FC<Props> = () => {
       id="menu-icon"
       viewBox="0 0 100 100"
       stroke="rgb(101, 119, 134)"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="6">
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="6">
         <path
           fill="none"
           d="M0,0 L50,55 100,0"
