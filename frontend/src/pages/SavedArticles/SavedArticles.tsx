@@ -2,9 +2,16 @@ import React, { useEffect, useState, useContext } from 'react'
 import styled from 'styled-components';
 import { IArticle } from '../../shared/contexts/scrappedArticlesContext';
 import { AuthContext } from '../../shared/contexts/authContext';
+import SavedArticle from './SavedArticle/SavedArticle';
 
 const Section = styled.div`
-  /* ... */
+  display: grid;
+  grid-gap: 3rem;
+  grid-template-columns: repeat(12, [col-start] 1fr [col-end]);
+  padding: 2rem 0;
+  & > * {
+    grid-column: 2/12;
+  }
 `;
 
 function SavedArticles() {
@@ -25,7 +32,9 @@ function SavedArticles() {
 
   return (
     <Section>
-      {/* render list of articles */}
+      {
+        articles.map(savedArticle => <SavedArticle {...savedArticle} />)
+      }
     </Section>
   );
 }

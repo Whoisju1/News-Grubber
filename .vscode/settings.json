@@ -3,5 +3,6 @@
   "prettier.trailingComma": "es5",
   "cSpell.words": [
     "polyfill"
-  ]
+  ],
+  "svg.preview.background": "white"
 }

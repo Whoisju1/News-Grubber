@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components';
 import SaveBtn from './SaveBtn';
 import { IArticle } from '../../../shared/contexts/scrappedArticlesContext';
+import { AuthContext } from '../../../shared/contexts/authContext';
 
 const StyledArticle = styled.div`
   grid-column: 2/12;
@@ -77,6 +78,25 @@ const StyledArticle = styled.div`
 
 function Article(props: IArticle) {
   const { image, publicationDate, subTitle, title, url, author } = props;
+
+  const { user } = useContext(AuthContext)
+
+  const saveArticle = async (e: React.MouseEvent) => {
+    if (user) {
+      fetch('/api/articles', {
+        method: 'POST',
+        body: JSON.stringify(props),
+        headers: {
+          authorization: `Bearer ${user.token}`,
+          'Content-Type': 'application/json',
+        },
+      }).then(data => data.json())
+      .then(data => console.log(data));
+    } else {
+      alert('Please sign in first');
+    }
+  }
+
   return (
     <StyledArticle>
       <a href={url} target="_blank" rel="noopener noreferrer" className="link--img-wrapper">
@@ -93,7 +113,7 @@ function Article(props: IArticle) {
           {publicationDate.date && <span className="time">{publicationDate.time}</span>}
         </p>
       </div>
-      <SaveBtn click={() => void (0)}>Save</SaveBtn>
+      <SaveBtn click={saveArticle}>Save</SaveBtn>
     </StyledArticle>
   )
 }

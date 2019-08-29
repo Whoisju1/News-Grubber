@@ -13,6 +13,7 @@ import {
 
 describe('Article Routes', () => {
   const token = createToken(user);
+  const newArticle = createArticleObject();
   beforeEach(async () => {
     await emptyDb();
     await initDb();
@@ -34,8 +35,6 @@ describe('Article Routes', () => {
 
   // `POST /api/articles`
   describe('save article route', () => {
-    const newArticle = createArticleObject();
-
     it('should return saved article', async () => {
       const response = await request(app)
         .post('/api/articles')
@@ -47,6 +46,27 @@ describe('Article Routes', () => {
         _id: newArticle._id,
         author: newArticle.author,
       });
+    });
+  });
+
+  // GET /api/articles/
+  describe('Getting saved articles', () => {
+    it('should return saved articles', async () => {
+      const res = await request(app)
+        .get('/api/articles')
+        .set('authorization', `Bearer ${token}`)
+        .expect(200);
+
+      const parsedRes = JSON.parse(res.text);
+
+      expect(parsedRes).toBeArrayOfSize(1);
+      expect(parsedRes).toMatchObject([
+        {
+          _id: article._id,
+          url: article.url,
+          title: article.title,
+        },
+      ]);
     });
   });
 });
