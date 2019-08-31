@@ -6,11 +6,11 @@ import { NavLink } from 'react-router-dom';
 const fadeInDrop = keyframes`
   0% {
     opacity: 0;
-    transform: translate(-50%, -1rem);
+    transform: translate(-50%) scale(0);
   }
   100% {
     opacity: 1;
-    transform: translate(-50%, 0);
+    transform: translate(-50%) scale(1);
   }
 `;
 
@@ -20,23 +20,23 @@ const StyledLink = styled(NavLink)`
   &:link,
   &:visited,
   &:active {
+    outline: none;
     text-decoration: none;
     font-family: sans-serif;
     font-size: 2.2rem;
-    color: var(--primary-color);
+    color: #999;
     letter-spacing: .03rem;
   }
   &.active {
     &::after {
       content: ' ';
       position: absolute;
-      height: 100%;
-      width: 3rem;
+      height: .4rem;
+      width: 4rem;
       background-color: var(--primary-color);
-      top: 110%;
+      top: 130%;
       left: 50%;
       animation: ${fadeInDrop} .2s both ease .3s;
-      clip-path: polygon(47% 100%, 0 0, 100% 0);
     }
   }
 `;
