@@ -5,9 +5,8 @@ import { addNote, deleteNote, editNote } from '../handlers/notes';
 const router = Router({ mergeParams: true });
 
 router
-  .route('/')
-  .post(addNote)
-  .put(editNote)
-  .delete(deleteNote);
+  .post('/:articleId', addNote)
+  .put('/:id', editNote)
+  .delete('/:id', deleteNote);
 
 export default router;

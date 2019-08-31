@@ -1,14 +1,28 @@
+import { model, Types } from 'mongoose';
 import * as models from '../models';
 import { getUserFromToken } from '../utils/getUserFromToken';
 
+const Article = model('Article');
+
 export async function addNote(req, res, next) {
   try {
-    const { id } = req.body;
+    const { articleId } = req.params;
     const { note } = req.body;
-    const foundArticle = await models.Article.findById(id);
-    await foundArticle.notes.push({ note });
-    const newNote = await foundArticle.save();
-    return res.status(200).json(newNote);
+    // give an id to the note
+    note._id = Types.ObjectId();
+    const foundArticle = await models.Article.findById(articleId);
+    await foundArticle.notes.push(note);
+    await foundArticle.save();
+    const [{ notes }] = await Article.aggregate([
+      { $unwind: '$notes' },
+      {
+        $match: {
+          'notes._id': note._id,
+        },
+      },
+    ]);
+
+    return res.status(200).json(notes);
   } catch (e) {
     return next(e);
   }

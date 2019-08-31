@@ -2,15 +2,19 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
-const noteSchema = new Schema({
-  note: {
-    type: String,
-    required: true,
+const noteSchema = new Schema(
+  {
+    body: {
+      type: String,
+      required: true,
+    },
   },
-  timeCreated: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  {
+    timestamps: {
+      createdAt: 'createdAt',
+      updatedAt: 'updatedAt',
+    },
+  }
+);
 
 export default noteSchema;
