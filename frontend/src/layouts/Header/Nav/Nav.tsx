@@ -23,7 +23,7 @@ const StyledLink = styled(NavLink)`
     outline: none;
     text-decoration: none;
     font-family: sans-serif;
-    font-size: 2.2rem;
+    font-size: 1.9rem;
     color: #999;
     letter-spacing: .03rem;
   }

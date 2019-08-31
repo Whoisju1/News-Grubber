@@ -10,6 +10,7 @@ const GlobalStyles = createGlobalStyle`
     font-size: 62.5%;
     --main-background-color: linear-gradient(45deg, #fdefee, #ffffff);
     --primary-color: #e74c3c;
+    --secondary-color: #ee8478;
     --secondary-background-color: linear-gradient(to right, #e2e5ee, #f5f5f5);
     --main-grid: [full-left left-start] 5rem [left-end center-start]  repeat(8, [col-start] 1fr [col-end]) [center-end right-start] 5rem [right-end full-right];
     --light-border: .4px solid lightgray;
