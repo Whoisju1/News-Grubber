@@ -1,10 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components';
 import { IArticle } from '../../../shared/contexts/scrappedArticlesContext';
 import ArticleBtn from './ArticleBtn';
-import MenuBtn from './MenuBtn';
 import { AddNoteIcon, TrashIcon, MenuIcon } from '../../../shared/CustomIcons';
-import DeleteModal from '../../../components/DeleteModal';
 
 const StyledContainer = styled.div`
   display: grid;

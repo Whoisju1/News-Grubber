@@ -1,10 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react'
 import styled from 'styled-components';
-import { IArticle } from '../../shared/contexts/scrappedArticlesContext';
-import { AuthContext } from '../../shared/contexts/authContext';
 import SavedArticle from './SavedArticle/SavedArticle';
 import DeleteModal from '../../components/DeleteModal';
-import { deleteArticle } from '../../utils/requests';
+import { SavedArticlesCtx } from '../../shared/contexts/savedArticlesContext';
 
 const Section = styled.div`
   display: grid;
@@ -17,10 +15,10 @@ const Section = styled.div`
 `;
 
 function SavedArticles() {
-  const [articles, setArticles] = useState<IArticle[]>([]);
   const [deleteModalIsShown, setDeleteModalIsShown] = useState(false);
   const [articleToDeleteId, setArticleToDeleteId] = useState('');
-  const { user } = useContext(AuthContext);
+  const { articles, deleteArticle, getSavedArticles, isLoading } = useContext(SavedArticlesCtx);
+
   const launchDeleteModal = (id: string) => {
     setArticleToDeleteId(id);
     setDeleteModalIsShown(true);
@@ -29,19 +27,12 @@ function SavedArticles() {
   const removeArticle = async () => {
     await deleteArticle(articleToDeleteId);
     setDeleteModalIsShown(false);
-    const remainingArticles = articles.filter(({ _id: articleId }) => articleToDeleteId !== articleId)
-    setArticles(remainingArticles);
+    deleteArticle(articleToDeleteId)
   }
+
   useEffect(() => {
-    if (user) {
-      fetch('/api/articles', {
-        headers: {
-          authorization: `Bearer ${user.token}`,
-        }})
-        .then((data) => data.json())
-        .then(data => setArticles(data));
-    }
-  }, [JSON.stringify(user)]);
+    getSavedArticles()
+  }, [JSON.stringify(articles)])
 
   if (!articles.length) return <p>Please save an article first</p>;
 
