@@ -1,6 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import '@babel/polyfill';
 import request from 'supertest';
+import faker from 'faker';
+import { model } from 'mongoose';
 import { app } from '../src/server';
 import { createToken } from '../src/utils/createToken';
 import {
@@ -10,6 +12,8 @@ import {
   emptyDb,
   createArticleObject,
 } from './fixtures/db';
+
+const Article = model('Article');
 
 describe('Article Routes', () => {
   const token = createToken(user);
@@ -79,6 +83,30 @@ describe('Article Routes', () => {
         .expect(200);
       const parsedResponse = JSON.parse(res.text);
       expect(parsedResponse._id).toBe(article._id);
+    });
+  });
+
+  // GET api/articles/:id/notes
+  describe('Route for getting article notes', () => {
+    it('should return notes for article of specified id', async () => {
+      const foundArticle = await Article.findById(article._id);
+      const noteToFetch1 = { body: faker.lorem.sentences(3) };
+      const noteToFetch2 = { body: faker.lorem.sentences(3) };
+      await foundArticle.notes.push(noteToFetch1);
+      await foundArticle.notes.push(noteToFetch2);
+      const savedArticle = await foundArticle.save();
+      const savedNotes = savedArticle.notes;
+
+      const raw = await request(app)
+        .get(`/api/articles/${article._id}/notes`)
+        .set('authorization', `Bearer ${token}`)
+        .expect(200);
+
+      const res = JSON.parse(raw.text);
+
+      const expected = savedNotes.map(note => JSON.parse(JSON.stringify(note)));
+
+      expect(res).toMatchObject(JSON.parse(JSON.stringify(expected)));
     });
   });
 });

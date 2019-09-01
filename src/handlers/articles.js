@@ -1,4 +1,5 @@
 /* eslint no-underscore-dangle: 0 */
+import { Types } from 'mongoose';
 import { Article, User } from '../models';
 import { getUserFromToken } from '../utils/getUserFromToken';
 // make methods for manipulating article data
@@ -87,5 +88,19 @@ export async function getOneArticle(req, res, next) {
     return res.status(200).json(foundArticle);
   } catch (e) {
     return next(e);
+  }
+}
+
+export async function getAllNotes(req, res, next) {
+  try {
+    const { id } = req.params;
+    const [{ notes }] = await Article.aggregate([
+      { $match: { _id: Types.ObjectId(id) } },
+      { $project: { _id: 0, notes: 1 } },
+    ]);
+
+    return res.status(200).json(notes);
+  } catch (error) {
+    return next(error);
   }
 }
