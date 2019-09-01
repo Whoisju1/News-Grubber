@@ -1,8 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components';
 import { IArticle } from '../../../shared/contexts/scrappedArticlesContext';
 import ArticleBtn from './ArticleBtn';
 import { AddNoteIcon, TrashIcon, MenuIcon } from '../../../shared/CustomIcons';
+import AddNotesModal from '../../../components/AddNotesModal';
+import DeleteModal from '../../../components/DeleteModal';
+import { SavedArticlesCtx } from '../../../shared/contexts/savedArticlesContext';
 
 const StyledContainer = styled.div`
   display: grid;
@@ -52,11 +55,40 @@ const StyledContainer = styled.div`
   }
 `;
 
-interface Props extends IArticle {
-  launchDltModal: (id: string) => void;
+interface Props extends IArticle { }
+
+interface ModalRegistry {
+  [x: string]: boolean;
 }
 
+
 const SavedArticle: React.FC<Props> = (props) => {
+  const deleteModalSymbol = `${DeleteModal.name}-${props._id}`;
+  const addNoteModalSymbol = `${AddNotesModal.name}-${props._id}`;
+
+  const [modal, setModal] = useState<ModalRegistry>({
+    [deleteModalSymbol]: false,
+    [addNoteModalSymbol]: false,
+  });
+
+  const { deleteArticle } = useContext(SavedArticlesCtx)
+
+  const createModalManager = (modalId: string) => {
+    return ({
+      hide: () => setModal({ ...modal, [modalId]: false }),
+      show: () => setModal({ ...modal, [modalId]: true }),
+      isShown: modal[modalId as any as string],
+    });
+  };
+
+  const deleteModalManager = createModalManager(deleteModalSymbol);
+  const addNoteModalManager = createModalManager(addNoteModalSymbol);
+
+  const removeArticle = async () => {
+    await deleteArticle(props._id);
+    deleteModalManager.hide();
+  }
+
   const { date, time } = props.publicationDate;
   return (
     <>
@@ -71,10 +103,10 @@ const SavedArticle: React.FC<Props> = (props) => {
         <a href={props.author.authorInfo} className="author" target="_blank">{props.author.name}</a>
         <div className="date">{date} {time}</div>
         <div className="article-buttons">
-          <ArticleBtn click={() => void(0)} title="Add note about article">
+          <ArticleBtn click={addNoteModalManager.show} title="Add note about article">
             <AddNoteIcon />
           </ArticleBtn>
-          <ArticleBtn click={() => props.launchDltModal(props._id)} title="Delete this article">
+          <ArticleBtn click={deleteModalManager.show} title="Delete this article">
             <TrashIcon preserveAspectRatio="xMidYMid" />
           </ArticleBtn>
           <ArticleBtn click={() => void(0)} title="View Notes">
@@ -82,6 +114,27 @@ const SavedArticle: React.FC<Props> = (props) => {
           </ArticleBtn>
         </div>
       </StyledContainer>
+      {
+        deleteModalManager.isShown
+          ? <DeleteModal
+              hide={deleteModalManager.hide}
+              isShown={deleteModalManager.isShown}
+              buttonValue="Delete Article"
+              confirmationMsg="Are you sure you want to delete this article?"
+              cancelBtnValue="Cancel"
+              deleteAction={removeArticle}
+            />
+          : null
+      }
+      {
+        addNoteModalManager.isShown
+          ? <AddNotesModal
+              hide={addNoteModalManager.hide}
+              isShown={addNoteModalManager.isShown}
+              submit={() => void(0)}
+            />
+          : null
+      }
     </>
   );
 };

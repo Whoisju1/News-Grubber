@@ -66,7 +66,6 @@ const SavedArticlesProvider: React.FC = ({ children }) => {
       }})
       .then((data) => data.json())
       .then(data => {
-        console.log(data);
         dispatch({
           type: 'fetch',
           payload: data,

@@ -43,17 +43,17 @@ const StyledForm = styled.form`
 
 interface Props {
   hide: () => void;
-  show: boolean;
+  isShown: boolean;
   submit: () => void;
 }
 
-const AddNotesModal: React.FC<Props> = ({ hide, show, submit }) => {
+const AddNotesModal: React.FC<Props> = ({ hide, isShown, submit }) => {
   const [note, setNote] = useState('');
 
   return (
     <Modal
       hide={hide}
-      show={show}
+      show={isShown}
     >
       <StyledForm onSubmit={(e) => {
         e.preventDefault();

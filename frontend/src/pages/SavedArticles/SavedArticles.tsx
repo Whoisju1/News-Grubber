@@ -16,26 +16,7 @@ const Section = styled.div`
 `;
 
 function SavedArticles() {
-  const [deleteModalIsShown, setDeleteModalIsShown] = useState(false);
-  const [addNotesModalIsShown, setAddNotesModalIsShown] = useState(true)
-  const [articleToDeleteId, setArticleToDeleteId] = useState('');
-  const { articles, deleteArticle, getSavedArticles, isLoading } = useContext(SavedArticlesCtx);
-
-  const launchDeleteModal = (id: string) => {
-    setArticleToDeleteId(id);
-    setDeleteModalIsShown(true);
-  };
-
-  const removeArticle = async () => {
-    await deleteArticle(articleToDeleteId);
-    setDeleteModalIsShown(false);
-    deleteArticle(articleToDeleteId)
-  }
-
-  const addNote = () => {
-    // add note to article
-    setAddNotesModalIsShown(false);
-  }
+  const { articles, getSavedArticles } = useContext(SavedArticlesCtx);
 
   useEffect(() => {
     getSavedArticles()
@@ -44,34 +25,12 @@ function SavedArticles() {
   if (!articles.length) return <p>Please save an article first</p>;
 
   return (
-    <>
-      <Section>
-        {
-          articles.map(savedArticle => <SavedArticle launchDltModal={launchDeleteModal} {...savedArticle} />)
-        }
-      </Section>
+    <Section>
       {
-        deleteModalIsShown
-        ? <DeleteModal
-          isShown={deleteModalIsShown}
-          buttonValue="Delete Article"
-          confirmationMsg="Are you sure you want to delete this article?"
-          hide={() => setDeleteModalIsShown(false)}
-          deleteAction={removeArticle}
-          cancelBtnValue="Cancel"
-        />
-        : null
+        articles.map(savedArticle =>
+        <SavedArticle key={savedArticle._id} {...savedArticle} />)
       }
-      {
-        addNotesModalIsShown
-        ? <AddNotesModal
-            show={addNotesModalIsShown}
-            hide={() => setAddNotesModalIsShown(false)}
-            submit={addNote}
-          />
-        : null
-      }
-    </>
+    </Section>
   );
 }
 
