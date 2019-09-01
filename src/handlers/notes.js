@@ -31,6 +31,7 @@ export async function addNote(req, res, next) {
     await foundArticle.notes.push(note);
     await foundArticle.save();
     const [{ notes }] = await Article.aggregate([
+      { $match: { _id: foundArticle._id } },
       { $unwind: '$notes' },
       {
         $match: {
@@ -70,13 +71,14 @@ export async function editNote(req, res, next) {
 
     await foundArticle.save();
 
-    const articles = await Article.aggregate([{ $unwind: '$notes' }]);
+    const [{ notes: editedNote }] = await Article.aggregate([
+      { $match: { _id: Types.ObjectId(articleId) } },
+      { $unwind: '$notes' },
+      { $match: { 'notes._id': Types.ObjectId(noteId) } },
+      { $project: { notes: 1, _id: 0 } },
+    ]);
 
-    const { notes: editedNotes } = articles.find(
-      article => article._id.toString() === articleId.toString()
-    );
-
-    return res.status(200).json(editedNotes);
+    return res.status(200).json(editedNote);
   } catch (e) {
     return next(e);
   }
