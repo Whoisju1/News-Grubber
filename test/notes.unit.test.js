@@ -1,6 +1,7 @@
 import '@babel/polyfill';
 import request from 'supertest';
 import faker from 'faker';
+import { models } from 'mongoose';
 import { article, initDb, emptyDb, user } from './fixtures/db';
 import { app } from '../src/server';
 import { createToken } from '../src/utils/createToken';
@@ -52,6 +53,30 @@ describe('notes routes', () => {
       const res = JSON.parse(raw.text);
       expect(res.body).toBe('This note is edited');
       expect(res._id).toBe(savedNote._id);
+    });
+  });
+
+  // DELETE /api/notes/:id
+  describe('Route for deleting a note', () => {
+    it('should return the deleted note', async () => {
+      const foundArticle = await models.Article.findById(article._id);
+      const noteToDelete = { body: 'Note to delete' };
+      await foundArticle.notes.push(noteToDelete);
+      const savedArticle = await foundArticle.save();
+      const savedNote = savedArticle.notes[0];
+
+      expect(savedNote.body).toBe(noteToDelete.body);
+
+      const raw = await request(app)
+        .delete(`/api/notes/${savedNote._id}?article_id=${article._id}`)
+        .set('Content-Type', 'application/json')
+        .set('authorization', `Bearer ${token}`)
+        .expect(200);
+
+      const res = JSON.parse(raw.text);
+
+      expect(res._id).toBe(savedNote._id.toString());
+      expect(res.body).toBe(savedNote.body.toString());
     });
   });
 });

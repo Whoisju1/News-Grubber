@@ -1,6 +1,5 @@
 import { model, Types } from 'mongoose';
 import * as models from '../models';
-import { getUserFromToken } from '../utils/getUserFromToken';
 
 const Article = model('Article');
 
@@ -29,15 +28,16 @@ export async function addNote(req, res, next) {
 }
 export async function deleteNote(req, res, next) {
   try {
-    const token = req.headers.authorization.split(' ')[1];
-    const { id } = getUserFromToken(token);
-    const { articleID, noteID } = req.body;
-    const foundArticle = await models.Article.findById(articleID).where({
-      user: id,
-    });
-    await foundArticle.notes.id(noteID).remove();
-    const reducedArticle = await foundArticle.save();
-    return res.status(200).json(reducedArticle);
+    const { id: noteId } = req.params;
+    const { article_id: articleId } = req.query;
+    const foundArticle = await models.Article.findById(articleId);
+    const deletedNote = foundArticle.notes.find(
+      ({ _id }) => _id.toString() === noteId.toString()
+    );
+    await foundArticle.notes.id(noteId).remove();
+    await foundArticle.save();
+
+    return res.status(200).json(deletedNote);
   } catch (e) {
     return next(e);
   }
