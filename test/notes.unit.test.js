@@ -1,7 +1,6 @@
 import '@babel/polyfill';
 import request from 'supertest';
 import faker from 'faker';
-import { Types } from 'mongoose';
 import { article, initDb, emptyDb, user } from './fixtures/db';
 import { app } from '../src/server';
 import { createToken } from '../src/utils/createToken';
@@ -13,7 +12,6 @@ describe('notes routes', () => {
   });
 
   const newNote = {
-    _id: Types.ObjectId(),
     body: faker.lorem.paragraph(3),
   };
   const token = createToken(user);
@@ -30,6 +28,30 @@ describe('notes routes', () => {
       const res = JSON.parse(raw.text);
       expect(res).toHaveProperty('_id');
       expect(res.body).toBe(newNote.body);
+    });
+  });
+
+  describe('Route for editing a note', () => {
+    it('should return the edited note', async () => {
+      const rawNote = await request(app)
+        .post(`/api/notes/${article._id}`)
+        .set('Content-Type', 'application/json')
+        .set('authorization', `Bearer ${token}`)
+        .send({ note: newNote })
+        .expect(200);
+
+      const savedNote = JSON.parse(rawNote.text);
+
+      const raw = await request(app)
+        .put(`/api/notes/${savedNote._id}?article_id=${article._id}`)
+        .set('Content-Type', 'application/json')
+        .set('authorization', `Bearer ${token}`)
+        .send({ note: { body: 'This note is edited' } })
+        .expect(200);
+
+      const res = JSON.parse(raw.text);
+      expect(res.body).toBe('This note is edited');
+      expect(res._id).toBe(savedNote._id);
     });
   });
 });

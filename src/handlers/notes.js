@@ -44,18 +44,21 @@ export async function deleteNote(req, res, next) {
 }
 export async function editNote(req, res, next) {
   try {
-    const token = req.headers.authorization.split(' ')[1];
-    const { id } = getUserFromToken(token);
-    const { articleID, noteID, noteBody } = req.body;
-    const foundArticle = await models.Article.findById(articleID).where({
-      user: id,
-    });
-    foundArticle.notes.id(noteID).set({ note: noteBody });
+    const { id: noteId } = req.params;
+    const { article_id: articleId } = req.query;
+    const { note } = req.body;
+    const foundArticle = await models.Article.findById(articleId);
+    foundArticle.notes.id(noteId).set(note);
 
-    const updatedArticle = await foundArticle.save();
+    await foundArticle.save();
 
-    // foundArticle.notes.id(noteID) =
-    return res.status(200).json(updatedArticle);
+    const articles = await Article.aggregate([{ $unwind: '$notes' }]);
+
+    const { notes: editedNotes } = articles.find(
+      article => article._id.toString() === articleId.toString()
+    );
+
+    return res.status(200).json(editedNotes);
   } catch (e) {
     return next(e);
   }
