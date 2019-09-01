@@ -56,7 +56,11 @@ export async function getArticles(req, res, next) {
     const {
       sub: { _id },
     } = getUserFromToken(token);
-    const articles = await Article.find({}).where({ user: _id });
+    const articles = await Article.aggregate([
+      { $match: { user: Types.ObjectId(_id) } },
+      { $sort: { createdAt: -1 } },
+    ]);
+
     return res.status(200).json(articles);
   } catch (e) {
     return next(e);

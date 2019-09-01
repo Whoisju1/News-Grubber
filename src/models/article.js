@@ -4,42 +4,50 @@ import noteSchema from './note';
 
 const { Schema } = mongoose;
 
-const articleSchema = new Schema({
-  url: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  title: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  subTitle: {
-    type: String,
-    trim: true,
-  },
-  image: String,
-  author: {
-    name: {
+const articleSchema = new Schema(
+  {
+    url: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    subTitle: {
       type: String,
       trim: true,
     },
-    authorInfo: {
-      type: String,
-      trim: true,
+    image: String,
+    author: {
+      name: {
+        type: String,
+        trim: true,
+      },
+      authorInfo: {
+        type: String,
+        trim: true,
+      },
+    },
+    publicationDate: {
+      date: String,
+      time: String,
+    },
+    notes: [noteSchema],
+    user: {
+      type: _Schema.Types.ObjectId,
+      ref: 'User',
     },
   },
-  publicationDate: {
-    date: String,
-    time: String,
-  },
-  notes: [noteSchema],
-  user: {
-    type: _Schema.Types.ObjectId,
-    ref: 'User',
-  },
-});
+  {
+    timestamps: {
+      createdAt: 'createdAt',
+      updatedAt: 'updatedAt',
+    },
+  }
+);
 
 // eslint-disable-next-line func-names
 articleSchema.pre('remove', async function(next) {
