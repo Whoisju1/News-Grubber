@@ -3,6 +3,24 @@ import * as models from '../models';
 
 const Article = model('Article');
 
+export async function getOneNote(req, res, next) {
+  try {
+    const { article_id: articleId } = req.query;
+    const { id } = req.params;
+
+    const [{ notes: note }] = await Article.aggregate([
+      { $match: { _id: Types.ObjectId(articleId) } },
+      { $unwind: '$notes' },
+      { $match: { 'notes._id': Types.ObjectId(id) } },
+      { $project: { notes: 1, _id: 0 } },
+    ]);
+
+    return res.status(200).json(note);
+  } catch (error) {
+    return next(error);
+  }
+}
+
 export async function addNote(req, res, next) {
   try {
     const { articleId } = req.params;

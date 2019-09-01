@@ -79,4 +79,27 @@ describe('notes routes', () => {
       expect(res.body).toBe(savedNote.body.toString());
     });
   });
+
+  // GET /api/notes/:id
+  describe('Route for getting one note', () => {
+    it('should should return note for id passed in param', async () => {
+      // CREATE NOTE
+      const foundArticle = await models.Article.findById(article._id);
+      const noteToFetch = { body: faker.lorem.sentences(3) };
+      await foundArticle.notes.push(noteToFetch);
+      const savedArticle = await foundArticle.save();
+      const savedNote = savedArticle.notes[0];
+
+      // FETCH CREATED NOTE
+      const raw = await request(app)
+        .get(`/api/notes/${savedNote._id}?article_id=${article._id}`)
+        .set('Content-Type', 'application/json')
+        .set('authorization', `Bearer ${token}`)
+        .expect(200);
+
+      const res = JSON.parse(raw.text);
+
+      expect(res).toMatchObject(JSON.parse(JSON.stringify(savedNote)));
+    });
+  });
 });
