@@ -44,7 +44,7 @@ const StyledForm = styled.form`
 interface Props {
   hide: () => void;
   isShown: boolean;
-  submit: () => void;
+  submit: (note: string) => void;
 }
 
 const AddNotesModal: React.FC<Props> = ({ hide, isShown, submit }) => {
@@ -57,7 +57,7 @@ const AddNotesModal: React.FC<Props> = ({ hide, isShown, submit }) => {
     >
       <StyledForm onSubmit={(e) => {
         e.preventDefault();
-        submit();
+        submit(note);
       }}>
         <h1>Add Notes</h1>
         <textarea

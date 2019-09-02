@@ -23,14 +23,14 @@ export async function getOneNote(req, res, next) {
 
 export async function addNote(req, res, next) {
   try {
-    const { articleId } = req.params;
+    const { article_id: articleId } = req.query;
     const { note } = req.body;
     // give an id to the note
     note._id = Types.ObjectId();
     const foundArticle = await models.Article.findById(articleId);
     await foundArticle.notes.push(note);
     await foundArticle.save();
-    const [{ notes }] = await Article.aggregate([
+    const [{ notes = null }] = await Article.aggregate([
       { $match: { _id: foundArticle._id } },
       { $unwind: '$notes' },
       {
@@ -39,6 +39,12 @@ export async function addNote(req, res, next) {
         },
       },
     ]);
+
+    if (!notes) {
+      const err = new Error('Something went wrong.');
+      err.status = 5000;
+      return next(err);
+    }
 
     return res.status(200).json(notes);
   } catch (e) {

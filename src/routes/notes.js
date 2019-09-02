@@ -6,7 +6,7 @@ const router = Router({ mergeParams: true });
 
 router
   .get('/:id', getOneNote)
-  .post('/:articleId', addNote)
+  .post('/', addNote)
   .put('/:id', editNote)
   .delete('/:id', deleteNote);
 

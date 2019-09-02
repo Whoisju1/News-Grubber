@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import styled from 'styled-components';
 import { IArticle } from '../../../shared/contexts/scrappedArticlesContext';
 import ArticleBtn from './ArticleBtn';
@@ -6,13 +6,14 @@ import { AddNoteIcon, TrashIcon, MenuIcon } from '../../../shared/CustomIcons';
 import AddNotesModal from '../../../components/AddNotesModal';
 import DeleteModal from '../../../components/DeleteModal';
 import { SavedArticlesCtx } from '../../../shared/contexts/savedArticlesContext';
+import { addNote, fetchArticleNotes } from '../../../utils/requests';
 
 const StyledContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(5, min-content);
   grid-auto-rows: min-content;
-  grid-gap: .8rem;
+  grid-gap: .6rem;
   a,
   a:active,
   a:link,
@@ -36,18 +37,29 @@ const StyledContainer = styled.div`
     grid-column: 2/5;
   }
   .date {
+    display: grid;
+    align-items: end;
     grid-column: 2/5;
     font-size: 1.4rem;
+  }
+
+  & > *:nth-child(5) {
+    grid-column: 2/3;
+    grid-row: 4/span 1;
+    height: 1.5rem;
+    /* transform: translateY(-1.3rem); */
+    /* border: .04rem solid gray; */
   }
 
   .article-buttons {
     grid-column: 11/13;
     grid-row: 3/4;
-    height: 3rem;
+    /* height: 3rem; */
+    grid-gap: 2rem;
     display: grid;
-    justify-content: space-between;
+    justify-content: right;
     grid-template-columns: repeat(auto-fit, minmax(1rem, 3rem));
-    transform: translateY(-.6rem);
+    /* transform: translateY(-.6rem); */
     min-width: 5rem;
   }
   :not(:last-child) {
@@ -56,6 +68,12 @@ const StyledContainer = styled.div`
 `;
 
 interface Props extends IArticle { }
+interface INote {
+  _id: string;
+  body: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 interface ModalRegistry {
   [x: string]: boolean;
@@ -63,13 +81,14 @@ interface ModalRegistry {
 
 
 const SavedArticle: React.FC<Props> = (props) => {
-  const deleteModalSymbol = `${DeleteModal.name}-${props._id}`;
-  const addNoteModalSymbol = `${AddNotesModal.name}-${props._id}`;
+  const deleteModalId = `${DeleteModal.name}-${props._id}`;
+  const addNoteModalId = `${AddNotesModal.name}-${props._id}`;
 
   const [modal, setModal] = useState<ModalRegistry>({
-    [deleteModalSymbol]: false,
-    [addNoteModalSymbol]: false,
+    [deleteModalId]: false,
+    [addNoteModalId]: false,
   });
+  const [articleNotes, setArticleNotes] = useState<INote[]>([]);
 
   const { deleteArticle } = useContext(SavedArticlesCtx)
 
@@ -81,20 +100,34 @@ const SavedArticle: React.FC<Props> = (props) => {
     });
   };
 
-  const deleteModalManager = createModalManager(deleteModalSymbol);
-  const addNoteModalManager = createModalManager(addNoteModalSymbol);
+  const deleteModalManager = createModalManager(deleteModalId);
+  const addNoteModalManager = createModalManager(addNoteModalId);
 
   const removeArticle = async () => {
     await deleteArticle(props._id);
     deleteModalManager.hide();
-  }
+  };
+
+  const createNote = async (note: string) => {
+    const newNote = await addNote(props._id, note) as any as INote;
+    setArticleNotes([...articleNotes, newNote])
+    addNoteModalManager.hide();
+    console.log(articleNotes);
+  };
+
+  useEffect(() => {
+    (async () => {
+      const notes = await fetchArticleNotes(props._id);
+      setArticleNotes(notes);
+    })()
+  }, [JSON.stringify(articleNotes)]);
 
   const { date, time } = props.publicationDate;
   return (
     <>
       <StyledContainer>
         <a className="image" href={props.url} target="_blank">
-        <img src={props.image} alt="article pic"/>
+          <img src={props.image} alt="article pic"/>
         </a>
         <a className="heading" href={props.url} target="_blank">
           <h1 className="title">{props.title}</h1>
@@ -102,15 +135,15 @@ const SavedArticle: React.FC<Props> = (props) => {
         </a>
         <a href={props.author.authorInfo} className="author" target="_blank">{props.author.name}</a>
         <div className="date">{date} {time}</div>
+        <ArticleBtn click={() => void(0)} title="View Notes">
+            <MenuIcon preserveAspectRatio="xMinYMid meet" />
+        </ArticleBtn>
         <div className="article-buttons">
           <ArticleBtn click={addNoteModalManager.show} title="Add note about article">
             <AddNoteIcon />
           </ArticleBtn>
           <ArticleBtn click={deleteModalManager.show} title="Delete this article">
             <TrashIcon preserveAspectRatio="xMidYMid" />
-          </ArticleBtn>
-          <ArticleBtn click={() => void(0)} title="View Notes">
-            <MenuIcon />
           </ArticleBtn>
         </div>
       </StyledContainer>
@@ -131,7 +164,7 @@ const SavedArticle: React.FC<Props> = (props) => {
           ? <AddNotesModal
               hide={addNoteModalManager.hide}
               isShown={addNoteModalManager.isShown}
-              submit={() => void(0)}
+              submit={createNote}
             />
           : null
       }

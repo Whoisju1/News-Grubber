@@ -25,15 +25,24 @@ describe('Article Routes', () => {
 
   // `GET /api/articles/:id`
   describe('`getOneArticle`', () => {
-    it('should return one article', async () => {
-      const response = await request(app)
+    let response;
+    beforeEach(async () => {
+      const raw = await request(app)
         .get(`/api/articles/${article._id}`)
         .set('authorization', `Bearer ${token}`)
         .expect(200);
-      const foundArticle = JSON.parse(response.text);
-      expect(foundArticle).toEqual(
+
+      response = JSON.parse(raw.text);
+    });
+
+    it('should return one article', async () => {
+      expect(response).toEqual(
         expect.objectContaining({ _id: article._id, author: article.author })
       );
+    });
+
+    it('should not include a notes property', async () => {
+      expect(response).not.toHaveProperty('notes');
     });
   });
 
@@ -55,22 +64,29 @@ describe('Article Routes', () => {
 
   // GET /api/articles/
   describe('Getting saved articles', () => {
-    it('should return saved articles', async () => {
-      const res = await request(app)
+    let response;
+    beforeEach(async () => {
+      const raw = await request(app)
         .get('/api/articles')
         .set('authorization', `Bearer ${token}`)
         .expect(200);
 
-      const parsedRes = JSON.parse(res.text);
+      response = JSON.parse(raw.text);
+    });
 
-      expect(parsedRes).toBeArrayOfSize(1);
-      expect(parsedRes).toMatchObject([
+    it('should return saved articles', async () => {
+      expect(response).toBeArrayOfSize(1);
+      expect(response).toMatchObject([
         {
           _id: article._id,
           url: article.url,
           title: article.title,
         },
       ]);
+    });
+
+    it('should not include notes property', async () => {
+      expect(response).not.toHaveProperty('notes');
     });
   });
 

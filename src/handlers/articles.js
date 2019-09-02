@@ -59,6 +59,7 @@ export async function getArticles(req, res, next) {
     const articles = await Article.aggregate([
       { $match: { user: Types.ObjectId(_id) } },
       { $sort: { createdAt: -1 } },
+      { $project: { notes: 0 } },
     ]);
 
     return res.status(200).json(articles);
@@ -86,9 +87,11 @@ export async function getOneArticle(req, res, next) {
     const {
       sub: { _id },
     } = getUserFromToken(token);
-    const foundArticle = await Article.findById(req.params.id).where({
-      user: _id,
-    });
+    const foundArticle = await Article.findById(req.params.id)
+      .select('-notes')
+      .where({
+        user: _id,
+      });
     return res.status(200).json(foundArticle);
   } catch (e) {
     return next(e);

@@ -20,7 +20,7 @@ describe('notes routes', () => {
   describe('Route for adding a note', () => {
     it('should return the added note', async () => {
       const raw = await request(app)
-        .post(`/api/notes/${article._id}`)
+        .post(`/api/notes?article_id=${article._id}`)
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
         .send({ note: newNote })
@@ -35,7 +35,7 @@ describe('notes routes', () => {
   describe('Route for editing a note', () => {
     it('should return the edited note', async () => {
       const rawNote = await request(app)
-        .post(`/api/notes/${article._id}`)
+        .post(`/api/notes?article_id=${article._id}`)
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
         .send({ note: newNote })
