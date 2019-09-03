@@ -6,7 +6,8 @@ import { AddNoteIcon, TrashIcon, MenuIcon } from '../../../shared/CustomIcons';
 import AddNotesModal from '../../../components/AddNotesModal';
 import DeleteModal from '../../../components/DeleteModal';
 import { SavedArticlesCtx } from '../../../shared/contexts/savedArticlesContext';
-import { addNote, fetchArticleNotes } from '../../../utils/requests';
+import { addNote, fetchArticleNotes, deleteNote } from '../../../utils/requests';
+import Notes from './Notes';
 
 const StyledContainer = styled.div`
   display: grid;
@@ -89,8 +90,10 @@ const SavedArticle: React.FC<Props> = (props) => {
     [addNoteModalId]: false,
   });
   const [articleNotes, setArticleNotes] = useState<INote[]>([]);
+  const { deleteArticle } = useContext(SavedArticlesCtx);
+  const [notesShown, setNotesShown] = useState(false);
 
-  const { deleteArticle } = useContext(SavedArticlesCtx)
+  const hasNotes = !!articleNotes.length;
 
   const createModalManager = (modalId: string) => {
     return ({
@@ -112,8 +115,12 @@ const SavedArticle: React.FC<Props> = (props) => {
     const newNote = await addNote(props._id, note) as any as INote;
     setArticleNotes([...articleNotes, newNote])
     addNoteModalManager.hide();
-    console.log(articleNotes);
   };
+
+  const removeNote = async (noteId: string) => {
+    const { _id } = await deleteNote(noteId, props._id) as any as { _id: string };
+    setArticleNotes(articleNotes.filter(({ _id: id }) => _id !== id));
+  }
 
   useEffect(() => {
     (async () => {
@@ -126,18 +133,21 @@ const SavedArticle: React.FC<Props> = (props) => {
   return (
     <>
       <StyledContainer>
-        <a className="image" href={props.url} target="_blank">
+        <a className="image" href={props.url} target="_blank" rel="noopener noreferrer">
           <img src={props.image} alt="article pic"/>
         </a>
-        <a className="heading" href={props.url} target="_blank">
+        <a className="heading" href={props.url} target="_blank" rel="noopener noreferrer">
           <h1 className="title">{props.title}</h1>
           <h2 className="subtitle">{props.subTitle}</h2>
         </a>
-        <a href={props.author.authorInfo} className="author" target="_blank">{props.author.name}</a>
+        <a href={props.author.authorInfo} className="author" target="_blank" rel="noopener noreferrer">{props.author.name}</a>
         <div className="date">{date} {time}</div>
-        <ArticleBtn click={() => void(0)} title="View Notes">
-            <MenuIcon preserveAspectRatio="xMinYMid meet" />
-        </ArticleBtn>
+        {
+          hasNotes &&
+          <ArticleBtn click={() => setNotesShown(!notesShown)} title="View Notes">
+              <MenuIcon preserveAspectRatio="xMinYMid meet" />
+          </ArticleBtn>
+        }
         <div className="article-buttons">
           <ArticleBtn click={addNoteModalManager.show} title="Add note about article">
             <AddNoteIcon />
@@ -146,6 +156,7 @@ const SavedArticle: React.FC<Props> = (props) => {
             <TrashIcon preserveAspectRatio="xMidYMid" />
           </ArticleBtn>
         </div>
+        { notesShown && <Notes notes={articleNotes} deleteNote={removeNote} /> }
       </StyledContainer>
       {
         deleteModalManager.isShown

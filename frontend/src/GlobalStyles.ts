@@ -26,6 +26,7 @@ const GlobalStyles = createGlobalStyle`
     padding: 0;
     font-size: 1.6rem;
     color: #111111;
+    overflow-x: hidden;
 
     /* Set dimensions */
     min-width: 100vw;

@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import styled from 'styled-components';
 import SavedArticle from './SavedArticle/SavedArticle';
-import DeleteModal from '../../components/DeleteModal';
-import AddNotesModal from '../../components/AddNotesModal';
 import { SavedArticlesCtx } from '../../shared/contexts/savedArticlesContext';
 
 const Section = styled.div`
