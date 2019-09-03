@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
-import { format } from "date-fns";
 import formatDistance from "date-fns/formatDistance";
-import { CloseBtn } from '../../../../../shared/CustomIcons';
+import { CloseBtn, EditIcon } from '../../../../../shared/CustomIcons';
 
 const StyledNote = styled.div`
   border: .04rem solid lightgray;
@@ -36,6 +35,16 @@ const StyledNote = styled.div`
     height: auto;
     cursor: pointer;
   }
+
+  .edit-btn {
+    right: .8rem;
+    width: 1.8rem;
+    height: auto;
+    cursor: pointer;
+    position: absolute;
+    right: 3.5rem;
+    top: .5rem;
+  }
 `;
 
 interface Props {
@@ -52,8 +61,11 @@ const Notes: React.FC<Props> = ({ note, click }) => {
   const { _id, body, createdAt, updatedAt } = note;
   return (
     <StyledNote>
-      <div className="close-btn"  onClick={() => click(_id)}>
+      <div className="close-btn"  onClick={() => click(_id)} title="Delete Note">
         <CloseBtn />
+      </div>
+      <div className="edit-btn" title="Edit Note">
+        <EditIcon />
       </div>
       <p>{body}</p>
       <span className="date-created">
