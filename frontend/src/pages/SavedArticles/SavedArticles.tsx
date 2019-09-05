@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import styled from 'styled-components';
 import SavedArticle from './SavedArticle/SavedArticle';
 import { SavedArticlesCtx } from '../../shared/contexts/savedArticlesContext';
+import { NotesContext } from '../../shared/contexts/notesContext';
 
 const Section = styled.div`
   display: grid;
@@ -25,8 +26,11 @@ function SavedArticles() {
   return (
     <Section>
       {
-        articles.map(savedArticle =>
-        <SavedArticle key={savedArticle._id} {...savedArticle} />)
+        articles.map(savedArticle => (
+          <NotesContext articleId={savedArticle._id}>
+            <SavedArticle {...savedArticle} />
+          </NotesContext>
+        ))
       }
     </Section>
   );

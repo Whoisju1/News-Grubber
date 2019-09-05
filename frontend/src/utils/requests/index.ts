@@ -86,3 +86,21 @@ export const deleteNote = async (noteId: string, articleId: string) => {
   const deletedNote = await data.json();
   return deletedNote;
 };
+
+export const editNoteRequest = async (noteId: string, articleId: string, body: string) => {
+  const token = localStorage.getItem('token');
+  const data = await fetch(`/api/notes/${noteId}?article_id=${articleId}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      note: {
+        body,
+      },
+    }),
+    headers: {
+      authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    }});
+
+    const editedNote = await data.json();
+    return editedNote;
+}

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components';
 import { IArticle } from '../../../shared/contexts/scrappedArticlesContext';
 import ArticleBtn from './ArticleBtn';
@@ -8,6 +8,7 @@ import DeleteModal from '../../../components/DeleteModal';
 import { SavedArticlesCtx } from '../../../shared/contexts/savedArticlesContext';
 import { addNote, fetchArticleNotes, deleteNote } from '../../../utils/requests';
 import Notes from './Notes';
+import { NotesCtx } from '../../../shared/contexts/notesContext';
 
 const StyledContainer = styled.div`
   display: grid;
@@ -89,11 +90,11 @@ const SavedArticle: React.FC<Props> = (props) => {
     [deleteModalId]: false,
     [addNoteModalId]: false,
   });
-  const [articleNotes, setArticleNotes] = useState<INote[]>([]);
   const { deleteArticle } = useContext(SavedArticlesCtx);
   const [notesShown, setNotesShown] = useState(false);
+  const { notes, createNote } = useContext(NotesCtx);
 
-  const hasNotes = !!articleNotes.length;
+  const hasNotes = !!notes.length;
 
   const createModalManager = (modalId: string) => {
     return ({
@@ -110,24 +111,6 @@ const SavedArticle: React.FC<Props> = (props) => {
     await deleteArticle(props._id);
     deleteModalManager.hide();
   };
-
-  const createNote = async (note: string) => {
-    const newNote = await addNote(props._id, note) as any as INote;
-    setArticleNotes([...articleNotes, newNote])
-    addNoteModalManager.hide();
-  };
-
-  const removeNote = async (noteId: string) => {
-    const { _id } = await deleteNote(noteId, props._id) as any as { _id: string };
-    setArticleNotes(articleNotes.filter(({ _id: id }) => _id !== id));
-  }
-
-  useEffect(() => {
-    (async () => {
-      const notes = await fetchArticleNotes(props._id);
-      setArticleNotes(notes);
-    })()
-  }, [JSON.stringify(articleNotes)]);
 
   const { date, time } = props.publicationDate;
   return (
@@ -156,7 +139,7 @@ const SavedArticle: React.FC<Props> = (props) => {
             <TrashIcon preserveAspectRatio="xMidYMid" />
           </ArticleBtn>
         </div>
-        { notesShown && <Notes notes={articleNotes} deleteNote={removeNote} /> }
+        { notesShown && <Notes /> }
       </StyledContainer>
       {
         deleteModalManager.isShown
@@ -175,7 +158,10 @@ const SavedArticle: React.FC<Props> = (props) => {
           ? <AddNotesModal
               hide={addNoteModalManager.hide}
               isShown={addNoteModalManager.isShown}
-              submit={createNote}
+              submit={async (body: string) => {
+                await createNote(body);
+                addNoteModalManager.hide();
+              }}
             />
           : null
       }

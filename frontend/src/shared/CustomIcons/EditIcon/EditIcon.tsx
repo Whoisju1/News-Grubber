@@ -4,32 +4,32 @@ import Svg from '../Svg';
 
 const StyledSvg = styled(Svg)`
   #edit-icon {
-    /* stroke: #999;
+    /* stroke: #fff;
     stroke-width: 4; */
   }
   #frame {
-    stroke: #999;
-    stroke-width: 7;
+    stroke: #fff;
+    stroke-width: 10;
     fill: transparent;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
 
   #pencil {
-    stroke: #999;
-    stroke-width: 4;
+    stroke: #fff;
+    stroke-width: 7;
     fill: transparent;
     stroke-linecap: round;
     stroke-linejoin: round;
-    transform-origin: 50% 50%;
-    transform: rotate(45deg) scale(1.2);
+    /* transform-origin: 50% 50%;
+    transform: rotate(45deg) scale(1.2); */
   }
 `;
 
 const EditIcon = () => {
   return (
     <StyledSvg>
-      <symbol id="edit-icon" viewBox="0 0 100 100">
+      <symbol id="edit-icon" viewBox="-15 -13 130 130">
         <path
           id="frame"
           d="
@@ -42,6 +42,7 @@ const EditIcon = () => {
         />
         <path
           id="pencil"
+          transform="rotate(45) translate(20, -50)"
           d="
             M40,20
             V50
@@ -61,6 +62,16 @@ const EditIcon = () => {
           "
         />
       </symbol>
+      <symbol id="backdrop" viewBox="0 0 100 100">
+        <circle
+          cy="50"
+          cx="50"
+          r="50"
+          fill="gray"
+          stroke="none"
+        />
+      </symbol>
+      <use xlinkHref="#backdrop" />
       <use xlinkHref="#edit-icon" />
     </StyledSvg>
   )

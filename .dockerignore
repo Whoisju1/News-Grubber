@@ -1,2 +1,8 @@
 .eslint*
+.git
+*Dockerfile*
+*docker-compose*
 node_modules
+tests
+public
+frontend

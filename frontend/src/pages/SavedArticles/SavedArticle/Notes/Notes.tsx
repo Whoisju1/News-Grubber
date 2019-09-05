@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useReducer, useEffect, useContext } from 'react'
 import styled from 'styled-components';
 import Note from './Note';
+import { fetchArticleNotes, editNoteRequest, deleteNote as dltNote, addNote } from '../../../../utils/requests';
+import { NotesCtx } from '../../../../shared/contexts/notesContext';
 
 const StyledNotes = styled.div`
   grid-column: 2/ span 4;
@@ -16,14 +18,13 @@ interface Note {
 }
 
 interface Props {
-  notes: Note[];
-  deleteNote: (id: string) => void;
 }
 
-const Notes: React.FC<Props> = ({ notes, deleteNote }) => {
+const Notes: React.FC<Props> = () => {
+  const { notes } = useContext(NotesCtx);
   return (
     <StyledNotes>
-      {notes.map(note => <Note key={note._id} note={note} click={deleteNote} />)}
+      {notes.map(note => <Note key={note._id} note={note} />)}
     </StyledNotes>
   )
 }

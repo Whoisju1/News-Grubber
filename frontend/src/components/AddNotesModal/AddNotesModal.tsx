@@ -55,9 +55,9 @@ const AddNotesModal: React.FC<Props> = ({ hide, isShown, submit }) => {
       hide={hide}
       show={isShown}
     >
-      <StyledForm onSubmit={(e) => {
+      <StyledForm onSubmit={async (e) => {
         e.preventDefault();
-        submit(note);
+        await submit(note);
       }}>
         <h1>Add Notes</h1>
         <textarea

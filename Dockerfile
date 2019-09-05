@@ -1,12 +1,12 @@
-FROM node:12
+FROM node:latest
 
 WORKDIR /api
 
-COPY / ./
-
-COPY ./package.json ./
+COPY ./package.json .
 
 RUN npm i
+
+COPY . .
 
 RUN npm run build
 
