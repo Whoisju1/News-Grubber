@@ -1,6 +1,7 @@
-import React, { useContext, createContext, useReducer, useEffect, useState } from 'react';
-import { deleteArticle as delArticle } from '../../utils/requests';
+import React, { useContext, createContext, useReducer, useState } from 'react';
+import { deleteArticle as delArticle, addArticle } from '../../utils/requests';
 import { AuthContext } from './authContext';
+import { NotificationCtx } from './notificationCtx';
 
 export interface IPublicationDate {
   date?: string;
@@ -25,25 +26,26 @@ export interface IArticle {
 interface ISavedArticleCtx {
   articles: IArticle[];
   deleteArticle: (id: string) => void;
-  addArticle: () => void;
   getSavedArticles: () => void;
   isLoading: boolean;
+  saveArticle: (article: IArticle) => void;
 }
 
 export const SavedArticlesCtx = createContext<ISavedArticleCtx>({
   articles: [],
   deleteArticle: () => void(0),
-  addArticle: () => void(0),
   getSavedArticles: () => console.log('oh oh'),
   isLoading: false,
+  saveArticle: () => void(0),
 });
 
 interface IAction {
-  type: 'fetch' | 'delete'
+  type: 'fetch' | 'delete' | 'save'
   payload: IArticle[];
 }
 
 const SavedArticlesProvider: React.FC = ({ children }) => {
+  const { notify } = useContext(NotificationCtx);
   const { isLoggedIn } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [articles, dispatch] = useReducer((state: IArticle[], action: IAction) => {
@@ -51,6 +53,8 @@ const SavedArticlesProvider: React.FC = ({ children }) => {
       case 'fetch':
         return action.payload;
       case 'delete':
+        return action.payload;
+      case 'save':
         return action.payload;
       default:
         return state;
@@ -84,18 +88,24 @@ const SavedArticlesProvider: React.FC = ({ children }) => {
     });
   }
 
-  const addArticle = async () => {
-    if (!isLoggedIn) return;
-    console.log('add article');
+  const saveArticle = async (article: IArticle) => {
+    const savedArticle = await addArticle(article);
+    dispatch({
+      type: 'save',
+      payload: [...articles, savedArticle],
+    });
+    notify({
+      body: 'Article Saved',
+    });
   }
 
   return (
     <SavedArticlesCtx.Provider value={{
       articles,
       deleteArticle,
-      addArticle,
       isLoading,
       getSavedArticles,
+      saveArticle,
     }}>
       {children}
     </SavedArticlesCtx.Provider>

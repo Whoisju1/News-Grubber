@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 import Modal from '../../../../../../shared/Modal';
 
-const Form = styled.form`
+const StyledForm = styled.form`
   border: .04rem solid lightgray;
   border-radius: 10px;
   display: grid;
@@ -55,7 +55,7 @@ interface Props {
 const EditNoteForm: React.FC<Props> = ({  submit, note, handleChange, cancel, isShown }) => {
   return (
     <Modal show={isShown} hide={cancel}>
-      <Form onSubmit={(e) => {
+      <StyledForm onSubmit={(e) => {
         e.preventDefault();
         submit(note)
       }}>
@@ -63,7 +63,7 @@ const EditNoteForm: React.FC<Props> = ({  submit, note, handleChange, cancel, is
         <textarea value={note} onChange={handleChange}/>
         <input type="submit" value="Save"/>
         <button className="cancel-btn" onClick={cancel}>Cancel</button>
-      </Form>
+      </StyledForm>
     </Modal>
   )
 }

@@ -14,7 +14,7 @@ export async function saveArticle(req, res, next) {
     const duplicateErr = new Error(
       'This article is already in your collection.'
     );
-    duplicateErr.status = 401;
+    duplicateErr.status = 400;
 
     // get data from req.body
     const { url } = req.body;

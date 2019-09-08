@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { IArticle } from '../../shared/contexts/savedArticlesContext';
 
 export const useFetch = <T>(url: string, initialState: T): T => {
   const [state, setState] = useState<T>(initialState);
@@ -103,4 +104,18 @@ export const editNoteRequest = async (noteId: string, articleId: string, body: s
 
     const editedNote = await data.json();
     return editedNote;
+}
+
+export const addArticle = async (article: IArticle) => {
+  const token = localStorage.getItem('token');
+  const data = await fetch('/api/articles/', {
+    method: 'POST',
+    body: JSON.stringify(article),
+    headers: {
+      authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    }});
+
+    const savedArticle: IArticle = await data.json();
+    return savedArticle;
 }

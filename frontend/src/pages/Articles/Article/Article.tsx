@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import SaveBtn from './SaveBtn';
 import { IArticle } from '../../../shared/contexts/scrappedArticlesContext';
 import { AuthContext } from '../../../shared/contexts/authContext';
+import { SavedArticlesCtx } from '../../../shared/contexts/savedArticlesContext';
 
 const StyledArticle = styled.div`
   grid-column: 2/12;
@@ -79,19 +80,12 @@ const StyledArticle = styled.div`
 function Article(props: IArticle) {
   const { image, publicationDate, subTitle, title, url, author } = props;
 
-  const { user } = useContext(AuthContext)
+  const { user } = useContext(AuthContext);
+  const { saveArticle: addArticle } = useContext(SavedArticlesCtx);
 
   const saveArticle = async (e: React.MouseEvent) => {
     if (user) {
-      fetch('/api/articles', {
-        method: 'POST',
-        body: JSON.stringify(props),
-        headers: {
-          authorization: `Bearer ${user.token}`,
-          'Content-Type': 'application/json',
-        },
-      }).then(data => data.json())
-      .then(data => console.log(data));
+      addArticle(props);
     } else {
       alert('Please sign in first');
     }

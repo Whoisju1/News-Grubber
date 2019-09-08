@@ -2,7 +2,8 @@
   "prettier.eslintIntegration": true,
   "prettier.trailingComma": "es5",
   "cSpell.words": [
-    "polyfill"
+    "polyfill",
+    "uuidv"
   ],
   "svg.preview.background": "white"
 }

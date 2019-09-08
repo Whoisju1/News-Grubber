@@ -5,7 +5,7 @@ import { fetchArticleNotes, editNoteRequest, deleteNote as dltNote, addNote } fr
 import { NotesCtx } from '../../../../shared/contexts/notesContext';
 
 const StyledNotes = styled.div`
-  grid-column: 2/ span 4;
+  grid-column: 1/ -1;
   border-left: .2rem solid lightgray;
   padding-left: 1rem;
 `;

@@ -6,15 +6,18 @@ import * as serviceWorker from './serviceWorker';
 import GlobalStyles from './GlobalStyles';
 import { AuthProvider } from './shared/contexts/authContext';
 import SavedArticlesProvider from './shared/contexts/savedArticlesContext';
+import NotificationsProvider from './shared/contexts/notificationCtx';
 
 ReactDOM.render(
   <Router>
-    <AuthProvider>
-      <SavedArticlesProvider>
-        <GlobalStyles />
-        <App />
-      </SavedArticlesProvider>
-    </AuthProvider>
+    <NotificationsProvider>
+      <AuthProvider>
+        <SavedArticlesProvider>
+          <GlobalStyles />
+          <App />
+        </SavedArticlesProvider>
+      </AuthProvider>
+    </NotificationsProvider>
   </Router>
 , document.getElementById('root'));
 
