@@ -3,10 +3,6 @@ import styled from 'styled-components';
 import Svg from '../Svg';
 
 const StyledSvg = styled(Svg)`
-  #edit-icon {
-    /* stroke: #fff;
-    stroke-width: 4; */
-  }
   #frame {
     stroke: #fff;
     stroke-width: 10;
@@ -22,11 +18,20 @@ const StyledSvg = styled(Svg)`
     stroke-linecap: round;
     stroke-linejoin: round;
   }
+
+  #backdrop {
+    fill: #999;
+    stroke: none;
+  }
 `;
 
-const EditIcon = () => {
+interface Props {
+  preserveAspectRatio?: string
+}
+
+const EditIcon: React.FC<Props> = ({ preserveAspectRatio = 'xMidYMid' }) => {
   return (
-    <StyledSvg>
+    <StyledSvg preserveAspectRatio={preserveAspectRatio}>
       <symbol id="edit-icon" viewBox="-15 -13 130 130">
         <path
           id="frame"
@@ -65,8 +70,6 @@ const EditIcon = () => {
           cy="50"
           cx="50"
           r="50"
-          fill="gray"
-          stroke="none"
         />
       </symbol>
       <use xlinkHref="#backdrop" />

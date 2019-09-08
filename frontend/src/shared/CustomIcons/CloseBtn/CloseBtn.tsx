@@ -5,7 +5,7 @@ import Svg from '../Svg';
 const StyledSvg = styled(Svg)`
   #close-btn-symb {
     #backdrop {
-      fill: gray;
+      fill: #999;
       stroke: transparent;
     }
     #x {

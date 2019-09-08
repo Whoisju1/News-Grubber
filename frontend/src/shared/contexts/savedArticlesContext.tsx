@@ -49,6 +49,8 @@ const SavedArticlesProvider: React.FC = ({ children }) => {
   const { isLoggedIn } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [articles, dispatch] = useReducer((state: IArticle[], action: IAction) => {
+    if (!isLoggedIn) return [];
+
     switch (action.type) {
       case 'fetch':
         return action.payload;
@@ -62,41 +64,65 @@ const SavedArticlesProvider: React.FC = ({ children }) => {
   }, []);
 
   const getSavedArticles = async () => {
-    setIsLoading(true);
-    const token = localStorage.getItem('token');
-    fetch('/api/articles', {
-      headers: {
-        authorization: `Bearer ${token}`,
-      }})
-      .then((data) => data.json())
-      .then(data => {
-        dispatch({
-          type: 'fetch',
-          payload: data,
-        });
-      })
-      .finally(() => setIsLoading(false));
+    try {
+      setIsLoading(true);
+      const token = localStorage.getItem('token');
+      const data = await fetch('/api/articles', {
+        headers: {
+          authorization: `Bearer ${token}`,
+        }});
+
+      const articles = await data.json();
+      if (articles.error) {
+        throw new Error(articles.error.message);
+      }
+      dispatch({
+        type: 'fetch',
+        payload: articles,
+      });
+    } catch (error) {
+      notify({
+        body: error.message,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   const deleteArticle = async (id: string) => {
-    if (!isLoggedIn) return;
-    const { _id } = await delArticle(id);
-    const remainingArticles = articles.filter(({ _id: articleId }) => articleId !== _id);
-    dispatch({
-      payload: remainingArticles,
-      type: 'delete',
-    });
+    try {
+      if (!isLoggedIn) return;
+      const { _id } = await delArticle(id);
+      const remainingArticles = articles.filter(({ _id: articleId }) => articleId !== _id);
+      dispatch({
+        payload: remainingArticles,
+        type: 'delete',
+      });
+      notify({
+        body: 'Article Deleted',
+      });
+    } catch (error) {
+      notify({
+        body: error.message,
+      });
+    }
   }
 
   const saveArticle = async (article: IArticle) => {
-    const savedArticle = await addArticle(article);
-    dispatch({
-      type: 'save',
-      payload: [...articles, savedArticle],
-    });
-    notify({
-      body: 'Article Saved',
-    });
+    try {
+      const savedArticle = await addArticle(article);
+      dispatch({
+        type: 'save',
+        payload: [...articles, savedArticle],
+      });
+      notify({
+        body: 'Article Saved',
+      });
+    } catch (error) {
+      notify({
+        body: error.message,
+      });
+    }
   }
 
   return (

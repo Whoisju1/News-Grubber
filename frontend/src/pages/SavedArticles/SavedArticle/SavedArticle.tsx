@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import styled from 'styled-components';
 import { IArticle } from '../../../shared/contexts/scrappedArticlesContext';
 import ArticleBtn from './ArticleBtn';
-import { AddNoteIcon, TrashIcon, MenuIcon } from '../../../shared/CustomIcons';
+import { AddNoteIcon, TrashIcon, DownIcon } from '../../../shared/CustomIcons';
 import AddNotesModal from '../../../components/AddNotesModal';
 import DeleteModal from '../../../components/DeleteModal';
 import { SavedArticlesCtx } from '../../../shared/contexts/savedArticlesContext';
@@ -128,7 +128,7 @@ const SavedArticle: React.FC<Props> = (props) => {
         {
           hasNotes &&
           <ArticleBtn click={() => setNotesShown(!notesShown)} title="View Notes">
-              <MenuIcon preserveAspectRatio="xMinYMid meet" />
+              <DownIcon preserveAspectRatio="xMinYMid meet" />
           </ArticleBtn>
         }
         <div className="article-buttons">

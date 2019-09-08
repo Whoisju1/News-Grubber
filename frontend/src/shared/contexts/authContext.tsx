@@ -1,4 +1,5 @@
-import React, { createContext, useReducer, useState, useEffect } from 'react'
+import React, { createContext, useContext, useReducer, useState, useEffect } from 'react'
+import { NotificationCtx } from './notificationCtx';
 
 export interface UserCredentials { username: string; password: string };
 export interface User {
@@ -38,6 +39,7 @@ interface Action {
 
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
+  const { notify } = useContext(NotificationCtx);
   const getToken = () => localStorage.getItem('token');
 
   const setToken = ((token: string) => localStorage.setItem('token', token));
@@ -94,6 +96,9 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
         type: 'LOGOUT',
         data: null,
       });
+      notify({
+        body: 'Logged Out'
+      });
     },
     signin: (body) => {
       fetch('/api/auth/signin', {
@@ -111,6 +116,9 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
           data,
         });
         setIsLoggedIn(true);
+        notify({
+          body: `${data.username} signed in`
+        });
       });
     },
     signup: (body) => {

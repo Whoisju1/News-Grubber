@@ -3,37 +3,20 @@ import styled from 'styled-components';
 import Svg from '../Svg';
 
 const StyledSvg = styled(Svg)`
-  stroke: rgb(101, 119, 134);
-  transition: stroke .1s linear;
-  transform-origin: 3% 50%;
-  &:hover {
-    stroke: var(--primary-color);
-  }
-  &:active {
-    transform: scale(.99);
-  }
+  fill: #999;
+  stroke: none;
 `;
 
 interface Props {
-  preserveAspectRatio?: string;
+
 }
 
-const MenuIcon: React.FC<Props> = ({ preserveAspectRatio = 'xMidYMid' }) => {
+const MenuIcon: React.FC<Props> = ({ }) => {
   return (
-    <StyledSvg preserveAspectRatio={preserveAspectRatio} viewBox="0 -20 100 90">
-      <symbol
-        id="menu-icon"
-        viewBox="0 0 100 100"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="6">
-        <path
-          fill="none"
-          d="M0,0 L50,55 100,0"
-          id="line"
-        ></path>
-    </symbol>
-    <use xlinkHref="#menu-icon" />
+    <StyledSvg viewBox="0 0 100 100">
+      <circle cx="50" cy="20" r="10" />
+      <circle cx="50" cy="50" r="10" />
+      <circle cx="50" cy="80" r="10" />
     </StyledSvg>
   );
 };

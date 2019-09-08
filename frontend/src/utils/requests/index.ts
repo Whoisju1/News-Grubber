@@ -116,6 +116,9 @@ export const addArticle = async (article: IArticle) => {
       'Content-Type': 'application/json',
     }});
 
-    const savedArticle: IArticle = await data.json();
-    return savedArticle;
+    const savedArticle = await data.json();
+    if (savedArticle.error) {
+      throw new Error(savedArticle.error.message);
+    }
+    return savedArticle as IArticle;
 }
