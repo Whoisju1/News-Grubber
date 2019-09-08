@@ -6,10 +6,13 @@ const StyledBtn = styled.a.attrs(({ title }) => ({ title }) )`
   justify-content: left;
   cursor: pointer;
   height: 2.2rem;
+  & svg {
+    transform-origin: 50% 50%;
+  }
   &:hover svg {
-    stroke: var(--primary-color);
-    transition: transform .06s ease;
-    transform: scale(1.1);
+    /* stroke: var(--primary-color); */
+    /* transition: transform .06s ease; */
+    /* transform: scale(1.1); */
     &:first-child {
       transform-origin: 0%;
     }
@@ -18,7 +21,7 @@ const StyledBtn = styled.a.attrs(({ title }) => ({ title }) )`
     }
   }
   &:active svg {
-    transform: scale(.99);
+    /* transform: scale(.99); */
   }
 `;
 

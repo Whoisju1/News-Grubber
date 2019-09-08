@@ -21,8 +21,6 @@ const StyledSvg = styled(Svg)`
     fill: transparent;
     stroke-linecap: round;
     stroke-linejoin: round;
-    /* transform-origin: 50% 50%;
-    transform: rotate(45deg) scale(1.2); */
   }
 `;
 
