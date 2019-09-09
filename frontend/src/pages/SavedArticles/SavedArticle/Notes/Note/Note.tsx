@@ -1,12 +1,23 @@
 import React, { useState, useContext } from 'react'
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import formatDistance from "date-fns/formatDistance";
 import { MenuIcon } from '../../../../../shared/CustomIcons';
 import EditNoteForm from './EditNoteFrom';
 import { NotesCtx } from '../../../../../shared/contexts/notesContext';
 import DropDown from '../../../../../components/DropDown';
 
-const StyledNote = styled.form`
+const appear = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-2rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const StyledNote = styled.div`
   border: .04rem solid lightgray;
   padding: 1.4rem 1.4rem 1.4rem 1.4rem;
   border-radius: 10px;
@@ -18,6 +29,7 @@ const StyledNote = styled.form`
   position: relative;
   grid-row-gap: 1rem;
   justify-content: right;
+  animation: ${appear} .2s both linear;
   .date-created {
     display: inline-grid;
     font-size: 1.2rem;
@@ -30,6 +42,8 @@ const StyledNote = styled.form`
     justify-content: center;
     align-items: center;
     border-radius: 50px;
+    align-content: center;
+    text-align: center;
     padding: 1.2rem 1.2rem;
   }
   p.body {

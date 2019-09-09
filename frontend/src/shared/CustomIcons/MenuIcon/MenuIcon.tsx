@@ -14,9 +14,9 @@ interface Props {
 const MenuIcon: React.FC<Props> = ({ }) => {
   return (
     <StyledSvg viewBox="0 0 100 100">
-      <circle cx="50" cy="20" r="10" />
-      <circle cx="50" cy="50" r="10" />
-      <circle cx="50" cy="80" r="10" />
+      <circle cx="50" cy="20" r="8" />
+      <circle cx="50" cy="50" r="8" />
+      <circle cx="50" cy="80" r="8" />
     </StyledSvg>
   );
 };

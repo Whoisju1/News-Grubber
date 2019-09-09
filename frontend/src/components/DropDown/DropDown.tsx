@@ -7,15 +7,9 @@ const drop = keyframes`
     opacity: 0;
     transform: translateY(-4rem) scaleX(.2);
   }
-  50% {
-    transform: scaleX(.7);
-  }
-  80% {
-    transform: scaleX(1);
-  }
   100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scaleX(1);
   }
 `;
 

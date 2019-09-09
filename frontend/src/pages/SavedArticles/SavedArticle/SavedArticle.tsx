@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { IArticle } from '../../../shared/contexts/scrappedArticlesContext';
 import ArticleBtn from './ArticleBtn';
 import { AddNoteIcon, TrashIcon, DownIcon } from '../../../shared/CustomIcons';
@@ -10,12 +10,28 @@ import Notes from './Notes';
 import { NotesCtx } from '../../../shared/contexts/notesContext';
 import { ThumbnailImage } from '../../../shared/StyledElements';
 
-const StyledContainer = styled.div<{ hasNotes: boolean }>`
+const fadeDown = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-.3rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(.3rem);
+  }
+`;
+
+interface StyledProps {
+  hasNotes: boolean;
+  notesExpanded: boolean;
+}
+
+const StyledContainer = styled.div<StyledProps>`
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(5, max-content);
+  grid-template-rows: repeat(4, max-content);
   grid-auto-rows: min-content;
-  grid-gap: .6rem;
+  grid-gap: 1rem;
   padding-bottom: 1rem;
   a,
   a:active,
@@ -25,7 +41,7 @@ const StyledContainer = styled.div<{ hasNotes: boolean }>`
   }
   .image {
     grid-column: 1/2;
-    grid-row: 1/ span 4;
+    grid-row: 1/ span 3;
     display: inline-block;
     position: relative;
     transition: background-color .5s linear;
@@ -79,9 +95,8 @@ const StyledContainer = styled.div<{ hasNotes: boolean }>`
     display: inline-grid;
     align-items: center;
     grid-column: 2/5;
-    font-size: 1.4rem;
-    padding: .5rem;
-    justify-content: center;
+    font-size: 1.2rem;
+    justify-content: start;
   }
 
   & > *:nth-child(5) {
@@ -116,13 +131,31 @@ const StyledContainer = styled.div<{ hasNotes: boolean }>`
     align-items: center;
     justify-content: center;
     font-weight: 600;
-
+    & svg {
+      stroke: #999;
+    }
+    ${
+      ({ notesExpanded}) =>
+      !notesExpanded
+      ? css`
+        &:hover {
+          & svg {
+            animation: ${fadeDown} .6s ease-out infinite;
+          }
+        }
+      `
+      : css`
+        & svg {
+          transform: rotateX(180deg);
+        }
+      `
+    }
   }
   position: relative;
   &::after {
     ${
-      ({ hasNotes }) =>
-      hasNotes
+      ({ hasNotes, notesExpanded }) =>
+      (hasNotes && !notesExpanded)
         ? css`
           content: '';
           position: absolute;
@@ -178,7 +211,7 @@ const SavedArticle: React.FC<Props> = (props) => {
   const { date, time } = props.publicationDate;
   return (
     <>
-      <StyledContainer hasNotes={!!notes.length}>
+      <StyledContainer hasNotes={!!notes.length} notesExpanded={notesShown}>
         <a className="image" href={props.url} target="_blank" rel="noopener noreferrer">
           <ThumbnailImage src={props.image} alt="article pic"/>
         </a>

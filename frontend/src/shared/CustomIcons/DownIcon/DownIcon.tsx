@@ -2,23 +2,10 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import Svg from '../Svg';
 
-const fadeDown = keyframes`
-  0% {
-    opacity: 0;
-    transform: translateY(-.7rem);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
 const StyledSvg = styled(Svg)`
   stroke: rgb(101, 119, 134);
   transition: stroke .1s linear;
   transform-origin: 3% 50%;
-  animation: ${fadeDown} .7s ease-out both;
-  animation-iteration-count: 3;
   &:hover {
     stroke: var(--primary-color);
   }

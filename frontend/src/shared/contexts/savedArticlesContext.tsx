@@ -1,4 +1,4 @@
-import React, { useContext, createContext, useReducer, useState } from 'react';
+import React, { useContext, createContext, useReducer, useState, useEffect } from 'react';
 import { deleteArticle as delArticle, addArticle } from '../../utils/requests';
 import { AuthContext } from './authContext';
 import { NotificationCtx } from './notificationCtx';
@@ -40,7 +40,7 @@ export const SavedArticlesCtx = createContext<ISavedArticleCtx>({
 });
 
 interface IAction {
-  type: 'fetch' | 'delete' | 'save'
+  type: 'fetch' | 'delete' | 'save' | 'clear'
   payload: IArticle[];
 }
 
@@ -49,8 +49,6 @@ const SavedArticlesProvider: React.FC = ({ children }) => {
   const { isLoggedIn } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [articles, dispatch] = useReducer((state: IArticle[], action: IAction) => {
-    if (!isLoggedIn) return [];
-
     switch (action.type) {
       case 'fetch':
         return action.payload;
@@ -58,10 +56,21 @@ const SavedArticlesProvider: React.FC = ({ children }) => {
         return action.payload;
       case 'save':
         return action.payload;
+      case 'clear':
+        return [];
       default:
         return state;
     }
   }, []);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      dispatch({
+        type: 'clear',
+        payload: [],
+      });
+    }
+  }, [isLoggedIn])
 
   const getSavedArticles = async () => {
     try {
