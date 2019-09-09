@@ -1,21 +1,22 @@
 import React, { useContext, useState } from 'react'
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { IArticle } from '../../../shared/contexts/scrappedArticlesContext';
 import ArticleBtn from './ArticleBtn';
 import { AddNoteIcon, TrashIcon, DownIcon } from '../../../shared/CustomIcons';
 import AddNotesModal from '../../../components/AddNotesModal';
 import DeleteModal from '../../../components/DeleteModal';
 import { SavedArticlesCtx } from '../../../shared/contexts/savedArticlesContext';
-import { addNote, fetchArticleNotes, deleteNote } from '../../../utils/requests';
 import Notes from './Notes';
 import { NotesCtx } from '../../../shared/contexts/notesContext';
+import { ThumbnailImage } from '../../../shared/StyledElements';
 
-const StyledContainer = styled.div`
+const StyledContainer = styled.div<{ hasNotes: boolean }>`
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(5, min-content);
+  grid-template-rows: repeat(5, max-content);
   grid-auto-rows: min-content;
   grid-gap: .6rem;
+  padding-bottom: 1rem;
   a,
   a:active,
   a:link,
@@ -25,6 +26,37 @@ const StyledContainer = styled.div`
   .image {
     grid-column: 1/2;
     grid-row: 1/ span 4;
+    display: inline-block;
+    position: relative;
+    transition: background-color .5s linear;
+    &:hover::before {
+      transition: background-color .5s linear;
+      content: 'View Article';
+      position: absolute;
+      pointer-events: none;
+      letter-spacing: .02rem;
+      top: 0;
+      left: 0;
+      width: 100%;
+      font-family: sans-serif;
+      color: #fff;
+      font-weight: 700;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 2.5rem;
+      height: 100%;
+      z-index: 2;
+    }
+  }
+
+  a,
+  a:link,
+  a:visited,
+  a:active {
+    text-decoration: none;
+    color: var(--text-color__main);
   }
 
   .heading {
@@ -32,50 +64,81 @@ const StyledContainer = styled.div`
     display: grid;
     grid-gap: .1rem;
     h1 {
-      font-size: 1.9rem;
+      font-size: 2.1rem;
+      font-weight: 600;
     }
+    h2 {
+      font-size: 1.8rem;
+    }
+    border-bottom: 2rem;
   }
   .author {
     grid-column: 2/5;
   }
   .date {
-    display: grid;
-    align-items: end;
+    display: inline-grid;
+    align-items: center;
     grid-column: 2/5;
     font-size: 1.4rem;
+    padding: .5rem;
+    justify-content: center;
   }
 
   & > *:nth-child(5) {
     grid-column: 2/3;
     grid-row: 4/span 1;
     height: 1.5rem;
-    /* transform: translateY(-1.3rem); */
-    /* border: .04rem solid gray; */
   }
 
   .article-buttons {
     grid-column: 11/13;
     grid-row: 3/4;
-    /* height: 3rem; */
     grid-gap: 2rem;
     display: grid;
     justify-content: right;
     grid-template-columns: repeat(auto-fit, minmax(1rem, 3rem));
-    /* transform: translateY(-.6rem); */
     min-width: 5rem;
   }
   :not(:last-child) {
     border-bottom: .04rem solid lightgray;
   }
+
+  .view-notes {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    grid-column: 1/2;
+    grid-row: -2/-1;
+    font-family: sans-serif;
+    cursor: pointer;
+    color: #999;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+
+  }
+  position: relative;
+  &::after {
+    ${
+      ({ hasNotes }) =>
+      hasNotes
+        ? css`
+          content: '';
+          position: absolute;
+          height: 100%;
+          right: 103%;
+          width: 3rem;
+          background-color: var(--primary-color);
+          z-index: 2;
+          clip-path: circle(.5rem);
+        `
+      : ''
+    }
+  }
 `;
 
 interface Props extends IArticle { }
-interface INote {
-  _id: string;
-  body: string;
-  createdAt: string;
-  updatedAt: string;
-}
 
 interface ModalRegistry {
   [x: string]: boolean;
@@ -115,9 +178,9 @@ const SavedArticle: React.FC<Props> = (props) => {
   const { date, time } = props.publicationDate;
   return (
     <>
-      <StyledContainer>
+      <StyledContainer hasNotes={!!notes.length}>
         <a className="image" href={props.url} target="_blank" rel="noopener noreferrer">
-          <img src={props.image} alt="article pic"/>
+          <ThumbnailImage src={props.image} alt="article pic"/>
         </a>
         <a className="heading" href={props.url} target="_blank" rel="noopener noreferrer">
           <h1 className="title">{props.title}</h1>
@@ -127,9 +190,10 @@ const SavedArticle: React.FC<Props> = (props) => {
         <div className="date">{date} {time}</div>
         {
           hasNotes &&
-          <ArticleBtn click={() => setNotesShown(!notesShown)} title="View Notes">
+          <div onClick={() => setNotesShown(!notesShown)} className="view-notes" title="View Notes">
               <DownIcon preserveAspectRatio="xMinYMid meet" />
-          </ArticleBtn>
+              { !notesShown ? 'View Notes' : 'Hide Notes'}
+          </div>
         }
         <div className="article-buttons">
           <ArticleBtn click={addNoteModalManager.show} title="Add note about article">

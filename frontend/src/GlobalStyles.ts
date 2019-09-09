@@ -14,6 +14,7 @@ const GlobalStyles = createGlobalStyle`
     --secondary-background-color: linear-gradient(to right, #e2e5ee, #f5f5f5);
     --main-grid: [full-left left-start] 5rem [left-end center-start]  repeat(8, [col-start] 1fr [col-end]) [center-end right-start] 5rem [right-end full-right];
     --light-border: .4px solid lightgray;
+    --text-color__main: #333333;
   }
   *,
   *::before,
@@ -25,7 +26,7 @@ const GlobalStyles = createGlobalStyle`
     border: 0;
     padding: 0;
     font-size: 1.6rem;
-    color: #111111;
+    color: var(--text-color__main);
     overflow-x: hidden;
 
     /* Set dimensions */

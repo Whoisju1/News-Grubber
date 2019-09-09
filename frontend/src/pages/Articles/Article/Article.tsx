@@ -4,6 +4,7 @@ import SaveBtn from './SaveBtn';
 import { IArticle } from '../../../shared/contexts/scrappedArticlesContext';
 import { AuthContext } from '../../../shared/contexts/authContext';
 import { SavedArticlesCtx } from '../../../shared/contexts/savedArticlesContext';
+import { ThumbnailImage } from '../../../shared/StyledElements';
 
 const StyledArticle = styled.div`
   grid-column: 2/12;
@@ -16,7 +17,7 @@ const StyledArticle = styled.div`
     border-bottom: .5px solid black;
   }
 
-  img {
+  ${ThumbnailImage} {
     grid-column: 1/2;
     grid-row: 1/2;
     position: relative;
@@ -28,7 +29,30 @@ const StyledArticle = styled.div`
   }
 
   .link--img-wrapper {
-    display: contents;
+    display: inline-block;
+    position: relative;
+    transition: background-color .5s linear;
+    &:hover::before {
+      transition: background-color .5s linear;
+      content: 'View Article';
+      position: absolute;
+      pointer-events: none;
+      letter-spacing: .02rem;
+      top: 0;
+      left: 0;
+      width: 100%;
+      font-family: sans-serif;
+      color: #fff;
+      font-weight: 700;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 2.5rem;
+      height: 100%;
+      z-index: 2;
+      letter-spacing: .03rem;
+    }
   }
 
   a,
@@ -94,7 +118,7 @@ function Article(props: IArticle) {
   return (
     <StyledArticle>
       <a href={url} target="_blank" rel="noopener noreferrer" className="link--img-wrapper">
-        <img src={image} alt="Article picture" />
+        <ThumbnailImage src={image} alt="Article picture" />
       </a>
       <div className="info">
         <a href={url} target="_blank" rel="noopener noreferrer">
