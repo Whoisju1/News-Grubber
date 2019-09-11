@@ -48,7 +48,9 @@ const StyledNote = styled.div`
   }
   p.body {
     grid-column: 1/-1;
-    grid-row: 2/3;
+    grid-row: 1/3;
+    width: 97%;
+    text-align: justify;
   }
 
   .buttons {

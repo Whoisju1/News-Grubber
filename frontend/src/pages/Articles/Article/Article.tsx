@@ -1,10 +1,19 @@
 import React, { useContext } from 'react'
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import SaveBtn from './SaveBtn';
 import { IArticle } from '../../../shared/contexts/scrappedArticlesContext';
 import { AuthContext } from '../../../shared/contexts/authContext';
 import { SavedArticlesCtx } from '../../../shared/contexts/savedArticlesContext';
 import { ThumbnailImage } from '../../../shared/StyledElements';
+
+const appear = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
 
 const StyledArticle = styled.div`
   grid-column: 2/12;
@@ -33,7 +42,7 @@ const StyledArticle = styled.div`
     position: relative;
     transition: background-color .5s linear;
     &:hover::before {
-      transition: background-color .5s linear;
+      transition: all .5s linear;
       content: 'View Article';
       position: absolute;
       pointer-events: none;
@@ -42,7 +51,7 @@ const StyledArticle = styled.div`
       left: 0;
       width: 100%;
       font-family: sans-serif;
-      color: #fff;
+      color: #eee;
       font-weight: 700;
       display: flex;
       justify-content: center;
@@ -52,6 +61,7 @@ const StyledArticle = styled.div`
       height: 100%;
       z-index: 2;
       letter-spacing: .03rem;
+      animation: ${appear} .3s linear both;
     }
   }
 

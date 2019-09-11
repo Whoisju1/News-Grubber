@@ -2,8 +2,13 @@ import React from 'react'
 import styled from 'styled-components';
 
 const Div = styled.div`
+  display: grid;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
   background-color: var(--primary-color);
   color: #ffffff;
+  font-size: 200%;
 `;
 
 function Logo() {

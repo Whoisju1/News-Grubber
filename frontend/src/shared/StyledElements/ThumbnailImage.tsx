@@ -4,7 +4,7 @@ export const ThumbnailImage = styled.img`
   object-fit: cover;
   width: 10rem;
   &:hover {
-    filter: blur(1.5px) grayscale(.7) brightness(.7);
+    filter: blur(1.5px) brightness(.9);
     background-size: 150%;
     height: auto;
     position: relative;

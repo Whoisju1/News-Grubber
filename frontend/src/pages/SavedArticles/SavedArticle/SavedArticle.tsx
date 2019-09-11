@@ -21,6 +21,15 @@ const fadeDown = keyframes`
   }
 `;
 
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
 interface StyledProps {
   hasNotes: boolean;
   notesExpanded: boolean;
@@ -46,7 +55,7 @@ const StyledContainer = styled.div<StyledProps>`
     position: relative;
     transition: background-color .5s linear;
     &:hover::before {
-      transition: background-color .5s linear;
+      animation: ${fadeIn} .3s both linear;
       content: 'View Article';
       position: absolute;
       pointer-events: none;
