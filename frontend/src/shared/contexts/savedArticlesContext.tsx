@@ -47,7 +47,8 @@ interface IAction {
 const SavedArticlesProvider: React.FC = ({ children }) => {
   const { notify } = useContext(NotificationCtx);
   const { isLoggedIn } = useContext(AuthContext);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [articles, dispatch] = useReducer((state: IArticle[], action: IAction) => {
     switch (action.type) {
       case 'fetch':
@@ -63,18 +64,8 @@ const SavedArticlesProvider: React.FC = ({ children }) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      dispatch({
-        type: 'clear',
-        payload: [],
-      });
-    }
-  }, [isLoggedIn])
-
   const getSavedArticles = async () => {
     try {
-      setIsLoading(true);
       const token = localStorage.getItem('token');
       const data = await fetch('/api/articles', {
         headers: {
@@ -133,6 +124,17 @@ const SavedArticlesProvider: React.FC = ({ children }) => {
       });
     }
   }
+
+    useEffect(() => {
+    if (!isLoggedIn) {
+      dispatch({
+        type: 'clear',
+        payload: [],
+      });
+    } else {
+      if (isLoggedIn) getSavedArticles();
+    }
+  }, [isLoggedIn])
 
   return (
     <SavedArticlesCtx.Provider value={{

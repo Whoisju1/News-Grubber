@@ -1,8 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useContext } from 'react'
 import styled from 'styled-components';
 import SavedArticle from './SavedArticle/SavedArticle';
 import { SavedArticlesCtx } from '../../shared/contexts/savedArticlesContext';
 import { NotesContext } from '../../shared/contexts/notesContext';
+import NoSavedArticles from './NoSavedArticles';
+import { AuthContext } from '../../shared/contexts/authContext';
+import UserNotLoggedIn from './UserNotLoggedIn';
+import Loading from './Loading';
 
 const Section = styled.div`
   display: grid;
@@ -14,14 +18,17 @@ const Section = styled.div`
   }
 `;
 
-function SavedArticles() {
-  const { articles, getSavedArticles } = useContext(SavedArticlesCtx);
+const SavedArticles: React.FC = () => {
+  const { articles, getSavedArticles, isLoading } = useContext(SavedArticlesCtx);
+  const { isLoggedIn } = useContext(AuthContext);
 
   useEffect(() => {
-    getSavedArticles()
-  }, [JSON.stringify(articles)])
+    if (isLoggedIn) getSavedArticles()
+  }, [JSON.stringify(articles)]);
 
-  if (!articles.length) return <p>Please save an article first</p>;
+  if (!isLoggedIn) return <UserNotLoggedIn />
+  if (isLoading) return <Loading />
+  if (!articles.length) return <NoSavedArticles />;
 
   return (
     <Section>

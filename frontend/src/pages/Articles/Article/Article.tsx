@@ -5,6 +5,7 @@ import { IArticle } from '../../../shared/contexts/scrappedArticlesContext';
 import { AuthContext } from '../../../shared/contexts/authContext';
 import { SavedArticlesCtx } from '../../../shared/contexts/savedArticlesContext';
 import { ThumbnailImage } from '../../../shared/StyledElements';
+import { NotificationCtx } from '../../../shared/contexts/notificationCtx';
 
 const appear = keyframes`
   0% {
@@ -113,6 +114,7 @@ const StyledArticle = styled.div`
 
 function Article(props: IArticle) {
   const { image, publicationDate, subTitle, title, url, author } = props;
+  const { notify } = useContext(NotificationCtx)
 
   const { user } = useContext(AuthContext);
   const { saveArticle: addArticle } = useContext(SavedArticlesCtx);
@@ -121,7 +123,9 @@ function Article(props: IArticle) {
     if (user) {
       addArticle(props);
     } else {
-      alert('Please sign in first');
+      notify({
+        body: 'Please sign in first',
+      });
     }
   }
 

@@ -18,8 +18,8 @@ const Msg = styled.div<{ duration: number }>`
   backdrop-filter: blur(3px);
   display: inline-grid;
   padding: 1.5rem 2rem;
-  border-radius: 4px;
-  background-color: rgba(45, 52, 54, .7);
+  border-radius: 80px;
+  background-color: rgba(45, 52, 54, .9);
   border: .04rem solid #ccc;
   box-shadow: 0 .5px 8px rgba(0, 0, 0, .4);
   font-weight: 500;
