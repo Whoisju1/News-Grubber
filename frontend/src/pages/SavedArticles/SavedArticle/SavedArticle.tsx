@@ -8,7 +8,7 @@ import DeleteModal from '../../../components/DeleteModal';
 import { SavedArticlesCtx } from '../../../shared/contexts/savedArticlesContext';
 import Notes from './Notes';
 import { NotesCtx } from '../../../shared/contexts/notesContext';
-import { ThumbnailImage } from '../../../shared/StyledElements';
+import ArticleImg from '../../../components/ArticleImg';
 
 const fadeDown = keyframes`
   0% {
@@ -18,15 +18,6 @@ const fadeDown = keyframes`
   100% {
     opacity: 1;
     transform: translateY(.3rem);
-  }
-`;
-
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
   }
 `;
 
@@ -41,39 +32,12 @@ const StyledContainer = styled.div<StyledProps>`
   grid-template-rows: repeat(4, max-content);
   grid-auto-rows: min-content;
   grid-gap: 1rem;
+  grid-column-gap: 3rem;
   padding-bottom: 1rem;
-  a,
-  a:active,
-  a:link,
-  a:visited {
-    text-decoration: none;
-  }
+
   .image {
     grid-column: 1/2;
     grid-row: 1/ span 3;
-    display: inline-block;
-    position: relative;
-    transition: background-color .5s linear;
-    &:hover::before {
-      animation: ${fadeIn} .3s both linear;
-      content: 'View Article';
-      position: absolute;
-      pointer-events: none;
-      letter-spacing: .02rem;
-      top: 0;
-      left: 0;
-      width: 100%;
-      font-family: sans-serif;
-      color: #fff;
-      font-weight: 700;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      font-size: 2.5rem;
-      height: 100%;
-      z-index: 2;
-    }
   }
 
   a,
@@ -222,7 +186,7 @@ const SavedArticle: React.FC<Props> = (props) => {
     <>
       <StyledContainer hasNotes={!!notes.length} notesExpanded={notesShown}>
         <a className="image" href={props.url} target="_blank" rel="noopener noreferrer">
-          <ThumbnailImage src={props.image} alt="article pic"/>
+          <ArticleImg hoverText="View Article" src={props.image} alt="article pic"/>
         </a>
         <a className="heading" href={props.url} target="_blank" rel="noopener noreferrer">
           <h1 className="title">{props.title}</h1>

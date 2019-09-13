@@ -4,8 +4,8 @@ import SaveBtn from './SaveBtn';
 import { IArticle } from '../../../shared/contexts/scrappedArticlesContext';
 import { AuthContext } from '../../../shared/contexts/authContext';
 import { SavedArticlesCtx } from '../../../shared/contexts/savedArticlesContext';
-import { ThumbnailImage } from '../../../shared/StyledElements';
 import { NotificationCtx } from '../../../shared/contexts/notificationCtx';
+import ArticleImg from '../../../components/ArticleImg';
 
 const appear = keyframes`
   0% {
@@ -27,7 +27,7 @@ const StyledArticle = styled.div`
     border-bottom: .5px solid black;
   }
 
-  ${ThumbnailImage} {
+  & .article-img {
     grid-column: 1/2;
     grid-row: 1/2;
     position: relative;
@@ -38,32 +38,9 @@ const StyledArticle = styled.div`
     grid-row: -2/-1;
   }
 
+
   .link--img-wrapper {
-    display: inline-block;
-    position: relative;
-    transition: background-color .5s linear;
-    &:hover::before {
-      transition: all .5s linear;
-      content: 'View Article';
-      position: absolute;
-      pointer-events: none;
-      letter-spacing: .02rem;
-      top: 0;
-      left: 0;
-      width: 100%;
-      font-family: sans-serif;
-      color: #eee;
-      font-weight: 700;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      font-size: 2.5rem;
-      height: 100%;
-      z-index: 2;
-      letter-spacing: .03rem;
-      animation: ${appear} .3s linear both;
-    }
+    display: contents;
   }
 
   a,
@@ -132,7 +109,7 @@ function Article(props: IArticle) {
   return (
     <StyledArticle>
       <a href={url} target="_blank" rel="noopener noreferrer" className="link--img-wrapper">
-        <ThumbnailImage src={image} alt="Article picture" />
+        <ArticleImg src={image} alt="article thumbnail" hoverText="View Article" />
       </a>
       <div className="info">
         <a href={url} target="_blank" rel="noopener noreferrer">
