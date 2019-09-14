@@ -21,6 +21,18 @@ const fadeDown = keyframes`
   }
 `;
 
+const expand = keyframes`
+  0% {
+    transform: scale(.3);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+
+  }
+`;
+
 interface StyledProps {
   hasNotes: boolean;
   notesExpanded: boolean;
@@ -138,6 +150,7 @@ const StyledContainer = styled.div<StyledProps>`
           background-color: var(--primary-color);
           z-index: 2;
           clip-path: circle(.5rem);
+          animation: ${expand} .5s ease-out;
         `
       : ''
     }

@@ -8,7 +8,7 @@ const StyledHeader = styled.header`
   display: grid;
   grid-template-columns: repeat(12, [col-start] 1fr [col-end]);
   grid-template-rows: 8rem;
-  background: var(--secondary-background-color);
+  background: var(--bg2);
   grid-column: center-start/center-end;
   grid-row: 2/ span 1;
   grid-gap: 1rem;

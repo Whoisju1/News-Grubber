@@ -35,7 +35,7 @@ const StyledNote = styled.div`
     font-size: 1.2rem;
     max-width: 10rem;
     color: #2f3542;
-    background-image: var(--secondary-background-color);
+    background-image: var(--bg2);
     grid-column: 2/-1;
     justify-self: end;
     grid-row: 3/4;

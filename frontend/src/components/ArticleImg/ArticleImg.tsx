@@ -22,7 +22,9 @@ const ImageWrapper = styled.div<StyledProps>`
   position: relative;
   transition: background-color .5s linear;
   overflow: hidden;
-  transition: all .1s ease-out .3s;
+  transition: all .1s ease-out .6s;
+  border: .04rem solid #ccc;
+  border-radius: 2px;
   &:hover::before {
     animation: ${fadeIn} .3s both linear;
     content: "${({ hoverText }) => hoverText}";
@@ -33,7 +35,7 @@ const ImageWrapper = styled.div<StyledProps>`
     left: 0;
     width: 100%;
     font-family: sans-serif;
-    color: #fff;
+    color: #dfe6e9;
     font-weight: 700;
     display: flex;
     justify-content: center;
@@ -47,7 +49,7 @@ const ImageWrapper = styled.div<StyledProps>`
     transition: all .1s linear;
     width: 10rem;
     &:hover {
-      filter: brightness(.5);
+      filter: brightness(.5) blur(.2px);
       transform: scale(1.3);
       background-size: 150%;
       height: auto;

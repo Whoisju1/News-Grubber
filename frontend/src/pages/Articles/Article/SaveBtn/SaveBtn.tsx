@@ -1,18 +1,10 @@
 import React from 'react'
 import styled from 'styled-components';
+import Button from '../../../../shared/StyledElements/Button';
 
-const Button = styled.button`
-  border: none;
-  color: #ffffff;
-  background-image: linear-gradient(50deg, var(--primary-color), #eb685a);
+const StyledBtn = styled(Button)`
+  font-size: 1.2rem;
   cursor: pointer;
-  transition: all .2s linear;
-  border-radius: 4px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  &:hover {
-    transform: translateY(-2px);
-  }
 `;
 
 interface IProps {
@@ -22,9 +14,9 @@ interface IProps {
 
 function SaveBtn ({ children, click }: IProps) {
   return (
-    <Button onClick={click}>
+    <StyledBtn btnType="ghost" onClick={click}>
       {children}
-    </Button>
+    </StyledBtn>
   );
 }
 

@@ -8,7 +8,7 @@ const StyledMain = styled.main`
   grid-column: center-start/center-end;
   grid-row: -2/-1;
   border: var(--light-border);
-  background: var(--secondary-background-color);
+  background: var(--bg2);
 `;
 
 function Main() {

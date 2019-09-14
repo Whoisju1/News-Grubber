@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import Modal from '../../shared';
+import Button from '../../shared/StyledElements/Button';
 
 const StyledModalContent = styled.div`
   background-color: #fff;
@@ -24,25 +25,12 @@ const StyledModalContent = styled.div`
     height: 3.4rem;
     cursor: pointer;
     transition: transform .1s ease;
-    outline: none;
     &__primary {
-      transition: transform .1s ease,
-      color .2s,
-      background-color .2 ease;
-      background-color: transparent;
-      border: .3rem solid var(--primary-color);
-      border-radius: 20px;
+      padding: 1rem 1rem;
+      font-size: 1.3rem;
       width: 10rem;
-      color: var(--primary-color);
       grid-column: 1/2;
-      &:hover {
-        background-color: var(--primary-color);
-        color: #fff;
-        transform: translateY(-.1rem);
-      }
-      &:active {
-        transform: translateY(.3rem);
-      }
+      border-radius: 10px;
     }
     &__cancel {
       &:hover {
@@ -84,9 +72,9 @@ const DeleteModal: React.FC<Props> = ({
             ? ''
             : <p>{description}</p>
           }
-          <button className="btn btn__primary" onClick={deleteAction}>
+          <Button btnType="filled" className="btn btn__primary" onClick={deleteAction}>
             {buttonValue}
-          </button>
+          </Button>
           <button className="btn btn__cancel" onClick={hide}>
             {cancelBtnValue}
           </button>

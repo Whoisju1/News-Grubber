@@ -39,7 +39,7 @@ const StyledModal = styled.div<ModalProps>`
     left: 50%;
     top: 40%;
     transform: translate(-50%, -50%);
-    animation: ${dropDown} .3s both ease-out;
+    animation: ${dropDown} .3s both ease-in;
     animation-delay: .2s;
   }
   animation: ${fadeIn} .5s both;

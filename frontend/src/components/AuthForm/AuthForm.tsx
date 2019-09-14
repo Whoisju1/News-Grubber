@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components';
 import Form, { Label, FormHeading, Input, SubmitBtn } from '../../shared/FormElements';
 import { UserCredentials } from '../../shared/contexts/authContext';
+import Button from '../../shared/StyledElements/Button';
 
 const Password = styled(Input).attrs({ type: 'password' })`
   /* ... */
@@ -85,13 +86,10 @@ const StyledForm = styled(Form)`
     border-bottom: .2rem solid var(--primary-color);
   }
 
-  input[type='submit'] {
-    background: transparent;
-    border-radius: 20px;
-    border: 2px solid var(--primary-color);
-    color: var(--primary-color);
+  ${Button} {
     grid-area: submit;
-    height: 100%;
+    border-radius: 30px;
+    cursor: pointer;
   }
 `;
 
@@ -143,7 +141,7 @@ const AuthForm: React.FC<Props> = ({ handleSubmit, formHeading, submitBtnValue }
           Password
         </Label>
       </div>
-      <SubmitBtn value={submitBtnValue} />
+      <Button as="input" btnType="filled" type="submit" value={submitBtnValue} />
     </StyledForm>
   );
 }

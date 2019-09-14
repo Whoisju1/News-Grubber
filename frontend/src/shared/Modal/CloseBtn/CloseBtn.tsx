@@ -11,6 +11,17 @@ const Svg = styled.svg.attrs({
   top: 5%;
   right: 5%;
   cursor: pointer;
+  path {
+    stroke: #ffffff;
+    fill: #ffffff;
+    stroke-width: 9;
+  }
+  @supports (backdrop-filter: blur(3px) grayscale(.3)) {
+    path {
+      stroke: var(--primary-color);
+      fill: var(--primary-color);
+    }
+  }
 `;
 
 interface Props {
@@ -22,9 +33,7 @@ const CloseBtn: React.FC<Props> = ({ click }) => {
     <Svg onClick={click}>
       <title>Close</title>
       <path
-        stroke="#353b48"
         strokeWidth="7"
-        fill="#353b48"
         strokeLinecap="round"
         strokeLinejoin="round"
         d="M0,0 100,100 M0,100 100,0"

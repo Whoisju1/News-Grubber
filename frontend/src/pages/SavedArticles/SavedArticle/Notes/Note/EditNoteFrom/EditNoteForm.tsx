@@ -1,45 +1,47 @@
 import React from 'react'
 import styled from 'styled-components';
 import Modal from '../../../../../../shared/Modal';
+import Button from '../../../../../../shared/StyledElements/Button';
+
+const SubmitBtn = styled(Button)`
+  height: 3rem;
+  cursor: pointer;
+  font-weight: 600;
+  grid-column: 1/ span 2;
+`;
 
 const StyledForm = styled.form`
   border: .04rem solid lightgray;
   border-radius: 10px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  background-color: #fff;
-  min-width: 35rem;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 3rem;
+  background: #fff;
+  min-width: 32rem;
   min-height: 20rem;
-  padding: 2.5rem;
-  grid-gap: .5rem;
+  padding: 3rem;
+  grid-gap: 1.2rem;
   textarea {
-    width: 100%;
+    border: .09rem solid #eee;
+    background-color: #fff;
     min-height: 23.4rem;
     grid-column: 1/-1;
+    grid-row: 1/2;
     resize: none;
-  }
-  input[type="submit"] {
-    grid-column: 1/2;
-    border: .3rem solid var(--primary-color);
-    border-radius: 8px;
-    background: transparent;
-    color: var(--primary-color);
-    &:hover {
-      background-color: var(--primary-color);
-      cursor: pointer;
-      color: #fff;
-    }
+    padding: 1rem;
+    color: #718093;
   }
   .cancel-btn {
-    grid-column: 2/3;
+    grid-column: 3/4;
     border: none;
-    border-radius: 8px;
+    font-size: 1.7rem;
     color: gray;
     background: none;
-    border: .3rem solid gray;
+    text-decoration-line: underline;
+
     cursor: pointer;
     &:hover {
-      text-decoration-line: underline;
+      color: #000;
     }
   }
 `;
@@ -59,9 +61,8 @@ const EditNoteForm: React.FC<Props> = ({  submit, note, handleChange, cancel, is
         e.preventDefault();
         submit(note)
       }}>
-        <label htmlFor="note"></label>
-        <textarea value={note} onChange={handleChange}/>
-        <input type="submit" value="Save"/>
+        <textarea value={note} onChange={handleChange} autoFocus />
+        <SubmitBtn as="input" btnType="filled" type="submit" value="Save"/>
         <button className="cancel-btn" onClick={cancel}>Cancel</button>
       </StyledForm>
     </Modal>
