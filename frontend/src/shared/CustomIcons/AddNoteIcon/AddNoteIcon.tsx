@@ -29,6 +29,7 @@ const AddNoteIcon = () => {
         fill="transparent"
         strokeLinecap="round"
         strokeLinejoin="round"
+        stroke="rgb(101, 119, 134)"
         strokeWidth="6">
       <path
         id="outline"
@@ -52,7 +53,7 @@ const AddNoteIcon = () => {
       <line x1="45" y1="30" x2="60" y2="30"/>
       <line x1="25" y1="47" x2="60" y2="47"/>
       <line x1="25" y1="65" x2="45" y2="65"/>
-      <circle cx="75" cy="76" r="21" stroke="none" />
+      <circle cx="75" cy="76" r="21" stroke="none" fill="rgb(101, 119, 134)" />
       <path
         stroke="#fff"
         fill="none"

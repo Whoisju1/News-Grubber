@@ -26,6 +26,7 @@ const TrashIcon : React.FC<Props> = ({ preserveAspectRatio }) => {
         strokeWidth="6"
         strokeLinecap="round"
         strokeLinejoin="round"
+        stroke="rgb(101, 119, 134)"
         fill="transparent">
         <path
           id="cover"
