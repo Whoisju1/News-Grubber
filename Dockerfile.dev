@@ -8,6 +8,6 @@ RUN npm i
 
 COPY . .
 
-RUN npm run build
+RUN ls node_modules/ | grep nodemon
 
-CMD ["npm", "run", "serve"]
+CMD [ "npm", "run", "serve" ]

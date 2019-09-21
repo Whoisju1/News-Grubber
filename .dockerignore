@@ -5,4 +5,7 @@
 node_modules
 tests
 public
-frontend
+!frontend
+frontend/node_modules
+test
+fe/node_modules

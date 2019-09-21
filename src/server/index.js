@@ -23,8 +23,6 @@ app.use(morgan('tiny'));
 app.use(helmet());
 app.use(json());
 
-// app.use(express.static(path.resolve(__dirname, 'public')));
-
 // import routes
 app.use('/api/auth', authRoutes);
 app.use('/api/articles/scrapped', newArticles);
@@ -35,6 +33,11 @@ app.use(
   articleRoutes
 );
 app.use('/api/notes', loginRequired, noteRoutes);
+
+// serve up static files, only when applications is running in a production environment
+if (process.env.NODE_ENV === 'production') {
+  app.all('*', express.static('public'));
+}
 
 // make middleware to handle routes without handlers
 app.use((_req, _res, next) => {
