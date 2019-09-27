@@ -1,0 +1,11 @@
+.eslint*
+.git
+*Dockerfile*
+*docker-compose*
+node_modules
+tests
+public
+!frontend
+frontend/node_modules
+test
+fe/node_modules

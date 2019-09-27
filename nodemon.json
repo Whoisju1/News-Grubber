@@ -1,4 +1,0 @@
-{
-  "watch": "./src/**/*.js",
-  "exec": "node -r @babel/register -r dotenv/config --inspect ./src"
-}

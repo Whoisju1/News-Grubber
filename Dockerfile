@@ -1,31 +1,19 @@
-FROM node:alpine AS builder
+FROM node:12 as client
 
 WORKDIR /client
 
-COPY /frontend/package.json .
-
-COPY  /frontend/package-lock.json .
-
-RUN npm i
-
-COPY /frontend .
+COPY ./client .
 
 RUN npm run build
 
 FROM node:12
 
-WORKDIR /news-grubber
+WORKDIR /api
 
-COPY --from=builder ./client/build ./public
-
-COPY ./package.json .
-
-COPY ./package-lock.json .
-
-RUN npm i
-
-COPY . .
+COPY ./api ./
 
 RUN npm run build
 
-CMD ["npm", "run", "start"]
+COPY --from=client /client/build ./public
+
+CMD [ "npm", "start" ]
