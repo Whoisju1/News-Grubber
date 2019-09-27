@@ -9,10 +9,5 @@
 #     volumes:
 #       - ./:/api
 #       - /node_modules
-#     # environment:
-#     #   NODE_ENV: production
-#     #   MONGODB_URI: mongodb://news-grubber-dev:uEeB2ndSwc8H7z5@ds231307.mlab.com:31307/news-grubber-dev
-#     #   SECRETE_KEY: CN4Y54NOM74H48G3THOQYN5YMLHT29PAPGCNJ356BY358MBGM4EPBSE4TMR4TJSE7RIMHKAM3TRO8TOETGHMT3P
-#     #   PORT: 5000
 #     env_file:
 #       - ./.env
