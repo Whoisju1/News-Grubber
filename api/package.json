@@ -39,13 +39,15 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.12",
     "morgan": "^1.9.1",
-    "request": "^2.88.0"
-  },
-  "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/register": "^7.5.5",
+    "regenerator-runtime": "^0.13.3",
+    "rimraf": "^2.6.3",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
     "@types/jest": "^24.0.13",
     "babel-jest": "^24.8.0",
     "eslint": "^5.16.0",
@@ -59,8 +61,6 @@
     "jest-extended": "^0.11.2",
     "nodemon": "^1.19.1",
     "prettier": "^1.17.1",
-    "regenerator-runtime": "^0.13.3",
-    "rimraf": "^2.6.3",
     "supertest": "^4.0.2",
     "watch": "^1.0.2"
   }

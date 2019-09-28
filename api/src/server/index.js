@@ -24,22 +24,27 @@ app.use(helmet());
 app.use(json());
 
 // import routes
-app.use('/auth', authRoutes);
-app.use('/articles/scrapped', newArticles);
+app.use('/api/auth', authRoutes);
+app.use('/api/articles/scrapped', newArticles);
 app.use(
-  '/articles/',
+  '/api/articles/',
   loginRequired,
   userMustExistMiddleware,
   articleRoutes
 );
-app.use('/notes', loginRequired, noteRoutes);
+app.use('/api/notes', loginRequired, noteRoutes);
 
 // make middleware to handle routes without handlers
-app.use((_req, _res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
+// app.use((_req, _res, next) => {
+//   const err = new Error('Not Found');
+//   err.status = 404;
+//   next(err);
+// });
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('public'));
+}
+
 
 app.use(errorHandler);
 
