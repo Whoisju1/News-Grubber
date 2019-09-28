@@ -35,16 +35,16 @@ app.use(
 );
 app.use('/api/notes', loginRequired, noteRoutes);
 
+if (config.nodeEnv === 'production') {
+  app.use(express.static('public'));
+}
+
 // make middleware to handle routes without handlers
 app.use((_req, _res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
-
-if (config.nodeEnv === 'production') {
-  app.use(express.static('public'));
-}
 
 app.use(errorHandler);
 
