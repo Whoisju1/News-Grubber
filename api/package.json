@@ -27,7 +27,6 @@
   "author": "Juan John-Charles",
   "license": "ISC",
   "dependencies": {
-    "@babel/polyfill": "^7.4.4",
     "bcrypt": "^3.0.6",
     "cheerio": "^1.0.0-rc.2",
     "concurrently": "^4.1.1",
@@ -39,12 +38,13 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.12",
     "morgan": "^1.9.1",
+    "regenerator-runtime": "^0.13.3",
+    "rimraf": "^2.6.3",
+    "@babel/polyfill": "^7.4.4",
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/register": "^7.5.5",
-    "regenerator-runtime": "^0.13.3",
-    "rimraf": "^2.6.3",
     "request": "^2.88.0"
   },
   "devDependencies": {

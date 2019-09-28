@@ -45,7 +45,6 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('public'));
 }
 
-
 app.use(errorHandler);
 
 export { app };
