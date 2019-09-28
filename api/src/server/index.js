@@ -14,6 +14,7 @@ import newArticles from '../routes/newArticles';
 // get middleware
 import errorHandler from '../handlers/error';
 import { loginRequired, userMustExistMiddleware } from '../middleware/auth';
+import config from '../config';
 
 const app = express();
 
@@ -35,13 +36,13 @@ app.use(
 app.use('/api/notes', loginRequired, noteRoutes);
 
 // make middleware to handle routes without handlers
-// app.use((_req, _res, next) => {
-//   const err = new Error('Not Found');
-//   err.status = 404;
-//   next(err);
-// });
+app.use((_req, _res, next) => {
+  const err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
 
-if (process.env.NODE_ENV === 'production') {
+if (config.nodeEnv === 'production') {
   app.use(express.static('public'));
 }
 
