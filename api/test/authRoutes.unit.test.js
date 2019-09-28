@@ -22,7 +22,7 @@ describe('authRoute', () => {
   describe('`createUser` function', () => {
     it('should return a status of `200`', async () => {
       const response = await request(app)
-        .post('/auth/signup')
+        .post('/api/auth/signup')
         .send(createdUserCredentials)
         .expect(200);
 
@@ -40,7 +40,7 @@ describe('authRoute', () => {
 
     it('should should not return the `password` along with the data', async () => {
       const response = await request(app)
-        .post('/auth/signup')
+        .post('/api/auth/signup')
         .send(createdUserCredentials)
         .expect(200);
 
@@ -49,7 +49,7 @@ describe('authRoute', () => {
 
     it('should return a valid token', async () => {
       const response = await request(app)
-        .post('/auth/signup')
+        .post('/api/auth/signup')
         .send(createdUserCredentials)
         .expect(200);
 
@@ -64,12 +64,12 @@ describe('authRoute', () => {
 
     it('should return an error if you try to sign up the same user twice', async () => {
       await request(app)
-        .post('/auth/signup')
+        .post('/api/auth/signup')
         .send(createdUserCredentials)
         .expect(200);
 
       const response = await request(app)
-        .post('/auth/signup')
+        .post('/api/auth/signup')
         .send(createdUserCredentials)
         .expect(400);
 
@@ -86,7 +86,7 @@ describe('authRoute', () => {
     describe('When user submits correct credentials', () => {
       it("should return the user's username, _id, and token", async () => {
         const response = await request(app)
-          .post('/auth/signin')
+          .post('/api/auth/signin')
           .send({
             username: user.username,
             password,
@@ -108,8 +108,8 @@ describe('authRoute', () => {
     describe('when wrong password is submitted', () => {
       it('should should return a status of 400 and the error message `User not found.`', async () => {
         const resp = await request(app)
-          .post('/auth/signin')
-          .send({ username: 'nonexistant_usernaem', password: user.password })
+          .post('/api/auth/signin')
+          .send({ username: 'nonexistent_username', password: user.password })
           .expect(400);
 
         const parsedResponse = JSON.parse(resp.text);
@@ -127,7 +127,7 @@ describe('authRoute', () => {
         const err = new Error('Invalid password.');
         err.status = 400;
         const resp = await request(app)
-          .post('/auth/signin')
+          .post('/api/auth/signin')
           .send({ username: user.username, password: 'wrong password' })
           .expect(400);
 
@@ -146,7 +146,7 @@ describe('authRoute', () => {
     it('should return the user', async () => {
       const token = createToken(user);
       const response = await request(app)
-        .get('/auth/user')
+        .get('/api/auth/user')
         .set('authorization', `Bearer ${token}`)
         .expect(200);
 

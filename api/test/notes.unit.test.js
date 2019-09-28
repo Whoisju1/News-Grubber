@@ -20,7 +20,7 @@ describe('notes routes', () => {
   describe('Route for adding a note', () => {
     it('should return the added note', async () => {
       const raw = await request(app)
-        .post(`/notes?article_id=${article._id}`)
+        .post(`/api/notes?article_id=${article._id}`)
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
         .send({ note: newNote })
@@ -35,7 +35,7 @@ describe('notes routes', () => {
   describe('Route for editing a note', () => {
     it('should return the edited note', async () => {
       const rawNote = await request(app)
-        .post(`/notes?article_id=${article._id}`)
+        .post(`/api/notes?article_id=${article._id}`)
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
         .send({ note: newNote })
@@ -44,7 +44,7 @@ describe('notes routes', () => {
       const savedNote = JSON.parse(rawNote.text);
 
       const raw = await request(app)
-        .put(`/notes/${savedNote._id}?article_id=${article._id}`)
+        .put(`/api/notes/${savedNote._id}?article_id=${article._id}`)
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
         .send({ note: { body: 'This note is edited' } })
@@ -68,7 +68,7 @@ describe('notes routes', () => {
       expect(savedNote.body).toBe(noteToDelete.body);
 
       const raw = await request(app)
-        .delete(`/notes/${savedNote._id}?article_id=${article._id}`)
+        .delete(`/api/notes/${savedNote._id}?article_id=${article._id}`)
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
         .expect(200);
@@ -92,7 +92,7 @@ describe('notes routes', () => {
 
       // FETCH CREATED NOTE
       const raw = await request(app)
-        .get(`/notes/${savedNote._id}?article_id=${article._id}`)
+        .get(`/api/notes/${savedNote._id}?article_id=${article._id}`)
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
         .expect(200);

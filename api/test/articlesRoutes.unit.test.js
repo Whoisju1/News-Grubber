@@ -28,7 +28,7 @@ describe('Article Routes', () => {
     let response;
     beforeEach(async () => {
       const raw = await request(app)
-        .get(`/articles/${article._id}`)
+        .get(`/api/articles/${article._id}`)
         .set('authorization', `Bearer ${token}`)
         .expect(200);
 
@@ -50,7 +50,7 @@ describe('Article Routes', () => {
   describe('save article route', () => {
     it('should return saved article', async () => {
       const response = await request(app)
-        .post('/articles')
+        .post('/api/articles')
         .set('authorization', `Bearer ${token}`)
         .send(newArticle)
         .expect(200);
@@ -67,7 +67,7 @@ describe('Article Routes', () => {
     let response;
     beforeEach(async () => {
       const raw = await request(app)
-        .get('/articles')
+        .get('/api/articles')
         .set('authorization', `Bearer ${token}`)
         .expect(200);
 
@@ -94,7 +94,7 @@ describe('Article Routes', () => {
   describe('Delete article', () => {
     it('should delete the article for the id passed in', async () => {
       const res = await request(app)
-        .delete(`/articles/${article._id}`)
+        .delete(`/api/articles/${article._id}`)
         .set('authorization', `Bearer ${token}`)
         .expect(200);
       const parsedResponse = JSON.parse(res.text);
@@ -114,7 +114,7 @@ describe('Article Routes', () => {
       const savedNotes = savedArticle.notes;
 
       const raw = await request(app)
-        .get(`/articles/${article._id}/notes`)
+        .get(`/api/articles/${article._id}/notes`)
         .set('authorization', `Bearer ${token}`)
         .expect(200);
 
