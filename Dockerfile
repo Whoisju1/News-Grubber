@@ -11,7 +11,7 @@ COPY ./client .
 
 RUN npm run build
 
-FROM node:12
+FROM node:12-alpine
 
 WORKDIR /api
 
@@ -21,6 +21,8 @@ COPY ./client/package-lock.json .
 RUN npm install
 
 COPY ./api ./
+
+RUN npm install @babel/cli @babel/core @babel/preset-env @babel/register
 
 RUN npm run build
 
