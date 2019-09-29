@@ -114,11 +114,14 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
         dispatch({
           type: 'LOGIN',
           data,
-        });
+        })
         setIsLoggedIn(true);
         notify({
           body: `${data.username} signed in`
         });
+      })
+      .catch((e) => {
+        console.dir(e);
       });
     },
     signup: (body) => {
