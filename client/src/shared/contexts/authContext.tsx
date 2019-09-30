@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer, useState, useEffect } from 'react'
 import { NotificationCtx } from './notificationCtx';
+import { signIn } from '../../utils/requests';
 
 export interface UserCredentials { username: string; password: string };
 export interface User {
@@ -100,16 +101,9 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
         body: 'Logged Out'
       });
     },
-    signin: (body) => {
-      fetch('/api/auth/signin', {
-        body: JSON.stringify(body),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-      })
-      .then(res => res.json())
-      .then(data => {
+    signin: async (body) => {
+      try {
+        const data = await signIn(body);
         tokenManager.setToken(data.token);
         dispatch({
           type: 'LOGIN',
@@ -119,10 +113,11 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
         notify({
           body: `${data.username} signed in`
         });
-      })
-      .catch((e) => {
-        console.dir(e);
-      });
+      } catch (error) {
+        console.log(error);
+        console.log(error.message);
+        notify(error.message);
+      }
     },
     signup: (body) => {
       fetch('/api/auth/signup', {

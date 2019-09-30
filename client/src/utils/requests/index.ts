@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { IArticle } from '../../shared/contexts/savedArticlesContext';
 
+export interface UserCredentials { username: string; password: string };
+
+
+export interface User {
+  _id: '',
+  token: '',
+  username: '',
+}
+
 export const useFetch = <T>(url: string, initialState: T): T => {
   const [state, setState] = useState<T>(initialState);
   useEffect(() => {
@@ -121,4 +130,24 @@ export const addArticle = async (article: IArticle) => {
       throw new Error(savedArticle.error.message);
     }
     return savedArticle as IArticle;
+}
+
+export const signIn = async (body: UserCredentials): Promise<User> => {
+  const data = await fetch('/api/auth/signin', {
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+  });
+  const newUser = await data.json();
+
+  if (data.status === 400) {
+    const { message = null } = newUser.error;
+    const errorMsg = message || 'Something went wrong.'
+    const err = new Error(errorMsg);
+    throw err;
+  }
+
+  return newUser;
 }

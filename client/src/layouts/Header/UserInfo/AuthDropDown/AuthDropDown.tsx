@@ -36,11 +36,6 @@ const AuthDropDown = () => {
   const { user, unregister, logout } = useContext(AuthContext);
   const [showSignUpModal, setShowSignUpModal] = useState(false);
 
-  const menuItems = [
-    <MenuItem key={'323'} onClick={logout}>Sign Out</MenuItem>,
-    <MenuItem key={'3a2'} onClick={unregister}>Unregister</MenuItem>,
-  ];
-
   const Head = (
     <StyledHead>
       <span className="username">{user ? user.username : null}</span>
@@ -52,7 +47,8 @@ const AuthDropDown = () => {
     <>
       <SignUpModal isShown={showSignUpModal} hide={() => setShowSignUpModal(false)} />
       <DropDown Head={Head}>
-        {menuItems}
+      <MenuItem onClick={logout}>Sign Out</MenuItem>,
+      <MenuItem onClick={unregister}>Unregister</MenuItem>
       </DropDown>
     </>
   );

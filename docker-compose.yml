@@ -5,8 +5,8 @@ services:
       context: ./api
       dockerfile: Dockerfile.dev
     volumes:
-      - ./api:/app
-      - /api/node_modules
+      - ./api:/api
+      - ./api/node_modules
     env_file:
       - ./api/.env
     environment:
@@ -17,7 +17,7 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./client/node_modules
-      - ./client:/app
+      - ./client:/client
   nginx:
     build:
       context: ./nginx
