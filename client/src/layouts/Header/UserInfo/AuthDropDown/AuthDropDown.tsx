@@ -47,7 +47,7 @@ const AuthDropDown = () => {
     <>
       <SignUpModal isShown={showSignUpModal} hide={() => setShowSignUpModal(false)} />
       <DropDown Head={Head}>
-      <MenuItem onClick={logout}>Sign Out</MenuItem>,
+      <MenuItem onClick={logout}>Sign Out</MenuItem>
       <MenuItem onClick={unregister}>Unregister</MenuItem>
       </DropDown>
     </>
