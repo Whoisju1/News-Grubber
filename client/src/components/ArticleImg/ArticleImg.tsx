@@ -10,12 +10,25 @@ const fadeIn = keyframes`
   }
 `;
 
-interface StyledProps {
+const Img = styled.img`
+  transition: all .1s linear;
+  width: 10rem;
+  &:hover {
+    filter: brightness(.5) blur(.2px);
+    transform: scale(1.3);
+    background-size: 150%;
+    height: auto;
+    position: relative;
+    object-fit: cover;
+  }
+`;
+
+interface StyledWrapperProps {
   hoverText: string;
   className?: string;
 }
 
-const ImageWrapper = styled.div<StyledProps>`
+const ImageWrapper = styled.div<StyledWrapperProps>`
   grid-column: 1/2;
   grid-row: 1/ span 3;
   display: inline-block;
@@ -45,17 +58,6 @@ const ImageWrapper = styled.div<StyledProps>`
     height: 100%;
     z-index: 2;
   }
-  & img {
-    transition: all .1s linear;
-    width: 10rem;
-    &:hover {
-      filter: brightness(.5) blur(.2px);
-      transform: scale(1.3);
-      background-size: 150%;
-      height: auto;
-      position: relative;
-    }
-  }
 `;
 
 interface Props {
@@ -68,7 +70,7 @@ interface Props {
 const ArticleImg: React.FC<Props> = ({ src, alt, hoverText, className }) => {
   return (
     <ImageWrapper hoverText={hoverText} className={className}>
-      <img src={src} alt={alt} />
+      <Img src={src} alt={alt} />
     </ImageWrapper>
   );
 };
