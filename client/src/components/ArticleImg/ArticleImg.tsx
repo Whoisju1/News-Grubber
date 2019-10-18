@@ -38,6 +38,8 @@ const ImageWrapper = styled.div<StyledWrapperProps>`
   transition: all .1s ease-out .6s;
   border: .04rem solid #ccc;
   border-radius: 2px;
+  height: 10rem;
+  width: 10rem;
   &:hover::before {
     animation: ${fadeIn} .3s both linear;
     content: "${({ hoverText }) => hoverText}";

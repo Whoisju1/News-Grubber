@@ -1,26 +1,53 @@
 import React, { useContext } from 'react'
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import SaveBtn from './SaveBtn';
 import { IArticle } from '../../../shared/contexts/scrappedArticlesContext';
 import { AuthContext } from '../../../shared/contexts/authContext';
 import { SavedArticlesCtx } from '../../../shared/contexts/savedArticlesContext';
 import { NotificationCtx } from '../../../shared/contexts/notificationCtx';
 import ArticleImg from '../../../components/ArticleImg';
+import { Title, SubTitle } from '../../../shared/StyledElements/Heading';
 
-const appear = keyframes`
-  0% {
-    opacity: 0;
+const Info = styled.div`
+  grid-row-gap: .1rem;
+  grid-column: 2/3;
+  height: 100%;
+  ${Title} {
+    text-align: justify;
   }
-  100% {
-    opacity: 1;
+  a,
+  a:link,
+  a:visited,
+  a:active {
+    text-decoration: none;
+    &:hover {
+      text-decoration-color: var(--primary-color);
+      text-decoration-line: underline;
+    }
+  }
+
+  a.author {
+    color: #777777;
+    text-decoration-line: underline;
+    margin-top: 1rem;
+  }
+  p {
+    color: #777777;
+    font-size: 1.3rem;
+    display: grid;
+    color: gray;
+    grid-auto-flow: column;
+    grid-column-gap: .5rem;
+    justify-content: left;
+    margin-top: .3rem;
   }
 `;
 
 const StyledArticle = styled.div`
   grid-column: 2/12;
   display: grid;
-  grid-template-columns: min-content 1fr 8rem;
-  grid-template-rows: max-content 2.5rem;
+  grid-template-columns: max-content 1fr 8rem;
+  grid-template-rows: minmax(10rem, 1fr);
   padding-bottom: 1.2rem;
   grid-column-gap: 3rem;
   &:not(:last-child) {
@@ -28,16 +55,15 @@ const StyledArticle = styled.div`
   }
 
   & .article-img {
-    grid-column: 1/2;
-    grid-row: 1/2;
     position: relative;
+    width: 10rem;
+    height: 10rem;
   }
 
   button {
-    grid-column: 3/4;
-    grid-row: -2/-1;
+    height: 2.5rem;
+    align-self: end;
   }
-
 
   .link--img-wrapper {
     display: contents;
@@ -51,40 +77,21 @@ const StyledArticle = styled.div`
     color: #333333;
   }
 
-  div.info {
-    grid-row-gap: .1rem;
-    h1 {
-      font-size: 2.1rem;
-      font-weight: 600;
+  @media screen and (max-width: 791px){
+    grid-row-gap: 1rem;
+    ${Info} {
+      grid-column: span 2;
     }
-    a,
-    a:link,
-    a:visited,
-    a:active {
-      text-decoration: none;
-      &:hover {
-        text-decoration-color: var(--primary-color);
-        text-decoration-line: underline;
-      }
+    button {
+      grid-column: 2/ -1;
     }
-    h2 {
-      font-size: 1.7rem;
-      color: #555555;
+  }
+  @media screen and (max-width: 591px){
+    ${Info} {
+      grid-column: span 2;
     }
-    a.author {
-      color: #777777;
-      text-decoration-line: underline;
-      margin-top: 1rem;
-    }
-        p {
-      color: #777777;
-      font-size: 1.3rem;
-      display: grid;
-      color: gray;
-      grid-auto-flow: column;
-      grid-column-gap: .5rem;
-      justify-content: left;
-      margin-top: .3rem;
+    button {
+      grid-column: 1/ -1;
     }
   }
 `;
@@ -111,17 +118,17 @@ function Article(props: IArticle) {
       <a href={url} target="_blank" rel="noopener noreferrer" className="link--img-wrapper">
         <ArticleImg src={image} alt="article thumbnail" hoverText="View Article" />
       </a>
-      <div className="info">
+      <Info>
         <a href={url} target="_blank" rel="noopener noreferrer">
-          <h1>{title}</h1>
-          <h2>{subTitle}</h2>
+          <Title>{title}</Title>
+          <SubTitle>{subTitle}</SubTitle>
         </a>
         <a href={author.authorInfo} target="_blank" rel="noopener noreferrer" className="author">{author.name}</a>
         <p>
           {publicationDate.date && <span className="date">{publicationDate.date}</span>}
           {publicationDate.date && <span className="time">{publicationDate.time}</span>}
         </p>
-      </div>
+      </Info>
       <SaveBtn click={saveArticle}>Save</SaveBtn>
     </StyledArticle>
   )
