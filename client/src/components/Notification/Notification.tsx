@@ -27,6 +27,7 @@ const Msg = styled.div<{ duration: number }>`
   letter-spacing: .1rem;
   word-spacing: .2rem;
   animation: ${fadeInAndOut} ${(props) => props.duration}s both ease-out;
+  z-index: 10000;
 `;
 
 

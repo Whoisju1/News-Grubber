@@ -18,7 +18,7 @@ function Main() {
         <Switch>
           <Route exact path="/" component={Articles} />
           <Route exact path="/articles" component={SavedArticles} />
-          <Route exact path="/about" components={About} />
+          <Route exact path="/about" component={About} />
         </Switch>
       </StyledMain>
     </ScrappedArticlesProvider>

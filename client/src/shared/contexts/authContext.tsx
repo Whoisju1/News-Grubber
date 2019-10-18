@@ -114,9 +114,10 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
           body: `${data.username} signed in`
         });
       } catch (error) {
-        console.log(error);
-        console.log(error.message);
-        notify(error.message);
+        const { message: body } = error;
+        notify({
+          body
+        });
       }
     },
     signup: (body) => {
