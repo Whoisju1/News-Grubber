@@ -19,9 +19,13 @@ const StyledSvg = styled(Svg)`
   }
 `;
 
-const AddNoteIcon = () => {
+interface Props {
+  preserveAspectRatio?: string;
+}
+
+const AddNoteIcon: React.FC<Props> = ({ preserveAspectRatio = 'xMinYMid meet' }) => {
   return (
-    <StyledSvg viewBox="0 0 100 100" preserveAspectRatio="xMinYMid meet">
+    <StyledSvg viewBox="0 0 100 100" preserveAspectRatio={preserveAspectRatio}>
       <title>Add Note</title>
       <symbol
         id="note-pad"
