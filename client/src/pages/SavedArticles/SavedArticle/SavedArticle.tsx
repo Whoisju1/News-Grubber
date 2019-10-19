@@ -9,6 +9,7 @@ import { SavedArticlesCtx } from '../../../shared/contexts/savedArticlesContext'
 import Notes from './Notes';
 import { NotesCtx } from '../../../shared/contexts/notesContext';
 import ArticleImg from '../../../components/ArticleImg';
+import { Title, SubTitle } from '../../../shared/StyledElements/Heading';
 
 const fadeDown = keyframes`
   0% {
@@ -31,6 +32,15 @@ const expand = keyframes`
     opacity: 1;
 
   }
+`;
+
+const Info = styled.div`
+  grid-column: span 9;
+  align-content: start;
+  display: grid;
+  grid-row-gap: .5rem;
+  grid-row: 1/-1;
+  grid-auto-flow: row;
 `;
 
 interface StyledProps {
@@ -60,26 +70,7 @@ const StyledContainer = styled.div<StyledProps>`
     color: var(--text-color__main);
   }
 
-  .heading {
-    grid-column: 2/13;
-    display: grid;
-    grid-gap: .1rem;
-    h1 {
-      font-size: 2.1rem;
-      font-weight: 600;
-    }
-    h2 {
-      font-size: 1.8rem;
-    }
-    border-bottom: 2rem;
-  }
-  .author {
-    grid-column: 2/5;
-  }
   .date {
-    display: inline-grid;
-    align-items: center;
-    grid-column: 2/5;
     font-size: 1.2rem;
     justify-content: start;
   }
@@ -92,9 +83,9 @@ const StyledContainer = styled.div<StyledProps>`
 
   .article-buttons {
     grid-column: 11/13;
-    grid-row: 3/4;
     grid-gap: 2rem;
     display: grid;
+    align-content: stretch;
     justify-content: right;
     grid-template-columns: repeat(auto-fit, minmax(1rem, 3rem));
     min-width: 5rem;
@@ -163,7 +154,6 @@ interface ModalRegistry {
   [x: string]: boolean;
 }
 
-
 const SavedArticle: React.FC<Props> = (props) => {
   const deleteModalId = `${DeleteModal.name}-${props._id}`;
   const addNoteModalId = `${AddNotesModal.name}-${props._id}`;
@@ -201,29 +191,31 @@ const SavedArticle: React.FC<Props> = (props) => {
         <a className="image" href={props.url} target="_blank" rel="noopener noreferrer">
           <ArticleImg hoverText="View Article" src={props.image} alt="article pic"/>
         </a>
-        <a className="heading" href={props.url} target="_blank" rel="noopener noreferrer">
-          <h1 className="title">{props.title}</h1>
-          <h2 className="subtitle">{props.subTitle}</h2>
-        </a>
-        <a href={props.author.authorInfo} className="author" target="_blank" rel="noopener noreferrer">{props.author.name}</a>
-        <div className="date">{date} {time}</div>
-        {
-          hasNotes &&
-          <div onClick={() => setNotesShown(!notesShown)} className="view-notes" title="View Notes">
-              <DownIcon preserveAspectRatio="xMinYMid meet" />
-              { !notesShown ? 'View Notes' : 'Hide Notes'}
-          </div>
-        }
-        <div className="article-buttons">
+        <Info>
+          <a className="heading" href={props.url} target="_blank" rel="noopener noreferrer">
+            <Title>{props.title}</Title>
+            <SubTitle>{props.subTitle}</SubTitle>
+          </a>
+          <a href={props.author.authorInfo} className="author" target="_blank" rel="noopener noreferrer">{props.author.name}</a>
+          <div className="date">{date} {time}</div>
+        </Info>
+          {
+            hasNotes &&
+            <div onClick={() => setNotesShown(!notesShown)} className="view-notes" title="View Notes">
+                <DownIcon preserveAspectRatio="xMinYMid meet" />
+                { !notesShown ? 'View Notes' : 'Hide Notes'}
+            </div>
+          }
+          <div className="article-buttons">
           <ArticleBtn click={addNoteModalManager.show} title="Add note about article">
-            <AddNoteIcon />
+            <AddNoteIcon preserveAspectRatio="xMaxYMid meet" />
           </ArticleBtn>
           <ArticleBtn click={deleteModalManager.show} title="Delete this article">
-            <TrashIcon preserveAspectRatio="xMidYMid" />
+            <TrashIcon preserveAspectRatio="xMaxYMid meet" />
           </ArticleBtn>
         </div>
-        { notesShown && <Notes /> }
       </StyledContainer>
+      { notesShown && <Notes /> }
       {
         deleteModalManager.isShown
           ? <DeleteModal
