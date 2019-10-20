@@ -35,12 +35,11 @@ const expand = keyframes`
 `;
 
 const Info = styled.div`
-  grid-column: span 9;
   align-content: start;
   display: grid;
   grid-row-gap: .5rem;
-  grid-row: 1/-1;
   grid-auto-flow: row;
+  grid-area: info;
 `;
 
 interface StyledProps {
@@ -50,16 +49,16 @@ interface StyledProps {
 
 const StyledContainer = styled.div<StyledProps>`
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(4, max-content);
+  grid-template-columns: max-content auto 7rem;
   grid-auto-rows: min-content;
   grid-gap: 1rem;
-  grid-column-gap: 3rem;
+  grid-column-gap: 1.5rem;
   padding-bottom: 1rem;
-
+  grid-template-areas:
+    "img info icons"
+    "view-notes . .";
   .image {
-    grid-column: 1/2;
-    grid-row: 1/ span 3;
+    grid-area: img;
   }
 
   a,
@@ -82,14 +81,15 @@ const StyledContainer = styled.div<StyledProps>`
   }
 
   .article-buttons {
-    grid-column: 11/13;
+    grid-area: icons;
     grid-gap: 2rem;
     display: grid;
     align-content: stretch;
     justify-content: right;
     grid-template-columns: repeat(auto-fit, minmax(1rem, 3rem));
-    min-width: 5rem;
+    min-width: 9rem;
   }
+
   :not(:last-child) {
     border-bottom: .04rem solid lightgray;
   }
@@ -97,8 +97,7 @@ const StyledContainer = styled.div<StyledProps>`
   .view-notes {
     display: grid;
     grid-template-columns: 2rem 1fr;
-    grid-column: 1/2;
-    grid-row: -2/-1;
+    grid-area: view-notes;
     font-family: sans-serif;
     cursor: pointer;
     color: #999;
@@ -107,6 +106,7 @@ const StyledContainer = styled.div<StyledProps>`
     align-items: center;
     justify-content: center;
     font-weight: 600;
+    height: 1.4rem;
     & svg {
       stroke: #999;
     }
@@ -144,6 +144,21 @@ const StyledContainer = styled.div<StyledProps>`
           animation: ${expand} .5s ease-out;
         `
       : ''
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+    & {
+      grid-template-areas:
+        "img info info"
+        "view-notes icons icons";
+    }
+    .article-buttons {
+      justify-content: left;
+      grid-column-gap: 5rem;
+      & svg {
+        width: 2.4rem;
+      }
     }
   }
 `;
