@@ -21,6 +21,16 @@ const GlobalStyles = createGlobalStyle`
   *::after {
     box-sizing: inherit;
   }
+  * {
+      &::selection {
+        background-color: #e95a4b;
+        color: #FFF;
+      }
+      &::-moz-selection {
+        background-color: #e95a4b;
+        color: #FFF;
+      }
+    }
   body {
     display: grid;
     border: 0;
