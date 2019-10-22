@@ -15,6 +15,9 @@ const GlobalStyles = createGlobalStyle`
     --main-grid: [full-left left-start] 5rem [left-end center-start]  repeat(8, [col-start] 1fr [col-end]) [center-end right-start] 5rem [right-end full-right];
     --light-border: .4px solid #eee;
     --text-color__main: #333333;
+    @media screen and (max-width: 1181px) {
+      --main-grid: [full-left left-start] .5rem [left-end center-start]  repeat(8, [col-start] 1fr [col-end]) [center-end right-start] .5rem [right-end full-right];
+    }
   }
   *,
   *::before,
@@ -37,17 +40,22 @@ const GlobalStyles = createGlobalStyle`
     padding: 0;
     font-size: 1.6rem;
     color: var(--text-color__main);
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
 
     /* Set dimensions */
-    min-width: 100vw;
     min-height: 100vh;
 
     background-image: var(--bg1);
     grid-template-columns: var(--main-grid);
     grid-template-rows: 5rem  8rem auto;
 
-    grid-gap: 2rem;
+    grid-row-gap: 2rem;
+    @media screen and (max-width: 1181px) {
+      grid-template-rows: 5rem  8rem auto;
+    }
+    @media screen and (max-width: 985px) {
+      grid-row-gap: 0rem;
+    }
   }
 `;
 

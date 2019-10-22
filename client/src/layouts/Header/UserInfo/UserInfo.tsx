@@ -8,6 +8,7 @@ import LoggedOut from './LoggedOut';
 
 const StyledUserInfo = styled.div`
   /* ... */
+  grid-area: user;
 `;
 
 function UserInfo() {

@@ -42,12 +42,19 @@ const StyledLink = styled(NavLink)`
 `;
 
 const StyledNav = styled.nav`
+  grid-area: nav;
   text-decoration: none;
   display: grid;
-  justify-content: center;
-  grid-gap: 4rem;
+  justify-content: space-evenly;
   grid-auto-flow: column;
   align-items: center;
+  min-width: 32rem;
+  @media screen and (max-width: 500px) {
+    & {
+      justify-content: space-between;
+      padding: 0 1.5rem;
+    }
+  }
 `;
 
 function Nav() {

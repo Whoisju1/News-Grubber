@@ -9,6 +9,8 @@ const Div = styled.div`
   background-color: var(--primary-color);
   color: #ffffff;
   font-size: 200%;
+  padding: 1rem;
+  grid-area: logo;
 `;
 
 function Logo() {
