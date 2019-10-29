@@ -18,6 +18,9 @@ const GlobalStyles = createGlobalStyle`
     @media screen and (max-width: 1181px) {
       --main-grid: [full-left left-start] .5rem [left-end center-start]  repeat(8, [col-start] 1fr [col-end]) [center-end right-start] .5rem [right-end full-right];
     }
+    @media screen and (max-width: 540px){
+      --main-grid: [full-left left-start] 0rem [left-end center-start]  repeat(8, [col-start] 1fr [col-end]) [center-end right-start] 0rem [right-end full-right];
+    }
   }
   *,
   *::before,

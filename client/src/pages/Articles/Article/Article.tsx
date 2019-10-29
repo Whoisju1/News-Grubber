@@ -13,7 +13,7 @@ const Info = styled.div`
   grid-column: 2/3;
   height: 100%;
   ${Title} {
-    text-align: justify;
+    /* text-align: justify; */
   }
   a,
   a:link,
@@ -78,7 +78,7 @@ const StyledArticle = styled.div`
   }
 
   @media screen and (max-width: 791px){
-    grid-row-gap: 1rem;
+    grid-row-gap: .5rem;
     ${Info} {
       grid-column: span 2;
     }
@@ -92,6 +92,14 @@ const StyledArticle = styled.div`
     }
     button {
       grid-column: 1/ -1;
+    }
+  }
+  @media screen and (max-width: 540px){
+    grid-column-gap: 1rem;
+    grid-column: 1/-1;
+    margin: 0 .8rem;
+    ${SubTitle} {
+      margin-bottom: .3rem;
     }
   }
 `;

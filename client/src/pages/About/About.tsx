@@ -5,7 +5,8 @@ const StyledAbout = styled.article`
   grid-column: 1/-1;
   grid-row: 1/-1;
   display: grid;
-  grid-template-columns: minmax(0rem, 20rem) auto minmax(0rem, 20rem);
+  grid-template-columns: calc(100vw - 96%) 1fr calc(100vw - 96%);
+  word-wrap: break-word;
   &::selection {
     background-color: var(--primary-color);
   }

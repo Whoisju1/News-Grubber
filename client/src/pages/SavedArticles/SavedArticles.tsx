@@ -16,6 +16,17 @@ const Section = styled.div`
   & > * {
     grid-column: 2/12;
   }
+  @media screen and (max-width: 690px) {
+    & {
+    padding: .5rem 0;
+    }
+  }
+
+  @media screen and (max-width: 540px){
+    & > * {
+    grid-column: 1/-1;
+  }
+  }
 `;
 
 const SavedArticles: React.FC = () => {
