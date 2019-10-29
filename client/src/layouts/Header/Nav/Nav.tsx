@@ -55,6 +55,15 @@ const StyledNav = styled.nav`
       padding: 0 1.5rem;
     }
   }
+  @media screen and (max-width: 985px) {
+    ${StyledLink} {
+      color: var(--text-color__main);
+      text-shadow: 0 0 1rem rgba(0, 0, 0, .2);
+      &.active {
+        color: var(--primary-color);
+      }
+    }
+  }
 `;
 
 function Nav() {
