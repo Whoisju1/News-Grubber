@@ -1,6 +1,5 @@
 .eslint*
 .git
 node_modules
-tests
 public
 test

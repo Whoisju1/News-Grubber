@@ -20,9 +20,9 @@ const app = express();
 
 // enable cors
 app.use(cors());
-app.use(morgan('tiny'));
 app.use(helmet());
 app.use(json());
+app.use(morgan('tiny'));
 
 // import routes
 app.use('/api/auth', authRoutes);

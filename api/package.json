@@ -13,9 +13,8 @@
     "eslint-check": "eslint --print-config . | eslint-config-prettier-check",
     "lint": "echo '...Linting' && eslint src --fix && echo 'Linting Complete'",
     "watch": "watch \"echo '...Linting' && eslint src --fix && echo 'Linting Complete'\" src",
-    "test:unit": "npx envinfo --preset jest --runInBand",
-    "test:unit:w": "jest --watch --runInBand",
-    "test:react": "cd ./frontend && npx cross-env CI=true react-scripts test --env=jsdom"
+    "test:unit": "jest --runInBand --forceExit --detectOpenHandles",
+    "test:unit:w": "jest --watchAll --runInBand"
   },
   "author": "Juan John-Charles",
   "license": "ISC",

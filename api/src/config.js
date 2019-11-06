@@ -23,6 +23,8 @@ const config = {
 };
 
 // set node environment for all options in the config object
-Object.keys(config).forEach(key => (config[key].nodeEnv = key));
+Object.keys(config).forEach(key => {
+  config[key].nodeEnv = key;
+});
 
 export default config[env];

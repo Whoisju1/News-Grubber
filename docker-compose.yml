@@ -27,3 +27,15 @@ services:
     depends_on:
       - client
       - api
+  # test-api:
+  #   build:
+  #     context: ./api
+  #     dockerfile: Dockerfile.dev
+  #   command: npm run test:unit:w
+  #   volumes:
+  #     - ./api:/api-test
+  #     - ./api/node_modules
+  #   env_file:
+  #     - ./api/.env
+  #   environment:
+  #     NODE_ENV: test
