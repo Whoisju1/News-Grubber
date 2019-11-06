@@ -7,6 +7,7 @@ services:
   - docker
 
 before_script:
+  - chmod 444 ./run_tests.sh
   - ./run_tests.sh
 
 deploy:
