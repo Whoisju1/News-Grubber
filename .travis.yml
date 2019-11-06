@@ -7,8 +7,10 @@ services:
   - docker
 
 before_script:
-  - chmod 777 ./run_tests.sh
-  - ./run_tests.sh
+  - echo "----- Running backend tests -----"
+  - docker-compose -p api-tests run --rm api npm run test:unit
+  - echo "----- Running frontend tests -----"
+  - docker-compose -p client-tests run --rm client npm run test:unit
 
 deploy:
   provider: heroku
