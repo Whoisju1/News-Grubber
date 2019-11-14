@@ -16,8 +16,8 @@ script:
   - docker-compose -p client-tests run --rm client npm run test:unit
 
 after_success:
-  - docker image build -t whoisju1/news-grubber-api -f ./api
-  - docker image build -t whoisju1/news-grubber-client -f ./client
+  - docker image build -t whoisju1/news-grubber-api ./api
+  - docker image build -t whoisju1/news-grubber-client ./client
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker image push whoisju1/news-grubber-api
   - docker image push whoisju1/news-grubber-client
