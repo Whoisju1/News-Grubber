@@ -1,0 +1,41 @@
+version: '3'
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./api:/api
+      - ./api/node_modules
+    env_file:
+      - ./api/.env
+    environment:
+      NODE_ENV: development
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./client/node_modules
+      - ./client:/client
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    ports:
+    - '3000:80'
+    depends_on:
+      - client
+      - api
+  # test-api:
+  #   build:
+  #     context: ./api
+  #     dockerfile: Dockerfile.dev
+  #   command: npm run test:unit:w
+  #   volumes:
+  #     - ./api:/api-test
+  #     - ./api/node_modules
+  #   env_file:
+  #     - ./api/.env
+  #   environment:
+  #     NODE_ENV: test

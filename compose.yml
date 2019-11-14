@@ -1,0 +1,11 @@
+services:
+  api:
+    deploy:
+      replicas: 1
+    image: whoisju1/news-grubber-api
+  client:
+    deploy:
+      replicas: 1
+    image: whoisju1/news-grubber-client
+version: '3.0'
+

@@ -12,8 +12,9 @@ before_script:
 script:
   - echo "----- Running backend tests -----"
   - docker-compose -p api-tests run --rm api npm run test:unit
-  # - echo "----- Running frontend tests -----"
-  # - docker-compose -p client-tests run --rm client npm run test:unit
+  - echo "----- Running frontend tests -----"
+  - docker-compose -p client-tests run --rm client npm run test:unit
+
 after_success:
   - docker image build -t whoisju1/news-grubber-api -f ./api
   - docker image build -t whoisju1/news-grubber-client -f ./client
