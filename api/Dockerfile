@@ -12,4 +12,4 @@ COPY . .
 
 RUN npm build
 
-CMD [ "node", "-r", "dotenv/config", "dist" ]
+CMD [ "node", "-r", "dotenv/config", "./dist/index.js" ]

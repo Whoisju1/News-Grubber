@@ -16,4 +16,8 @@ FROM nginx
 
 COPY --from=builder /client/build /usr/share/nginx/html
 
-COPY --from=build-stage /nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx/defaul.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD [“nginx”, “-g”, “daemon off;”]
