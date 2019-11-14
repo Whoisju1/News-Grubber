@@ -2,13 +2,12 @@ FROM tiangolo/node-frontend:10 as builder
 
 WORKDIR /client
 
-COPY ./package.json .
-
-COPY ./package-lock.json .
+COPY ./client/package.json .
+COPY ./client/package-lock.json .
 
 RUN npm install
 
-COPY . .
+COPY ./client .
 
 RUN npm run build
 
