@@ -18,7 +18,7 @@ script:
 after_success:
   - docker image build -t whoisju1/news-grubber-api -f ./api
   - docker image build -t whoisju1/news-grubber-client -f ./client
-  - echo "$DOCKER_PASSWORD" | docker login "$DOCKER_USERNAME" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker image push whoisju1/news-grubber-api
   - docker iamge push whoisju1/news-grubber-client
 
