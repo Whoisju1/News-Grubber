@@ -5,4 +5,4 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml config > compose
 && echo "----------- service list -----------" \
 && docker service ls \
 && echo "----------- service list -----------" \
-&& docker service ps news-grubber
+&& docker service ls

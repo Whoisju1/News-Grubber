@@ -10,6 +10,6 @@ RUN npm install
 
 COPY . .
 
-RUN npm build
+RUN npm run build
 
 CMD [ "node", "-r", "dotenv/config", "./dist/index.js" ]
