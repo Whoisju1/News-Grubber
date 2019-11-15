@@ -2,21 +2,19 @@ FROM tiangolo/node-frontend:10 as builder
 
 WORKDIR /client
 
-COPY ./client/package.json .
-COPY ./client/package-lock.json .
+COPY ./package.json .
+COPY ./package-lock.json .
 
 RUN npm install
 
-COPY ./client .
+COPY . .
 
 RUN npm run build
 
 FROM nginx
 
-COPY --from=builder /client/build /usr/share/nginx/html
+COPY --from=builder ./client/build /usr/share/nginx/html
 
-COPY ./nginx/defaul.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx/default.conf /etc/nginx/conf.d
 
 EXPOSE 80
-
-CMD [“nginx”, “-g”, “daemon off;”]
