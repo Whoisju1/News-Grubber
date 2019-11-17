@@ -1,7 +1,9 @@
-version: '3'
+version: '3.7'
 
 services:
   api:
     image: whoisju1/news-grubber-api
   client:
     image: whoisju1/news-grubber-client
+    depends_on:
+      - api
