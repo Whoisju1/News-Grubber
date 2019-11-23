@@ -2,6 +2,7 @@
   "prettier.eslintIntegration": true,
   "prettier.trailingComma": "es5",
   "cSpell.words": [
+    "MONGODB",
     "polyfill",
     "uuidv"
   ],
