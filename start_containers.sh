@@ -22,7 +22,7 @@ function start_containers()
   && docker-compose logs -f
 }
 
-printf "\e[35mDo you want to build images? (Y/N)\e[0m"
+printf "\e[35mDo you want to build images? (Y/N)\e[0m "
 
 read answer
 
