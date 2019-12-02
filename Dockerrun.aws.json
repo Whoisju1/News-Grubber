@@ -3,11 +3,13 @@
   "containerDefinitions": [
     {
       "name": "api",
+      "hostname": "api",
       "image": "whoisju1/news-grubber-api",
       "essential": true
     },
     {
       "name": "client",
+      "hostname": "client",
       "image": "whoisju1/news-grubber-client",
       "essential": true,
       "portMappings": [
