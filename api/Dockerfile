@@ -2,6 +2,8 @@ FROM node:12
 
 WORKDIR /api
 
+EXPOSE 5000
+
 COPY ./package.json .
 
 COPY ./package-lock.json .
