@@ -1,0 +1,21 @@
+{
+  "AWSDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "api",
+      "image": "whoisju1/news-grubber-api",
+      "essential": true
+    },
+    {
+      "name": "client",
+      "image": "whoisju1/news-grubber-client",
+      "essential": true,
+      "portMappings": [
+       {
+        "hostPort": 80,
+        "containerPort": 80
+       }
+      ]
+    }
+  ]
+}

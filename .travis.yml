@@ -1,31 +1,28 @@
 language: node_js
-
 node_js:
-  - 12
-
+- 12
 services:
-  - docker
-
+- docker
 before_script:
-  - docker-compose up -d
-
+- docker-compose up -d
 script:
-  - echo "----- Running backend tests -----"
-  - docker-compose -p api-tests run --rm api npm run test:unit
-  - echo "----- Running frontend tests -----"
-  - docker-compose -p client-tests run --rm client npm run test:unit
-
+- echo "----- Running backend tests -----"
+- docker-compose -p api-tests run --rm api npm run test:unit
+- echo "----- Running frontend tests -----"
+- docker-compose -p client-tests run --rm client npm run test:unit
 after_success:
-  - docker image build -t whoisju1/news-grubber-api ./api
-  - docker image build -t whoisju1/news-grubber-client ./client
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker image push whoisju1/news-grubber-api
-  - docker image push whoisju1/news-grubber-client
-
-# deploy:
-#   provider: heroku
-#   api_key:
-#     secure: KEY
-#   app: news-grubber
-#   on:
-#     repo: News-Grubber
+- docker image build -t whoisju1/news-grubber-api ./api
+- docker image build -t whoisju1/news-grubber-client ./client
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker image push whoisju1/news-grubber-api
+- docker image push whoisju1/news-grubber-client
+deploy:
+  provider: elasticbeanstalk
+  access_key_id:
+    secure: FSs0RMOrQUxH2MvmdQN2aC50Ql3fDqmBVLcB6g+CrbUfbXvwtZC1W8OMocd3RuxpxCg63XBpNihWkSdDJLo5hwlF+nod/fDjxudbalmzg8hw6lxcj7UmLReB+Br1Qq5piWuotHY1NVGue0YlaG346Nc6Uh9cLqdvRPC/CGAeUDzSQ8UOkXMnmHZf1YMyshl2Ntp6GBDPRgvgw2bmDgua7R4IJkpWmLTdF/w4VUG33YhdBkPCEHsBeWtkbHXF7BD37nFjZH8ykQq/99cNfyd7FLBGhlQBWYUpC7mlMtd1lm4TTCju9AMMJgEAlVG2QOe1d9G+vKIvrGHX4yJu0v+yKskImGHXVmVTNt/reRg5J5VwOdp0d1Ib4cxgfnsaQdjCk5yN/nFM6j07vC2epZQe5pxbidlq53yiRBkpbG4OslWsryOCpKpDYL4dzSozWpqQiGFM4Vz/wBLBL6gVRZ7V3bn+AnAqrElweN4r/khKpO9C26GIxMeRzoPYoKXjWAwYYc9IP8CjYdh00ZXA3hAz5Yps1+yr7NWYnfB/Gj0g9zOw4AoG2vPagVP18NKGM1jI7z2nnklDNydg0Cbd6SCmOm1B4XndCudDRs/yr0sBR1q7i3mmUlRCtXpRd9ml0FtLFkLetXmQ3bZvc5Kpsrro6uhS6cUoUes4PFRv2K0EdPw=
+  secret_access_key:
+    secure: mUqtSxhnVmphG3gO8cLDXd0kr7owICGx89xDkzuBtKsPM4iVBRra77ewgg3T3APkLi71nNDTBpriYG86C0tJ6BRdlkk80xczvf+4a3W/NuVp5DETpGK1USkeBUNyBjYqDUopnnZc1iYu0IXiOjc5AxuGS/uSpFZ3zOPKaFMYpVCVB/584aitEfrbZEFEcviZyjOoejDjdNqKdGecKc4OJ86ym9DdtKeZ3aju+geeBmIrlQZM/wZaL+pgfT7VWDv5EAOrb0Lq8cxpwYSKOmKHwkdfPu3hVHskAXIfqpvktFvYX1GskfxcLC4Jjb7QDHXuAkEuLUdVEUoXDegMbJ/F2rF2CCEiyT9LsUjZijNPGhKMyu2umvEgDdTl6bu8N2UnjSa50pMdLRbHsINq4GpY/jFyzFfNs5Vh8rforRHim33NDBQaj6T3BIW0f03MI+TLgcmFxxYld6vvJYsQSut732R+MFEb8hU92DA+sT7KBY9mT9py/mgqVIs6CktYNseoAy9kVWJ2OwxHDxIgjkEWhMiIC+SE+wVqpgzIIP9rDXWJBcoHfvfrgITGv5csTYYCRD0gXOG7UP3jqqV61rDznBH6S25QSH3cGdMFRD+IWO99uq9fnUppAlDBCXjUqo26JYU9gV3mDeW5GiURBsXKqXWFEFUGjWujh495huK5AtM=
+  region: us-east-1
+  app: news-grubber
+  env: NewsGrubber-env
+  bucket_name: elasticbeanstalk-us-east-1-166152463318
