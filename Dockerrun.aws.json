@@ -1,21 +1,21 @@
 {
   "AWSEBDockerrunVersion": 2,
-  "ContainerDefinitions": [
+  "containerDefinitions": [
     {
-      "Name": "api",
-      "HostName": "api",
-      "Image": "whoisju1/news-grubber-api",
-      "Essential": false
+      "name": "api",
+      "hostName": "api",
+      "image": "whoisju1/news-grubber-api",
+      "essential": false
     },
     {
-      "Name": "client",
-      "HostName": "client",
-      "Image": "whoisju1/news-grubber-client",
-      "Essential": true,
-      "PortMappings": [
+      "name": "client",
+      "hostName": "client",
+      "image": "whoisju1/news-grubber-client",
+      "essential": true,
+      "portMappings": [
        {
-        "HostPort": 80,
-        "ContainerPort": 80
+        "hostPort": 80,
+        "containerPort": 80
        }
       ]
     }
