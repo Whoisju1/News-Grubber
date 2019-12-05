@@ -5,12 +5,14 @@
       "name": "api",
       "hostName": "api",
       "image": "whoisju1/news-grubber-api",
+      "memory": 128,
       "essential": "false"
     },
     {
       "name": "client",
       "hostName": "client",
       "image": "whoisju1/news-grubber-client",
+      "memory": 128,
       "essential": "true",
       "portMappings": [
        {
