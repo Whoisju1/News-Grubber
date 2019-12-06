@@ -4,9 +4,8 @@ node_js:
 services:
 - docker
 before_script:
-- docker-compose up -d
-script:
 - "chmod +x ./run_tests.sh"
+script:
 - "./run_tests.sh"
 after_success:
 - docker image build -t whoisju1/news-grubber-api ./api
