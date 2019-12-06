@@ -1,4 +1,4 @@
-#!/bin/bash/
+#!/bin/sh
 
 printf "\n\e[34m----- RUNNING TESTS FOR \`API\` CONTAINER -----\e[m\n\n" \
 && docker-compose run -e NODE_ENV=test --rm --entrypoint "npx jest --runInBand --forceExit --detectOpenHandles" api \
