@@ -6,21 +6,21 @@
       "hostName": "api",
       "image": "whoisju1/news-grubber-api",
       "memory": 128,
-      "essential": "false"
+      "essential": true
     },
     {
       "name": "client",
       "hostName": "client",
       "image": "whoisju1/news-grubber-client",
       "memory": 128,
-      "essential": "true",
+      "essential": true,
       "portMappings": [
        {
-        "hostPort": "80",
-        "containerPort": "80"
+        "hostPort": 80,
+        "containerPort": 80
        }
-      ]
+      ],
+      "links": ["api"]
     }
-  ],
-  "links": ["api", "client"]
+  ]
 }
