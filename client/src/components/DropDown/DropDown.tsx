@@ -46,7 +46,7 @@ const StyledDropDown = styled.div<StyledProps>`
     border: .04rem solid #dcdde1;
     box-shadow: 0.4rem .5rem .8rem rgba(0, 0, 0, .2);
     border-radius: 3px;
-
+    z-index: 2;
     /* DROP ANIMATION */
     transform-origin: 100% 0%;
     animation: ${drop} .1s both linear;

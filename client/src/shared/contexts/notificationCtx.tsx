@@ -25,6 +25,7 @@ const NotificationWrapper = styled.div`
   transform: translateX(-50%);
   display: inline-grid;
   grid-auto-flow: row;
+  z-index: 10000;
 `;
 
 interface ICtx {

@@ -120,23 +120,27 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
         });
       }
     },
-    signup: (body) => {
-      fetch('/api/auth/signup', {
+    signup: async (body) => {
+      const response = await fetch('/api/auth/signup', {
         body: JSON.stringify(body),
         headers: {
           'Content-Type': 'application/json',
         },
         method: 'POST',
-      })
-      .then(res => res.json())
-      .then(data => {
-        tokenManager.setToken(data.token);
-        dispatch({
-          type: 'SIGNUP',
-          data,
-        });
-        setIsLoggedIn(true);
       });
+      const data = await response.json();
+      if (!data.ok) {
+        const { error: { message: body} } = data;
+        return notify({
+          body
+        });
+      }
+      tokenManager.setToken(data.token);
+      dispatch({
+        type: 'SIGNUP',
+        data,
+      });
+      setIsLoggedIn(true);
     },
     unregister: () => void(0),
   }
