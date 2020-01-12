@@ -36,7 +36,7 @@
       "mountPoints": [
         {
           "sourceVolume": "nginx-certs",
-          "containerPath": "/etc/nginx/certs",
+          "containerPath": "/client/certs",
           "readOnly": true
         }
       ]
