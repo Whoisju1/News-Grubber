@@ -1,5 +1,13 @@
 {
   "AWSEBDockerrunVersion": 2,
+  "volumes": [
+    {
+      "name": "nginx-certs",
+      "host": {
+        "sourcePath": "/etc/pki/tls/certs"
+      }
+    }
+  ],
   "containerDefinitions": [
     {
       "name": "api",
@@ -18,9 +26,20 @@
        {
         "hostPort": 80,
         "containerPort": 80
+       },
+       {
+         "hostPort": 443,
+         "containerPort": 443
        }
       ],
-      "links": ["api"]
+      "links": ["api"],
+      "mountPoints": [
+        {
+          "sourceVolume": "nginx-certs",
+          "containerPath": "/etc/nginx/certs",
+          "readOnly": true
+        }
+      ]
     }
   ]
 }
