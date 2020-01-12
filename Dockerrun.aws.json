@@ -35,7 +35,7 @@
       "links": ["api"],
       "mountPoints": [
         {
-          "sourceVolume": "nginx-cert",
+          "sourceVolume": "nginx-certs",
           "containerPath": "/etc/nginx/ssl",
           "readOnly": true
         }
