@@ -13,7 +13,7 @@ RUN npm run build
 
 FROM nginx
 
-COPY --from=builder ./client/build /var/www/newsgrubber.com/html
+COPY --from=builder ./client/build /usr/share/nginx/html
 
 COPY ./nginx/default.conf /etc/nginx/conf.d
 
