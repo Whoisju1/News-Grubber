@@ -36,12 +36,6 @@ export default () =>
             url,
           });
         }
-        // else {
-        //   // eslint-disable-next-line prefer-promise-reject-errors
-        //   const error = new Error('Could not retrieve articles');
-        //   error.status = 500;
-        //   reject(error);
-        // }
       });
       return resolve(linkedItems);
     });

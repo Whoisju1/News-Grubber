@@ -36,6 +36,7 @@
     "morgan": "^1.9.1",
     "regenerator-runtime": "^0.13.3",
     "request": "^2.88.0",
+    "request-promise": "^4.2.5",
     "rimraf": "^2.6.3"
   },
   "devDependencies": {

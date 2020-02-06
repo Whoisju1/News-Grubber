@@ -1,9 +1,51 @@
-import request from 'request';
+import request from 'request-promise';
 import { load } from 'cheerio';
-import latestArticles from './scrapeHomepage';
+import getLatestArticles from './scrapeHomepage';
+
+export const getScrappedArticles = async () => {
+  const scrappedArticles = [];
+
+  const latestArticles = await getLatestArticles();
+
+  // eslint-disable-next-line no-restricted-syntax
+  for await (const articleInfo of latestArticles) {
+    const { url } = articleInfo;
+
+    const body = await request(url);
+
+    // scrape article page
+    const $ = load(body);
+    const profileInfo = $('[section="author"]');
+
+    // get author info
+    const name =
+      profileInfo
+        .find('.c-assetAuthor_meta > .c-assetAuthor_authors > a.author')
+        .text() || null;
+    const authorInfo = profileInfo.find('.author').attr('href') || null;
+
+    // get date & time of publication
+    const date =
+      profileInfo
+        .find('.c-assetAuthor_meta > .c-assetAuthor_date > time')
+        .text() || null;
+    const time = profileInfo.find('.formattedTime').text() || null;
+
+    const author = { name, authorInfo };
+    author.authorInfo = `https://www.cnet.com${author.authorInfo}`;
+
+    const publicationDate = { date, time };
+
+    // put author and time into one object
+    const authorAndDate = { author, publicationDate };
+
+    scrappedArticles.push({ ...articleInfo, ...authorAndDate });
+  }
+  return scrappedArticles;
+};
 
 export default new Promise((resolve, reject) => {
-  latestArticles()
+  getLatestArticles()
     .then(data => {
       const finalList = [];
       // eslint-disable-next-line consistent-return

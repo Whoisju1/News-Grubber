@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getScrappedArticles } from '../handlers/newArticles';
+import { getScrappedArticles } from '../handlers/scrappedArticles';
 
 const router = Router();
 
