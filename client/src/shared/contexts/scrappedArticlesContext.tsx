@@ -1,5 +1,4 @@
-import React, { createContext, useReducer } from 'react';
-import { useFetch } from '../../utils/requests';
+import React, { createContext, useReducer, useState, useEffect } from 'react';
 
 export interface IPublicationDate {
   date?: string;
@@ -24,6 +23,7 @@ export interface IArticle {
 interface IContextState {
   articles: IArticle[];
   updateArticles: () => void;
+  loading: boolean;
 }
 
 interface IProps {
@@ -33,6 +33,7 @@ interface IProps {
 const initialCtxState: IContextState =  {
   articles: [],
   updateArticles: () => void(0),
+  loading: false,
 }
 
 export const ScrappedArticlesContext = createContext<IContextState>(initialCtxState);
@@ -43,7 +44,19 @@ export const types = {
 
 export const ScrappedArticlesProvider: React.FC<IProps> = ({ children }) => {
   const url = '/api/articles/scrapped';
-  const { articles } = useFetch<{ articles: IArticle[]}>(url, { articles: []});
+  const [articles, setArticles] = useState<IArticle[]>([])
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    (async () => {
+      const res = await fetch(url);
+      const responseData = await res.json();
+      setArticles(responseData.articles);
+      setLoading(false);
+    })();
+  }, []);
+
   const [state, dispatch] = useReducer((state, action) => {
     switch (action.type) {
       case types.UPDATE_ARTICLES:
@@ -62,7 +75,7 @@ export const ScrappedArticlesProvider: React.FC<IProps> = ({ children }) => {
   }
 
   return (
-    <ScrappedArticlesContext.Provider value={{ articles, updateArticles }}>
+    <ScrappedArticlesContext.Provider value={{ articles, updateArticles, loading }}>
       {children}
     </ScrappedArticlesContext.Provider>
   )

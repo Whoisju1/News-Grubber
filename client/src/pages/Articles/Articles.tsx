@@ -11,7 +11,7 @@ const Section = styled.div`
 `;
 
 function Articles()  {
-  const { articles } = useContext(ScrappedArticlesContext);
+  const { articles = [] } = useContext(ScrappedArticlesContext);
   const articleList = articles.map((article) => <Article key={article.url} {...article} />);
   return (
     <Section>
