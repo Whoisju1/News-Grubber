@@ -1,7 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, FC } from 'react'
 import styled from 'styled-components';
 import { ScrappedArticlesContext } from '../../shared/contexts/scrappedArticlesContext';
 import Article from './Article';
+import Loading from '../SavedArticles/Loading';
 
 const Section = styled.div`
   display: grid;
@@ -10,9 +11,10 @@ const Section = styled.div`
   padding: 2rem 0;
 `;
 
-function Articles()  {
-  const { articles = [] } = useContext(ScrappedArticlesContext);
+const Articles: FC = () => {
+  const { articles, loading } = useContext(ScrappedArticlesContext);
   const articleList = articles.map((article) => <Article key={article.url} {...article} />);
+  if (loading) return <Loading />
   return (
     <Section>
       {articleList}
