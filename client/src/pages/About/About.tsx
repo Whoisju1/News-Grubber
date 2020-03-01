@@ -89,14 +89,13 @@ const About = () => {
           <li>Node and Express (Backend)</li>
           <li>MongoDB (Database)</li>
           <li>Docker</li>
-          <li>AWS Elastic Beanstalk</li>
+          <li>AWS Elastic Beanstalk (Infrastructure)</li>
           <li>Travis (CI/CD)</li>
           <li>Jest (Unit Tests)</li>
           <li>Json Web Tokens(Authentication/Authorization)</li>
           <li>Styled-Components (CSS Styling)</li>
-          <li>Git (Version Control)</li>
+          <li>Git & Github (Version Control)</li>
           <li>NPM (Package Management)</li>
-          <li></li>
         </ul>
       </section>
       <section className="dev">
