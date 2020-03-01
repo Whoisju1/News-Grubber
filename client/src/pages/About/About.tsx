@@ -85,13 +85,15 @@ const About = () => {
         </p>
         <h2>Tech Used to Build NewsGrubber</h2>
         <ul>
-          <li>React and Typescript</li>
-          <li>Node and Express</li>
-          <li>MongoDB</li>
+          <li>React and Typescript (Frontend)</li>
+          <li>Node and Express (Backend)</li>
+          <li>MongoDB (Database)</li>
           <li>Docker</li>
-          <li>Jest</li>
-          <li>JWT for authentication</li>
-          <li>Styled-Components (Styling)</li>
+          <li>AWS Elastic Beanstalk</li>
+          <li>Travis (CI/CD)</li>
+          <li>Jest (Unit Tests)</li>
+          <li>Json Web Tokens(Authentication/Authorization)</li>
+          <li>Styled-Components (CSS Styling)</li>
           <li>Git (Version Control)</li>
           <li>NPM (Package Management)</li>
           <li></li>
