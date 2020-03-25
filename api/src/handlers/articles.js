@@ -2,6 +2,7 @@
 import { Types } from 'mongoose';
 import { Article, User } from '../models';
 import { getUserFromToken } from '../utils/getUserFromToken';
+import { AuthenticationError } from '../customErrors';
 // make methods for manipulating article data
 
 // make method to save article
@@ -11,17 +12,16 @@ export async function saveArticle(req, res, next) {
     const {
       sub: { _id: userID },
     } = getUserFromToken(token);
-    const duplicateErr = new Error(
-      'This article is already in your collection.'
-    );
-    duplicateErr.status = 400;
 
     // get data from req.body
     const { url } = req.body;
 
     // check to see if article already exists and if it does return an error message instead
     const count = await Article.count({ url }).where({ user: userID });
-    if (count) return next(duplicateErr);
+    if (count)
+      throw new AuthenticationError(
+        'This article is already in your collection.'
+      );
 
     // if all is well create the article
     const article = await new Article(req.body);

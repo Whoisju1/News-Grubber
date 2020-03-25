@@ -13,7 +13,6 @@ const SignUpModal: React.FC<Props> = ({ isShown, hide }) => {
   const handleSubmit = (userCred: UserCredentials) => {
     signup(userCred);
     if (isLoggedIn) {
-      console.log(user);
       hide();
     }
   }

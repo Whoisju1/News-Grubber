@@ -1,6 +1,7 @@
 import { User } from '../models';
 import { createToken } from '../utils/createToken';
 import { getUserFromToken } from '../utils/getUserFromToken';
+import { AuthenticationError } from '../customErrors';
 
 export async function signIn(req, res, next) {
   try {
@@ -29,16 +30,10 @@ export async function signIn(req, res, next) {
         token,
       });
     }
-    // if something doesn't match send an error
-    return next({
-      status: 400,
-      message: 'Invalid password.',
-    });
+    // if password doesn't match throw authentication error
+    throw new AuthenticationError('Wrong password.');
   } catch (err) {
-    return next({
-      status: 400,
-      message: 'Oops! Something went wrong.',
-    });
+    return next(err);
   }
 }
 
@@ -55,8 +50,7 @@ export async function signUp(req, res, next) {
     });
   } catch (err) {
     if (err.code === 11000) {
-      const error = new Error('Sorry, username already taken.');
-      error.status = 400;
+      const error = new AuthenticationError('Sorry, username already taken.');
       return next(error);
     }
     return next(err);

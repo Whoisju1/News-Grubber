@@ -2,6 +2,7 @@ import React, { useContext, createContext, useReducer, useState, useEffect } fro
 import { deleteArticle as delArticle, addArticle } from '../../utils/requests';
 import { AuthContext } from './authContext';
 import { NotificationCtx } from './notificationCtx';
+import getFetchedData from '../../utils/throwIfError';
 
 export interface IPublicationDate {
   date?: string;
@@ -34,7 +35,7 @@ interface ISavedArticleCtx {
 export const SavedArticlesCtx = createContext<ISavedArticleCtx>({
   articles: [],
   deleteArticle: () => void(0),
-  getSavedArticles: () => console.log('oh oh'),
+  getSavedArticles: () => void(0),
   isLoading: false,
   saveArticle: () => void(0),
 });
@@ -72,10 +73,7 @@ const SavedArticlesProvider: React.FC = ({ children }) => {
           authorization: `Bearer ${token}`,
         }});
 
-      const articles = await data.json();
-      if (articles.error) {
-        throw new Error(articles.error.message);
-      }
+      const articles = await getFetchedData(data);
       dispatch({
         type: 'fetch',
         payload: articles,

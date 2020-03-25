@@ -15,6 +15,7 @@ import newArticles from '../routes/newArticles';
 import errorHandler from '../handlers/error';
 import { loginRequired, userMustExistMiddleware } from '../middleware/auth';
 import config from '../config';
+import { CustomError } from '../customErrors';
 
 const app = express();
 
@@ -42,9 +43,8 @@ if (config.nodeEnv === 'production') {
 
 // make middleware to handle routes without handlers
 app.use((_req, _res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+  const notFoundError = new CustomError('Not Found', 400);
+  next(notFoundError);
 });
 
 app.use(errorHandler);

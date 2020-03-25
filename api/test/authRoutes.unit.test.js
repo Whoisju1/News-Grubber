@@ -123,9 +123,7 @@ describe('authRoute', () => {
     });
 
     describe('when wrong password is submitted', () => {
-      it('should should return a status of 404 and the error message `Invalid password.`', async () => {
-        const err = new Error('Invalid password.');
-        err.status = 400;
+      it('should should return a status of 404 and the error message `Wrong password.`', async () => {
         const resp = await request(app)
           .post('/api/auth/signin')
           .send({ username: user.username, password: 'wrong password' })
@@ -134,7 +132,7 @@ describe('authRoute', () => {
         const parsedResponse = JSON.parse(resp.text);
         expect(parsedResponse).toEqual({
           error: {
-            message: 'Invalid password.',
+            message: 'Wrong password.',
           },
         });
       });

@@ -1,21 +1,13 @@
+import { isNullOrUndefined } from 'util';
 /* eslint-disable no-unused-vars */
-function errorHandler(error, _req, res, next) {
-  const { NODE_ENV } = process.env;
-  if (error.status) {
-    return res.status(error.status).json({
-      error: {
-        message: error.message || 'Oops! Something went wrong.',
-      },
+function errorHandler(err, _req, res, next) {
+  if (!isNullOrUndefined(err.status)) {
+    const { message } = err;
+    return res.status(err.status).json({
+      error: { message },
     });
   }
-
-  const isProd = NODE_ENV === 'production';
-
-  return res.status(500).json({
-    error: {
-      message: isProd ? 'Oops! Something went wrong.' : error.message,
-    },
-  });
+  return res.status(500).json({ error: { message: 'Something went wrong.' } });
 }
 
 module.exports = errorHandler;

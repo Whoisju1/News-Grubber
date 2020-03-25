@@ -1,4 +1,6 @@
-import React, { createContext, useReducer, useState, useEffect } from 'react';
+import React, { createContext, useReducer, useState, useEffect, useContext } from 'react';
+import getFetchedData from '../../utils/throwIfError';
+import { NotificationCtx } from './notificationCtx';
 
 export interface IPublicationDate {
   date?: string;
@@ -46,14 +48,21 @@ export const ScrappedArticlesProvider: React.FC<IProps> = ({ children }) => {
   const url = '/api/articles/scrapped';
   const [articles, setArticles] = useState<IArticle[]>([])
   const [loading, setLoading] = useState(false);
+  const { notify } = useContext(NotificationCtx);
 
   useEffect(() => {
     setLoading(true);
     (async () => {
-      const res = await fetch(url);
-      const responseData = await res.json();
-      setArticles(responseData.articles);
+     try {
+      const response = await fetch(url);
+      const data = await getFetchedData(response, 'Could not fetch articles.');
+      setArticles(data.articles);
+     } catch (err) {
+       // TODO: Display something on the screen if there's an error
+       notify({ body: err.message });
+     } finally {
       setLoading(false);
+     }
     })();
   }, []);
 

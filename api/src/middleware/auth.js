@@ -3,6 +3,7 @@
 import { verify } from 'jsonwebtoken';
 import { model } from 'mongoose';
 import config from '../config';
+import { AuthorizationError } from '../customErrors';
 
 const User = model('User');
 const { jwtSecreteKey } = config;
@@ -24,19 +25,17 @@ export function loginRequired(req, res, next) {
 }
 
 export async function userMustExistMiddleware({ headers }, res, next) {
-  const err = new Error('Unauthorized');
-  err.status = 401;
   try {
     const token = headers.authorization.split(' ')[1];
     const decoded = verify(token, jwtSecreteKey);
-    if (!decoded) return next(err);
+    if (!decoded) throw new AuthorizationError();
     const {
       sub: { _id },
     } = decoded;
     const count = await User.count({ _id });
-    if (!count) return next(err);
+    if (!count) throw new AuthorizationError();
     next();
-  } catch (error) {
+  } catch (err) {
     next(err);
   }
 }

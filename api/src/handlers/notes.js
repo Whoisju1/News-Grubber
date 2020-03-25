@@ -1,5 +1,7 @@
 import { model, Types } from 'mongoose';
+import { isNullOrUndefined } from 'util';
 import * as models from '../models';
+import { CustomError } from '../customErrors';
 
 const Article = model('Article');
 
@@ -40,10 +42,8 @@ export async function addNote(req, res, next) {
       },
     ]);
 
-    if (!notes) {
-      const err = new Error('Something went wrong.');
-      err.status = 5000;
-      return next(err);
+    if (isNullOrUndefined(notes)) {
+      throw CustomError('Something went wrong.', 500);
     }
 
     return res.status(200).json(notes);

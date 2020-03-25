@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { IArticle } from '../../shared/contexts/savedArticlesContext';
+import getFetchedData from '../../utils/throwIfError';
 
 export interface UserCredentials { username: string; password: string };
 
-
 export interface User {
-  _id: '',
-  token: '',
-  username: '',
+  _id: string;
+  token: string;
+  username: string;
 }
 
 export const useFetch = <T>(url: string, initialState: T): T => {
@@ -48,7 +48,7 @@ export const deleteArticle = async (id: string) => {
       authorization: `Bearer ${token}`,
     },
   });
-  const deletedArticle = await response.json();
+  const deletedArticle = await getFetchedData(response);
   return deletedArticle;
 }
 
@@ -67,7 +67,7 @@ export const addNote = async (articleId: string, note: string) => {
       'Content-Type': 'application/json',
     },
   });
-  const newNote = await data.json();
+  const newNote = await getFetchedData(data);
   return newNote;
 }
 
@@ -79,7 +79,7 @@ export const fetchArticleNotes = async (articleId: string) => {
       'Content-Type': 'application/json',
     },
   });
-  const notes = await data.json();
+  const notes = await getFetchedData(data);
   return notes;
 }
 
@@ -93,7 +93,7 @@ export const deleteNote = async (noteId: string, articleId: string) => {
     },
   });
 
-  const deletedNote = await data.json();
+  const deletedNote = await getFetchedData(data);
   return deletedNote;
 };
 
@@ -111,7 +111,7 @@ export const editNoteRequest = async (noteId: string, articleId: string, body: s
       'Content-Type': 'application/json',
     }});
 
-    const editedNote = await data.json();
+    const editedNote = await getFetchedData(data);
     return editedNote;
 }
 
@@ -125,10 +125,7 @@ export const addArticle = async (article: IArticle) => {
       'Content-Type': 'application/json',
     }});
 
-    const savedArticle = await data.json();
-    if (savedArticle.error) {
-      throw new Error(savedArticle.error.message);
-    }
+    const savedArticle = await getFetchedData(data);
     return savedArticle as IArticle;
 }
 
@@ -140,14 +137,6 @@ export const signIn = async (body: UserCredentials): Promise<User> => {
     },
     method: 'POST',
   });
-  const newUser = await data.json();
-
-  if (data.status === 400) {
-    const { message = null } = newUser.error;
-    const errorMsg = message || 'Something went wrong.'
-    const err = new Error(errorMsg);
-    throw err;
-  }
-
-  return newUser;
+  const response = await getFetchedData(data);
+  return response;
 }

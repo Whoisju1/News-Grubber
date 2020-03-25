@@ -1,12 +1,13 @@
 import React, { createContext, useContext, useReducer, useState, useEffect } from 'react'
 import { NotificationCtx } from './notificationCtx';
 import { signIn } from '../../utils/requests';
+import getFetchedData from '../../utils/throwIfError';
 
 export interface UserCredentials { username: string; password: string };
 export interface User {
-  _id: '',
-  token: '',
-  username: '',
+  _id: string,
+  token: string,
+  username: string,
 }
 
 export interface IAuthCtx {
@@ -41,11 +42,11 @@ interface Action {
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
   const { notify } = useContext(NotificationCtx);
-  const getToken = () => localStorage.getItem('token');
+  const getToken = () => localStorage.getItem('token')!;
 
-  const setToken = ((token: string) => localStorage.setItem('token', token));
+  const setToken = ((token: string) => localStorage.setItem('token', token))!;
 
-  const clearToken = () => localStorage.removeItem('token');
+  const clearToken = () => localStorage.removeItem('token')!;
 
   const tokenManager = {
     getToken,
@@ -55,18 +56,23 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      fetch('/api/auth/user', {
-        headers: {
-          authorization: `Bear ${tokenManager.getToken()}`,
+      (async () => {
+        try {
+          const data = await fetch('/api/auth/user', {
+            headers: {
+              authorization: `Bear ${tokenManager.getToken()}`,
+            }
+           });
+
+           const user = await getFetchedData(data);
+           dispatch({
+             type: 'LOGIN',
+             data: { ...user, token: tokenManager.getToken() },
+           });
+        } catch (err) {
+          notify({ body: err.message });
         }
-       })
-       .then(data => data.json())
-       .then(user => {
-         dispatch({
-           type: 'LOGIN',
-           data: { ...user, token: tokenManager.getToken() },
-         });
-       });
+      })()
     }
   }, []);
 
@@ -114,33 +120,33 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
           body: `${data.username} signed in`
         });
       } catch (error) {
-        const { message: body } = error;
+        const { message } = error;
         notify({
-          body
+          body: message,
         });
       }
     },
     signup: async (body) => {
-      const response = await fetch('/api/auth/signup', {
-        body: JSON.stringify(body),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-      });
-      const data = await response.json();
-      if (!data.ok) {
-        const { error: { message: body} } = data;
-        return notify({
-          body
+      try {
+        const response = await fetch('/api/auth/signup', {
+          body: JSON.stringify(body),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
         });
+        const data = await getFetchedData(response);
+        tokenManager.setToken(data.token);
+        dispatch({
+          type: 'SIGNUP',
+          data,
+        });
+        setIsLoggedIn(true);
+      } catch ({ message }) {
+          return notify({
+            body: message,
+          });
       }
-      tokenManager.setToken(data.token);
-      dispatch({
-        type: 'SIGNUP',
-        data,
-      });
-      setIsLoggedIn(true);
     },
     unregister: () => void(0),
   }
