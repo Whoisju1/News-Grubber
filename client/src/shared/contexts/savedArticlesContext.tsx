@@ -2,7 +2,7 @@ import React, { useContext, createContext, useReducer, useState, useEffect } fro
 import { deleteArticle as delArticle, addArticle } from '../../utils/requests';
 import { AuthContext } from './authContext';
 import { NotificationCtx } from './notificationCtx';
-import getFetchedData from '../../utils/throwIfError';
+import getFetchedData from '../../utils/getFetchedData';
 
 export interface IPublicationDate {
   date?: string;

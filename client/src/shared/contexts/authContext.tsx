@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useReducer, useState, useEffect } from 'react'
 import { NotificationCtx } from './notificationCtx';
 import { signIn } from '../../utils/requests';
-import getFetchedData from '../../utils/throwIfError';
+import getFetchedData from '../../utils/getFetchedData';
 
 export interface UserCredentials { username: string; password: string };
 export interface User {

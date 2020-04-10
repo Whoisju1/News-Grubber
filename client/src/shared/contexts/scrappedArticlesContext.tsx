@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useState, useEffect, useContext } from 'react';
-import getFetchedData from '../../utils/throwIfError';
+import getFetchedData from '../../utils/getFetchedData';
 import { NotificationCtx } from './notificationCtx';
 
 export interface IPublicationDate {

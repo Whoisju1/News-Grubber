@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { IArticle } from '../../shared/contexts/savedArticlesContext';
-import getFetchedData from '../../utils/throwIfError';
+import getFetchedData from '../getFetchedData';
 
 export interface UserCredentials { username: string; password: string };
 
