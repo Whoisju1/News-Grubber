@@ -24,11 +24,11 @@ const Svg = styled.svg.attrs({
   }
 `;
 
-interface Props {
+export interface IProps {
   click: () => void;
 }
 
-const CloseBtn: React.FC<Props> = ({ click }) => {
+const CloseBtn: React.FC<IProps> = ({ click }) => {
   return (
     <Svg onClick={click}>
       <title>Close</title>

@@ -51,7 +51,7 @@ const StyledModal = styled.div<ModalProps>`
   }
 `;
 
-interface IProps {
+export interface IProps {
   children: React.ReactNode;
   show: boolean;
   showCloseBtn?: boolean;
