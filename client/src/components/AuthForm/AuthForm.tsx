@@ -93,13 +93,13 @@ const StyledForm = styled(Form)`
   }
 `;
 
-interface Props {
+export interface IProps {
   handleSubmit: (userCredentials: IUserCredentials) => void;
   formHeading: string;
   submitBtnValue: string;
 }
 
-const AuthForm: React.FC<Props> = ({ handleSubmit, formHeading, submitBtnValue }) => {
+const AuthForm: React.FC<IProps> = ({ handleSubmit, formHeading, submitBtnValue }) => {
   const [state, setState] = useState({
     username: '',
     password: '',
