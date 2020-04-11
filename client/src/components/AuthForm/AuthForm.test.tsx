@@ -37,4 +37,9 @@ describe('AuthForm', () => {
     const wrapper = setup();
     expect(wrapper.find('h1').first().text()).toBe(initialProps.formHeading);
   });
+
+  it('should should render submission button with correct value', () => {
+    const wrapper = setup();
+    expect(wrapper.find('input[type="submit"]').prop('value')).toBe(initialProps.submitBtnValue);
+  });
 });
