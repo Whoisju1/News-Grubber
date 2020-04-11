@@ -40,9 +40,9 @@ const initialCtxState: IContextState =  {
 
 export const ScrappedArticlesContext = createContext<IContextState>(initialCtxState);
 
-export const types = {
+export const types = Object.freeze({
   UPDATE_ARTICLES: 'update_articles',
-};
+});
 
 export const ScrappedArticlesProvider: React.FC<IProps> = ({ children }) => {
   const url = '/api/articles/scrapped';

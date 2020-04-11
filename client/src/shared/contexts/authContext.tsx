@@ -3,17 +3,17 @@ import { NotificationCtx } from './notificationCtx';
 import { signIn } from '../../utils/requests';
 import getFetchedData from '../../utils/getFetchedData';
 
-export interface UserCredentials { username: string; password: string };
-export interface User {
+export interface IUserCredentials { username: string; password: string };
+export interface IUser {
   _id: string,
   token: string,
   username: string,
 }
 
 export interface IAuthCtx {
-  signin: (cred: UserCredentials) => void;
-  user: User | null,
-  signup: (cred: UserCredentials) => void;
+  signin: (cred: IUserCredentials) => void;
+  user: IUser | null,
+  signup: (cred: IUserCredentials) => void;
   logout: () => void;
   isLoggedIn: boolean | null;
   unregister: () => void;
@@ -28,19 +28,19 @@ export const AuthContext = createContext<IAuthCtx>({
   unregister: () => void(0),
 });
 
-interface Props {
+interface IProps {
   children: React.ReactNode;
 }
 
-type State = User | null;
+type State = IUser | null;
 
 interface Action {
   type: 'LOGOUT' | 'LOGIN' | 'UNREGISTER' | 'SIGNUP';
-  data: User | null;
+  data: IUser | null;
 }
 
 
-export const AuthProvider: React.FC<Props> = ({ children }) => {
+export const AuthProvider: React.FC<IProps> = ({ children }) => {
   const { notify } = useContext(NotificationCtx);
   const getToken = () => localStorage.getItem('token')!;
 
@@ -76,7 +76,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     }
   }, []);
 
-  const initialState: User | null =  null;
+  const initialState: IUser | null =  null;
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(!!tokenManager.getToken());
   const [user, dispatch] = useReducer((state: State, action: Action) => {
     switch (action.type) {

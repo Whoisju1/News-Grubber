@@ -6,22 +6,22 @@ import {
   deleteNote as dltNote,
 } from '../../utils/requests';
 
-export interface Note {
+export interface INote {
   _id: string;
   body: string;
   createdAt: string;
   updatedAt: string;
 }
 
-interface NoteCtx {
+export interface INoteCtx {
   createNote: (note: string) => void;
   deleteNote: (noteId: string) => void;
   updateNote: (noteId: string, body: string) => void;
   getNotes: () => void;
-  notes: Note[];
+  notes: INote[];
 }
 
-export const NotesCtx = createContext<NoteCtx>({
+export const NotesCtx = createContext<INoteCtx>({
   createNote: () => void(0),
   deleteNote: () => void(0),
   getNotes: () => void(0),
@@ -31,7 +31,7 @@ export const NotesCtx = createContext<NoteCtx>({
 
 interface Action {
   type: 'get_notes' | 'update_note' | 'delete_note' | 'createNote';
-  payload: Note[];
+  payload: INote[];
 }
 
 interface Props {
@@ -39,7 +39,7 @@ interface Props {
 }
 
 export const NotesContext: React.FC<Props> = ({ articleId, children }) => {
-  const [notes, dispatch] = useReducer((state: Note[], action: Action) => {
+  const [notes, dispatch] = useReducer((state: INote[], action: Action) => {
     switch (action.type) {
       case 'get_notes':
         return action.payload;
@@ -64,8 +64,8 @@ export const NotesContext: React.FC<Props> = ({ articleId, children }) => {
 
   const updateNote = async (noteId: string, body: string) => {
     const editedNote = await editNoteRequest(noteId, articleId, body);
-    const notesCopy = ([] as Note[]).concat(notes);
-    const noteIndex = notesCopy.findIndex((item: Note) => item._id === noteId);
+    const notesCopy = ([] as INote[]).concat(notes);
+    const noteIndex = notesCopy.findIndex((item: INote) => item._id === noteId);
     notesCopy[noteIndex] = editedNote;
     dispatch({
       type: 'update_note',

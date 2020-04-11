@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
 import Form, { Label, FormHeading, Input, SubmitBtn } from '../../shared/FormElements';
-import { UserCredentials } from '../../shared/contexts/authContext';
+import { IUserCredentials } from '../../shared/contexts/authContext';
 import Button from '../../shared/StyledElements/Button';
 
 const Password = styled(Input).attrs({ type: 'password' })`
@@ -94,7 +94,7 @@ const StyledForm = styled(Form)`
 `;
 
 interface Props {
-  handleSubmit: (userCredentials: UserCredentials) => void;
+  handleSubmit: (userCredentials: IUserCredentials) => void;
   formHeading: string;
   submitBtnValue: string;
 }

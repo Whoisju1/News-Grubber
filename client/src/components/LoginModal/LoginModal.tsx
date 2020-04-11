@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import styled from 'styled-components';
 import Modal from '../../shared/Modal';
 import AuthForm from '../AuthForm';
-import { AuthContext, UserCredentials } from '../../shared/contexts/authContext';
+import { AuthContext, IUserCredentials } from '../../shared/contexts/authContext';
 
 interface Props {
   show: boolean;
@@ -10,7 +10,7 @@ interface Props {
 }
 const LoginModal: React.FC<Props> = ({ show, hide }) => {
   const { signin, isLoggedIn, user } = useContext(AuthContext)
-  const handleSubmit = (cred: UserCredentials) => {
+  const handleSubmit = (cred: IUserCredentials) => {
     signin(cred);
     if (isLoggedIn) {
       hide();

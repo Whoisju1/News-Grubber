@@ -1,6 +1,6 @@
 import { RefObject } from 'react';
 
-type Callback = (elem: EventTarget) => void;
+export type Callback = (elem: EventTarget) => void;
 
 export const handleOutsideClick = (ref: RefObject<HTMLElement>, callback: Callback) => (e: MouseEvent) => {
   const { target } = e;
