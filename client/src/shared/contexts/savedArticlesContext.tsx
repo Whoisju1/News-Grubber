@@ -148,3 +148,5 @@ const SavedArticlesProvider: React.FC = ({ children }) => {
 };
 
 export default SavedArticlesProvider;
+
+const useSavedArticles = () => useContext(SavedArticlesCtx);

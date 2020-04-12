@@ -40,7 +40,7 @@ interface Action {
 }
 
 
-export const AuthProvider: React.FC<IProps> = ({ children }) => {
+const AuthProvider: React.FC<IProps> = ({ children }) => {
   const { notify } = useContext(NotificationCtx);
   const getToken = () => localStorage.getItem('token')!;
 
@@ -157,3 +157,14 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     </AuthContext.Provider>
   )
 };
+
+
+const useAuth = () => {
+  const userContext = useContext(AuthContext);
+  return userContext;
+}
+
+export {
+  useAuth,
+  AuthProvider,
+}

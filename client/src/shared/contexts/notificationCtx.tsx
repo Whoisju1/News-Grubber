@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useReducer, useContext } from 'react';
 import styled from 'styled-components';
 import Notification from '../../components/Notification';
 import uuidv4 from 'uuid/v4';
@@ -106,3 +106,9 @@ const NotificationsProvider: React.FC = ({ children }) => {
 
 export default NotificationsProvider;
 
+const useNotification = () => useContext(NotificationCtx);
+
+export {
+  useNotification,
+  NotificationsProvider,
+};

@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, createContext } from 'react'
+import React, { useReducer, useEffect, createContext, useContext } from 'react'
 import {
   fetchArticleNotes,
   editNoteRequest,
@@ -38,7 +38,7 @@ interface Props {
   articleId: string;
 }
 
-export const NotesContext: React.FC<Props> = ({ articleId, children }) => {
+const NotesProvider: React.FC<Props> = ({ articleId, children }) => {
   const [notes, dispatch] = useReducer((state: INote[], action: Action) => {
     switch (action.type) {
       case 'get_notes':
@@ -105,4 +105,11 @@ export const NotesContext: React.FC<Props> = ({ articleId, children }) => {
       {children}
     </NotesCtx.Provider>
   );
-}
+};
+
+const useNotes = () => useContext(NotesCtx);
+
+export {
+  useNotes,
+  NotesProvider,
+};
