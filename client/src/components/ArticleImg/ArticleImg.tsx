@@ -28,7 +28,7 @@ interface StyledWrapperProps {
   className?: string;
 }
 
-const ImageWrapper = styled.div<StyledWrapperProps>`
+const StyledImgWrapper = styled.div<StyledWrapperProps>`
   grid-column: 1/2;
   grid-row: 1/ span 3;
   display: inline-block;
@@ -71,9 +71,9 @@ interface Props {
 
 const ArticleImg: React.FC<Props> = ({ src, alt, hoverText, className }) => {
   return (
-    <ImageWrapper hoverText={hoverText} className={className}>
+    <StyledImgWrapper hoverText={hoverText} className={className}>
       <Img src={src} alt={alt} />
-    </ImageWrapper>
+    </StyledImgWrapper>
   );
 };
 
