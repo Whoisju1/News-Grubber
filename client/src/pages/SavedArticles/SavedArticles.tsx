@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from 'react'
 import styled from 'styled-components';
 import SavedArticle from './SavedArticle/SavedArticle';
 import { SavedArticlesCtx } from '../../shared/contexts/savedArticlesContext';
-import { NotesContext } from '../../shared/contexts/notesContext';
+import { NotesProvider } from '../../shared/contexts/notesContext';
 import NoSavedArticles from './NoSavedArticles';
 import { AuthContext } from '../../shared/contexts/authContext';
 import UserNotLoggedIn from './UserNotLoggedIn';
@@ -45,9 +45,9 @@ const SavedArticles: React.FC = () => {
     <Section>
       {
         articles.map(savedArticle => (
-          <NotesContext articleId={savedArticle._id}>
+          <NotesProvider articleId={savedArticle._id}>
             <SavedArticle {...savedArticle} />
-          </NotesContext>
+          </NotesProvider>
         ))
       }
     </Section>
