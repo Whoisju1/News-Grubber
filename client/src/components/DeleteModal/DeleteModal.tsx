@@ -44,7 +44,7 @@ const StyledModalContent = styled.div`
   }
 `;
 
-interface Props {
+export interface IProps {
   isShown: boolean;
   hide: () => void;
   confirmationMsg?: string;
@@ -54,7 +54,7 @@ interface Props {
   deleteAction: () => void;
 }
 
-const DeleteModal: React.FC<Props> = ({
+const DeleteModal: React.FC<IProps> = ({
   isShown,
   hide,
   confirmationMsg = 'Are you sure you want to delete this?',
@@ -67,11 +67,7 @@ const DeleteModal: React.FC<Props> = ({
     <Modal show={isShown} hide={hide}>
       <StyledModalContent>
           <h1>{confirmationMsg}</h1>
-          {
-            description
-            ? ''
-            : <p>{description}</p>
-          }
+          { description && <p>{description}</p> }
           <Button btnType="filled" className="btn btn__primary" onClick={deleteAction}>
             {buttonValue}
           </Button>
