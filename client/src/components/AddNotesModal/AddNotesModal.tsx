@@ -41,13 +41,13 @@ const StyledForm = styled.form`
   }
 `;
 
-interface Props {
+export interface IProps {
   hide: () => void;
   isShown: boolean;
   submit: (note: string) => void;
 }
 
-const AddNotesModal: React.FC<Props> = ({ hide, isShown, submit }) => {
+const AddNotesModal: React.FC<IProps> = ({ hide, isShown, submit }) => {
   const [note, setNote] = useState('');
 
   return (
@@ -61,9 +61,9 @@ const AddNotesModal: React.FC<Props> = ({ hide, isShown, submit }) => {
       }}>
         <h1>Add Notes</h1>
         <textarea
-         value={note}
-         id="add-note"
-         onChange={(e) => {
+          value={note}
+          id="add-note"
+          onChange={(e) => {
             const { value } = e.currentTarget;
             setNote(value);
           }}
