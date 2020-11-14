@@ -27,6 +27,10 @@ services:
     depends_on:
       - client
       - api
+  redis:
+    image: redis:latest
+    ports:
+      - '6379:6379'
   # test-api:
   #   build:
   #     context: ./api
