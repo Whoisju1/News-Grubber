@@ -9,16 +9,19 @@ const config = {
     mongoUri: process.env.MONGODB_URI_DEV,
     port: process.env.PORT_DEV,
     jwtSecreteKey: process.env.SECRETE_KEY_DEV,
+    redisHost: process.env.REDIS_HOST_DEV,
   },
   test: {
     mongoUri: process.env.MONGODB_URI_TEST,
     port: process.env.PORT_TEST,
     jwtSecreteKey: process.env.SECRETE_KEY_TEST,
+    redisHost: process.env.REDIS_HOST_TEST,
   },
   production: {
     mongoUri: process.env.MONGODB_URI,
     port: process.env.PORT,
     jwtSecreteKey: process.env.SECRETE_KEY,
+    redisHost: process.env.REDIS_HOST,
   },
 };
 

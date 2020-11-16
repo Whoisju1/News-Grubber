@@ -7,3 +7,7 @@ services:
     image: whoisju1/news-grubber-client
     depends_on:
       - api
+  redis:
+    image: redis:latest
+    ports:
+      - '6379:6379'

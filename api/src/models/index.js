@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import config from '../config';
 
 mongoose.set('debug', process.env.NODE_ENV === 'development');
+mongoose.set('useCreateIndex', true);
 mongoose.Promise = Promise;
 
 mongoose.connect(config.mongoUri, {

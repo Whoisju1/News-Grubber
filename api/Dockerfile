@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:14
 
 WORKDIR /api
 
@@ -14,4 +14,4 @@ COPY . .
 
 RUN npm run build
 
-CMD [ "node", "-r", "dotenv/config", "./dist/index.js" ]
+CMD [ "node", "-r", "./node_modules/dotenv/config", "./dist/index.js" ]

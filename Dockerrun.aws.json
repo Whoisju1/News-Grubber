@@ -6,7 +6,20 @@
       "hostName": "api",
       "image": "whoisju1/news-grubber-api",
       "memory": 128,
-      "essential": true
+      "essential": true,
+      "links": ["redis"]
+    },
+    {
+      "name": "redis",
+      "hostName": "redis",
+      "image": "redis:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 6379,
+          "containerPort": 6379
+         }
+      ]
     },
     {
       "name": "client",
