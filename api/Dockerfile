@@ -14,4 +14,6 @@ COPY . .
 
 RUN npm run build
 
+RUN ls -a
+
 CMD [ "node", "-r", "./node_modules/dotenv/config", "./dist/index.js" ]
