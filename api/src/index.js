@@ -7,7 +7,8 @@ import { getScrappedArticles } from './utils/getArticleInfo';
 import constants from './constants';
 
 const { FETCHED_ARTICLES } = constants.redis.keys;
-const { port = 5000 } = config;
+
+const { port } = config;
 
 // cache articles on startup and then every 10 minutes
 const updateCache = async () => {

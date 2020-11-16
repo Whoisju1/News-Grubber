@@ -1,0 +1,17 @@
+FROM news-grubber-test-api
+
+WORKDIR /api
+
+EXPOSE 5001
+
+WORKDIR /api
+
+COPY ./package.json .
+
+COPY ./package-lock.json .
+
+RUN npm install
+
+COPY . .
+
+CMD [ "npx", "jest", "--runInBand", "--forceExit", "--detectOpenHandles" ]

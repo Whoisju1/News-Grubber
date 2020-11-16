@@ -1,0 +1,62 @@
+version: '3.7'
+networks:
+  unit-tests-network:
+    driver: bridge
+
+services:
+  test-db-mongo:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    restart: always
+    networks:
+      - unit-tests-network
+  test-db-redis:
+    image: redis:latest
+    # ports:
+    #   - '6379:6379'
+    expose:
+      - '6379'
+    networks:
+      - unit-tests-network
+    restart: always
+  api:
+    build: 
+      context: ./api
+      dockerfile: Dockerfile
+    expose:
+      - '5001'
+    volumes:
+      - ./api/node_modules
+      - ./api:/api
+    environment:
+      - NODE_ENV=test
+    networks:
+      - unit-tests-network
+    depends_on:
+      - test-db-mongo
+      - test-db-redis
+  api_unit_tests:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    command: bash -c "npx jest --runInBand --forceExit --detectOpenHandles"
+    depends_on:
+      - api
+    volumes:
+      - ./api/node_modules
+      - ./api:/api
+    environment:
+      - NODE_ENV=test
+    networks:
+      - unit-tests-network
+  client_unit_test:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    networks:
+      - unit-tests-network 
+    volumes:
+      - ./client/node_modules
+      - ./client:/client
+    command: bash -c "npx react-scripts test --watchAll=false"
