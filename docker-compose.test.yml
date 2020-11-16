@@ -20,7 +20,7 @@ services:
     networks:
       - unit-tests-network
     restart: always
-  api:
+  api-base:
     build: 
       context: ./api
       dockerfile: Dockerfile
@@ -42,7 +42,7 @@ services:
       dockerfile: Dockerfile
     command: bash -c "npx jest --runInBand --forceExit --detectOpenHandles"
     depends_on:
-      - api
+      - api-base
     volumes:
       - ./api/node_modules
       - ./api:/api
