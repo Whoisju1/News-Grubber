@@ -14,4 +14,4 @@ COPY . .
 
 RUN npm run build
 
-CMD [ "npm", "start" ]
+CMD [ "node", "-r", "./node_modules/dotenv/config", "./dist/index.js" ]
