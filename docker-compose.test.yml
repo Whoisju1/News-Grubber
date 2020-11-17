@@ -13,15 +13,13 @@ services:
       - unit-tests-network
   test-db-redis:
     image: redis:latest
-    # ports:
-    #   - '6379:6379'
     expose:
       - '6379'
     networks:
       - unit-tests-network
     restart: always
   api-base:
-    build: 
+    build:
       context: ./api
       dockerfile: Dockerfile
     expose:
@@ -36,6 +34,7 @@ services:
     depends_on:
       - test-db-mongo
       - test-db-redis
+    command: sh -c "node  --trace-deprecation -r ./node_modules/dotenv/config dist/index.js"
   api_unit_tests:
     build:
       context: ./api
@@ -55,7 +54,7 @@ services:
       context: ./client
       dockerfile: Dockerfile.dev
     networks:
-      - unit-tests-network 
+      - unit-tests-network
     volumes:
       - ./client/node_modules
       - ./client:/client
