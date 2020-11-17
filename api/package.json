@@ -39,8 +39,7 @@
     "regenerator-runtime": "^0.13.5",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
-    "rimraf": "^3.0.2",
-    "undefined": "^0.1.0"
+    "rimraf": "^3.0.2"
   },
   "devDependencies": {
     "@types/jest": "^24.9.1",
