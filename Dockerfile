@@ -11,7 +11,7 @@ COPY ./client .
 
 RUN npm run build
 
-FROM node:14
+FROM node:13
 
 WORKDIR /api
 
