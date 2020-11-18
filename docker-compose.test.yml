@@ -34,7 +34,7 @@ services:
     depends_on:
       - test-db-mongo
       - test-db-redis
-    command: sh -c "node  --trace-deprecation -r ./node_modules/dotenv/config dist/index.js"
+    command: sh -c "node  --trace-deprecation -r ./node_modules/dotenv/config build/index.js"
   api_unit_tests:
     build:
       context: ./api
