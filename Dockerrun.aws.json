@@ -14,6 +14,7 @@
       "hostName": "redis",
       "image": "redis:latest",
       "essential": true,
+      "memory": 128,
       "portMappings": [
         {
           "hostPort": 6379,
