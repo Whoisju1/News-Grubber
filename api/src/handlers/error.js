@@ -7,6 +7,8 @@ function errorHandler(err, _req, res, next) {
       error: { message },
     });
   }
+
+  console.log(err);
   return res.status(500).json({ error: { message: 'Something went wrong.' } });
 }
 

@@ -1,4 +1,5 @@
-import request from 'request-promise';
+// import request from 'request-promise';
+import got from 'got';
 import { load } from 'cheerio';
 import getLatestArticles from './scrapeHomepage';
 
@@ -11,7 +12,7 @@ export const getScrappedArticles = async () => {
   for await (const articleInfo of latestArticles) {
     const { url } = articleInfo;
 
-    const body = await request(url);
+    const { body } = await got(url);
 
     // scrape article page
     const $ = load(body);
@@ -62,7 +63,7 @@ export default new Promise((resolve, reject) => {
         const { url } = first;
 
         // scrape article page
-        request(url, (err, response, body) => {
+        got(url, (err, response, body) => {
           if (err) reject(err);
           const $ = load(body);
           const profileInfo = $('[section="author"]');

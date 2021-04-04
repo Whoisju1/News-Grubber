@@ -2,4 +2,5 @@
 .git
 node_modules
 public
-test
+build
+dist

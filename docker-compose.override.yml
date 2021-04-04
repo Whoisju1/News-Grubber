@@ -7,10 +7,15 @@ services:
     volumes:
       - ./api:/api
       - ./api/node_modules
-    env_file:
-      - ./api/.env
     environment:
       NODE_ENV: development
+      MONGODB_URI: mongodb://mongo:27017/news-grubber-dev
+      PORT: 5000
+      REDIS_HOST: redis
+      BCRYPT_SECRET_KEY: super_secret_key
+    ports: 
+      - 5000:5000
+      - 9229:9229
   client:
     build:
       context: ./client

@@ -6,8 +6,6 @@ networks:
 services:
   test-db-mongo:
     image: mongo:latest
-    ports:
-      - '27017:27017'
     restart: always
     networks:
       - unit-tests-network
@@ -22,19 +20,21 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
-    expose:
-      - '5001'
     volumes:
       - ./api/node_modules
       - ./api:/api
     environment:
-      - NODE_ENV=test
+      NODE_ENV: test
+      MONGODB_URI: mongodb://test-db-mongo:27017/news-grubber-test
+      PORT: 5000
+      REDIS_HOST: test-db-redis
+      BCRYPT_SECRET_KEY: super_secret_key
     networks:
       - unit-tests-network
     depends_on:
       - test-db-mongo
       - test-db-redis
-    command: sh -c "npm run build && node --trace-deprecation -r ./node_modules/dotenv/config build/index.js"
+    command: sh -c "npm run build && node -r ./node_modules/dotenv/config build/index.js"
   api_unit_tests:
     build:
       context: ./api
@@ -46,7 +46,11 @@ services:
       - ./api/node_modules
       - ./api:/api
     environment:
-      - NODE_ENV=test
+      NODE_ENV: test
+      MONGODB_URI: mongodb://test-db-mongo:27017/news-grubber-test
+      PORT: 5001
+      REDIS_HOST: test-db-redis
+      BCRYPT_SECRET_KEY: super_secret_key
     networks:
       - unit-tests-network
   client_unit_test:

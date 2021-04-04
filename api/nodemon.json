@@ -1,5 +1,5 @@
 {
   "watch": "./src/**/*.js",
-  "exec": "node -r @babel/register -r dotenv/config --inspect ./src",
+  "exec": "node -r @babel/register -r dotenv/config --inspect=0.0.0.0:9229 ./src",
   "legacy": true
 }

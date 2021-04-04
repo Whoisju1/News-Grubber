@@ -2,7 +2,7 @@
 import config from './config';
 import { app } from './server';
 import './models';
-import { client as redisClient } from './services/redis';
+import redisClient from './services/redis';
 import { getScrappedArticles } from './utils/getArticleInfo';
 import constants from './constants';
 
