@@ -1,4 +1,7 @@
 version: '3.7'
+networks:
+  unit-test-watch:
+    driver: bridge
 services:
   api:
     build:
@@ -12,6 +15,7 @@ services:
       MONGODB_URI: mongodb://mongo:27017/news-grubber-dev
       PORT: 5000
       REDIS_HOST: redis
+      REDIS_PORT: 6379
       BCRYPT_SECRET_KEY: super_secret_key
     ports: 
       - 5000:5000
@@ -32,3 +36,42 @@ services:
     depends_on:
       - client
       - api
+          
+# --------------------- containers for unit testing ----------------------
+  # mongo db for testing
+  mongo-test:
+    image: mongo:4.4.4
+    restart: always
+    networks:
+      - unit-test-watch
+    ports:
+      - 27017:27017
+  # redis db for testing
+  redis-test:
+    image: redis:6.2.1
+    networks:
+      - unit-test-watch
+    restart: always
+  api-test:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./api:/api
+      - ./api/node_modules
+    depends_on: 
+      - redis-test
+      - mongo-test
+    environment:
+      NODE_ENV: test
+      MONGODB_URI: mongodb://mongo-test:27017/news-grubber-dev
+      PORT: 5001
+      REDIS_HOST: redis-test
+      BCRYPT_SECRET_KEY: super_secret_key
+      REDIS_PORT: 6379
+    ports: 
+      - 5001:5001
+      - 9228:9229
+      - 9227:9227
+    networks:
+      - unit-test-watch

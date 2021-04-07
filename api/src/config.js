@@ -8,6 +8,7 @@ const config = {
   jwtSecreteKey: process.env.BCRYPT_SECRET_KEY,
   redisHost: process.env.REDIS_HOST,
   nodeEnv: process.env.NODE_ENV,
+  redisPort: process.env.REDIS_PORT,
 };
 
 export default config;

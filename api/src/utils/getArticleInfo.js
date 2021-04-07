@@ -1,15 +1,11 @@
-// import request from 'request-promise';
 import got from 'got';
 import { load } from 'cheerio';
 import getLatestArticles from './scrapeHomepage';
 
 export const getScrappedArticles = async () => {
-  const scrappedArticles = [];
-
   const latestArticles = await getLatestArticles();
 
-  // eslint-disable-next-line no-restricted-syntax
-  for await (const articleInfo of latestArticles) {
+  const arts = latestArticles.map(async articleInfo => {
     const { url } = articleInfo;
 
     const { body } = await got(url);
@@ -21,7 +17,9 @@ export const getScrappedArticles = async () => {
     // get author info
     const name =
       profileInfo
-        .find('.c-assetAuthor_meta > .c-assetAuthor_authors > a.author')
+        .find(
+          'div.c-assetAuthor_meta > div.c-assetAuthor_authors > span > a.author'
+        )
         .text() || null;
     const authorInfo = profileInfo.find('.author').attr('href') || null;
 
@@ -40,55 +38,54 @@ export const getScrappedArticles = async () => {
     // put author and time into one object
     const authorAndDate = { author, publicationDate };
 
-    scrappedArticles.push({ ...articleInfo, ...authorAndDate });
-  }
+    return { ...articleInfo, ...authorAndDate };
+  });
+
+  const scrappedArticles = Promise.all(arts);
   return scrappedArticles;
 };
 
-export default new Promise((resolve, reject) => {
-  getLatestArticles()
-    .then(data => {
-      const finalList = [];
-      // eslint-disable-next-line consistent-return
-      const addNewData = list => {
-        const [first, ...remaining] = list;
-        /*
-          if all the data have been processed
-          in which first will not be falsy since
-          there is nothing left in the array to process
-        */
-        if (!first) return resolve(finalList);
+const getArticleInfo = async () => {
+  const data = await getLatestArticles();
+  const finalList = [];
+  // eslint-disable-next-line consistent-return
+  const addNewData = async list => {
+    const [first, ...remaining] = list;
+    /*
+      if all the data have been processed
+      in which first will not be falsy since
+      there is nothing left in the array to process
+    */
+    if (!first) return finalList;
 
-        // get url from articleInfo
-        const { url } = first;
+    // get url from articleInfo
+    const { url } = first;
 
-        // scrape article page
-        got(url, (err, response, body) => {
-          if (err) reject(err);
-          const $ = load(body);
-          const profileInfo = $('[section="author"]');
+    // scrape article page
+    const { body } = await got(url);
+    const $ = load(body);
+    const profileInfo = $('[section="author"]');
 
-          // get author info
-          const name = profileInfo.find('.author > span').text() || null;
-          const authorInfo = profileInfo.find('.author').attr('href') || null;
+    // get author info
+    const name = profileInfo.find('.author > span').text() || null;
+    const authorInfo = profileInfo.find('.author').attr('href') || null;
 
-          // get date & time of publication
-          const date = profileInfo.find('.formattedDate').text() || null;
-          const time = profileInfo.find('.formattedTime').text() || null;
+    // get date & time of publication
+    const date = profileInfo.find('.formattedDate').text() || null;
+    const time = profileInfo.find('.formattedTime').text() || null;
 
-          const author = { name, authorInfo };
-          const publicationDate = { date, time };
+    const author = { name, authorInfo };
+    const publicationDate = { date, time };
 
-          // put author and time into one object
-          const authorAndDate = { author, publicationDate };
+    // put author and time into one object
+    const authorAndDate = { author, publicationDate };
 
-          // if there is still call the addData function with remaining data
-          finalList.push({ ...first, ...authorAndDate });
-          if (remaining) addNewData(remaining);
-        });
-      };
+    // if there is still call the addData function with remaining data
+    finalList.push({ ...first, ...authorAndDate });
+    if (remaining) addNewData(remaining);
+  };
 
-      addNewData(data);
-    })
-    .catch(err => resolve(err));
-});
+  await addNewData(data);
+};
+
+export default getArticleInfo;

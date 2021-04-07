@@ -1,7 +1,7 @@
 import got from 'got';
 import { load } from 'cheerio';
 
-export default async () => {
+const getLatestArticles = async () => {
   const rootURL = 'https://www.cnet.com';
   const { body } = await got(rootURL);
   const $ = load(body);
@@ -26,14 +26,18 @@ export default async () => {
         .attr('href')}`;
       // only push into array if all the information is available
       if (title && subTitle && image) {
-        linkedItems.push({
+        const articleInfo = {
           title,
           subTitle,
           image,
           url,
-        });
+        };
+
+        linkedItems.push(articleInfo);
       }
     }
   );
   return linkedItems;
 };
+
+export default getLatestArticles;

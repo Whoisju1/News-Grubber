@@ -5,12 +5,12 @@ networks:
 
 services:
   test-db-mongo:
-    image: mongo:latest
+    image: mongo:4.4.4
     restart: always
     networks:
       - unit-tests-network
   test-db-redis:
-    image: redis:latest
+    image: redis:6.2.1
     expose:
       - '6379'
     networks:
