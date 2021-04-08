@@ -16,7 +16,7 @@ services:
     networks:
       - unit-tests-network
     restart: always
-  api_unit_tests:
+  api-unit-test:
     build:
       context: ./api
       dockerfile: Dockerfile.dev
@@ -34,7 +34,7 @@ services:
       BCRYPT_SECRET_KEY: super_secret_key
     networks:
       - unit-tests-network
-  client_unit_test:
+  client-unit-test:
     build:
       context: ./client
       dockerfile: Dockerfile.dev
