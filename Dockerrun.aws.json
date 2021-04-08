@@ -13,7 +13,8 @@
       "name": "redis",
       "hostName": "redis",
       "image": "redis:6.2.1",
-      "essential": true
+      "essential": true,
+      "memoryReservation": 128
     },
     {
       "name": "client",
