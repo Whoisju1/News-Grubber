@@ -5,6 +5,7 @@ import './models';
 import redisClient from './services/redis';
 import { getScrappedArticles } from './utils/getArticleInfo';
 import constants from './constants';
+import logger from './utils/logger';
 
 const { FETCHED_ARTICLES } = constants.redis.keys;
 
@@ -22,4 +23,4 @@ setInterval(async () => {
   await updateCache();
 }, 1000 * 60 * 10);
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(port, () => logger.info(`Listening on port ${port}`));

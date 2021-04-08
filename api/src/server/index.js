@@ -24,7 +24,7 @@ app.use(cors());
 app.use(helmet());
 app.use(json());
 // eslint-disable-next-line no-unused-expressions
-process.env.NODE_ENV === 'development' && app.use(morgan('dev'));
+app.use(morgan(config.nodeEnv === 'production' ? 'combined' : 'dev'));
 
 // import routes
 app.use('/api/auth', authRoutes);

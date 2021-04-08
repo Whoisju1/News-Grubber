@@ -1,8 +1,6 @@
 #!/bin/sh
 
-# make sure containers are up and running before test is executed
-docker-compose up -d "$@"
-clear
 echo  Running API unit tests
 # execute test within api-test container
-docker-compose run api-test npm run test:unit:debug
+docker-compose run api-test npm run test:unit:debug \
+|| echo  "make sure that the requisite containers are running by running command \"docker-compose up -d\""
