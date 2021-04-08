@@ -17,9 +17,10 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       BCRYPT_SECRET_KEY: super_secret_key
-    ports: 
+    ports:
       - 5000:5000
       - 9229:9229
+    restart: always
   client:
     build:
       context: ./client
@@ -36,7 +37,7 @@ services:
     depends_on:
       - client
       - api
-          
+
 # --------------------- containers for unit testing ----------------------
   # mongo db for testing
   mongo-test:
@@ -59,7 +60,7 @@ services:
     volumes:
       - ./api:/api
       - ./api/node_modules
-    depends_on: 
+    depends_on:
       - redis-test
       - mongo-test
     environment:
@@ -69,7 +70,8 @@ services:
       REDIS_HOST: redis-test
       BCRYPT_SECRET_KEY: super_secret_key
       REDIS_PORT: 6379
-    ports: 
+    restart: always
+    ports:
       - 5001:5001
       - 9228:9229
       - 9227:9227
