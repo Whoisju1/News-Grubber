@@ -41,7 +41,9 @@ export const getScrappedArticles = async () => {
     return { ...articleInfo, ...authorAndDate };
   });
 
-  const scrappedArticles = Promise.all(arts);
+  const scrappedArticles = (await Promise.allSettled(arts)).map(
+    ({ value }) => value
+  );
   return scrappedArticles;
 };
 
