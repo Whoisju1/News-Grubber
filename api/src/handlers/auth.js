@@ -1,7 +1,11 @@
+import UserService from '../services/userService';
 import { User } from '../models';
 import { createToken } from '../utils/createToken';
 import { getUserFromToken } from '../utils/getUserFromToken';
 import { AuthenticationError } from '../customErrors';
+
+const userService = new UserService();
+
 
 export async function signIn(req, res, next) {
   try {
@@ -39,15 +43,8 @@ export async function signIn(req, res, next) {
 
 export async function signUp(req, res, next) {
   try {
-    const user = await User.create(req.body);
-    const { _id, username, profileImageURL } = user;
-    const token = await createToken({ _id, username });
-    return res.status(200).json({
-      _id,
-      username,
-      profileImageURL,
-      token,
-    });
+    const user = await userService.create(req.body);
+    return res.status(200).json(user);
   } catch (err) {
     if (err.code === 11000) {
       const error = new AuthenticationError('Sorry, username already taken.');
@@ -59,13 +56,15 @@ export async function signUp(req, res, next) {
 
 export async function unregister(req, res, next) {
   try {
-    // find user by specified id
-    const user = await User.findById(req.locals.id);
-    // then delete user from database
-    const { _id: id = null } = await user.remove();
-    return res.status(200).json({
-      id,
-      message: "You've been successfully unregistered",
+    const token = req.headers.authorization.split(' ')[1];
+    const {
+      sub: { _id: userID },
+    } = getUserFromToken(token);
+    console.log({ userID });
+    const _id = await userService.delete(userID);
+    console.log({ _id });
+    return res.status(202).json({
+      deletedUser: { _id },
     });
   } catch (e) {
     return next(e);

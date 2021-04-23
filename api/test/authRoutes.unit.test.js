@@ -1,6 +1,7 @@
 import '@babel/register';
 import request from 'supertest';
 import jwt from 'jsonwebtoken';
+import { model } from 'mongoose';
 import { app } from '../src/server';
 import {
   createdUserCredentials,
@@ -8,11 +9,14 @@ import {
   password,
   initDb,
   emptyDb,
+  createUser,
 } from './fixtures/db';
 
 import config from '../src/config';
 import { createToken } from '../src/utils/createToken';
+import UserService from '../src/services/userService';
 
+const userService = new UserService();
 describe('authRoute', () => {
   // /auth/singup
   beforeEach(async () => {
@@ -153,6 +157,23 @@ describe('authRoute', () => {
         _id: user._id,
         username: user.username,
       });
+    });
+  });
+
+  describe('unregister user route', () => {
+    let userForDeletion;
+    beforeEach(async done => {
+      userForDeletion = await userService.create(createUser());
+      done();
+    });
+    it('should return the user id after user is deleted', async () => {
+      const response = await request(app)
+        .delete('/api/auth/')
+        .set('authorization', `Bearer ${userForDeletion.token}`)
+        .expect(202);
+
+      const parsedResponse = JSON.parse(response.text);
+      expect(parsedResponse).toEqual({ deletedUser: { _id: `${userForDeletion._id}` } });
     });
   });
 

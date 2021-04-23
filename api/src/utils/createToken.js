@@ -4,7 +4,15 @@ import config from '../config';
 
 const { jwtSecreteKey } = config;
 
-export const createToken = ({ _id, username }) => {
+/**
+ * @description
+ * @param {Object} user
+ * @param {string} user._id - the id of the created user
+ * @param {string} user.username - the username of the created user
+ * @return {string} The generated created token
+ */
+
+ export const createToken = ({ _id, username }) => {
   const sub = {
     _id,
     username,
